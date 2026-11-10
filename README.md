@@ -129,6 +129,8 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [gemma-4-e4b](reports/gemma-4-e4b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | — | — | — | — | — | — | — | — | 10370 |
 | [qwen3-vl-8b](reports/qwen3-vl-8b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | — | — | — | — | — | — | — | — | 8478 |
 | [qwen3-8b](reports/mbuf.m8.qwen3-8b.server.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | — | — | — | — | — | — | — | — | 7448 |
+| [bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0](reports/applab.qwen3-4b.server.md) |  | applab | `f4d8af608 (runner 0.13.2)` | npu (App Lab) | [E6](reports/environments.md#e6) | — | — | — | — | — | — | — | — | 3665 |
+| [bartowski/Qwen_Qwen3-8B-GGUF/Qwen_Qwen3-8B-Q4_0](reports/applab.qwen3-8b.server.md) |  | applab | `f4d8af608 (runner 0.13.2)` | npu (App Lab) | [E6](reports/environments.md#e6) | — | — | — | — | — | — | — | — | 3440 |
 
 ### 4.2 Recommendations
 
@@ -219,6 +221,12 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | [mbuf.m3.qwen3-4b.server.s4](reports/mbuf.m3.qwen3-4b.server.s4.md) | [E5](reports/environments.md#e5) | 4 | 12.84 | 400.96 | 12.1 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5171 |  |
 | ❌ [mbuf.m6.gemma-4-e4b.server](reports/mbuf.m6.gemma-4-e4b.server.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | — | — | — | — | — | 10429 | server did not become healthy |
 | ❌ [mbuf.m8.qwen3-8b.server](reports/mbuf.m8.qwen3-8b.server.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | — | — | — | — | — | 7448 | server did not become healthy |
+| ❌ [applab.qwen3-4b.server](reports/applab.qwen3-4b.server.md) | [E6](reports/environments.md#e6) | 4 | — | — | 4.1 | — | — | — | — | — | — | 3665 | HTTP Error 500: Internal Server Error |
+| ❌ [applab.qwen3-8b.server](reports/applab.qwen3-8b.server.md) | [E6](reports/environments.md#e6) | 4 | — | — | 0.0 | — | — | — | — | — | — | 3440 | HTTP Error 500: Internal Server Error |
+| ❌ [applab.qwen3-4b.server.r2](reports/applab.qwen3-4b.server.r2.md) | [E6](reports/environments.md#e6) | 4 | — | — | 2.1 | — | — | — | — | — | — | 3672 | HTTP Error 500: Internal Server Error |
+| ❌ [applab.qwen3-4b.server.r3](reports/applab.qwen3-4b.server.r3.md) | [E6](reports/environments.md#e6) | 4 | — | — | 0.0 | — | — | — | — | — | — | 3801 | HTTP Error 500: Internal Server Error |
+| ❌ [applab.qwen3-4b.server.no8b](reports/applab.qwen3-4b.server.no8b.md) | [E6](reports/environments.md#e6) | 4 | — | — | 2.1 | — | — | — | — | — | — | 3858 | HTTP Error 500: Internal Server Error |
+| ❌ [applab.qwen3-4b.server.no8b2](reports/applab.qwen3-4b.server.no8b2.md) | [E6](reports/environments.md#e6) | 4 | — | — | 0.0 | — | — | — | — | — | — | 3628 | HTTP Error 500: Internal Server Error |
 
 ### 4.4 llama-bench
 
@@ -523,6 +531,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 | [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
 | [`reports/environments.md`](reports/environments.md) | Environment profiles (kernel, firmware, packages, engine build) and their runs |
 | [`results/probes/`](results/probes/), [`suite/probes/`](suite/probes/) | Memory bandwidth, Genie prompt speed and two-model results, with their scripts and the stall watcher |
+| [`suite/applab-llamacpp-service_compose.yaml`](suite/applab-llamacpp-service_compose.yaml) | Arduino App Lab's llama.cpp service (runner 0.13.2) exactly as tested; the suite starts it with `docker compose -p veni-applab -f … up -d` (engine `applab`). Models installed with `arduino-app-cli model install` |
 | [`docs/sources.md`](docs/sources.md) | Vendor claims under test, with Wayback Machine snapshots |
 | [`docs/stability-fixes.md`](docs/stability-fixes.md) | Every crash fix and workaround, with config and verification status |
 | [`docs/board-notes.md`](docs/board-notes.md) | Board setup, kernel and firmware notes, incident log |

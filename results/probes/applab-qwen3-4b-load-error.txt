@@ -1,0 +1,6 @@
+  bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0: 2260 MiB on the NPU + 2304 MiB of f16 KV cache + 614 MiB of compute buffers -> 2263 MiB per session, requires 3 sessions
+  gemma-4-E4B_q4_0-it: 2696 MiB on the NPU + 356 MiB of f16 KV cache + 614 MiB of compute buffers -> 2213 MiB per session, requires 2 sessions
+Configuring 3 session(s)...
+[56615] 0.01.942.600 E ggml-hex: HTP0 failed to allocate device buffer context: ggml-hex: rpcmem_alloc failed
+[56615] 0.01.942.623 E ggml_backend_hexagon_buffer_type_alloc_buffer_n: failed to allocate HTP0 buffer of size 268435456
+[56615] 0.01.953.071 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache

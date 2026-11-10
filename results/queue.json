@@ -1938,5 +1938,59 @@
   },
   "sessions": 4,
   "depths": "0"
+ },
+ {
+  "id": "applab.qwen3-4b.server",
+  "engine": "applab",
+  "model": "bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0",
+  "dev": "npu",
+  "kind": "server",
+  "files": [],
+  "fresh": true
+ },
+ {
+  "id": "applab.qwen3-8b.server",
+  "engine": "applab",
+  "model": "bartowski/Qwen_Qwen3-8B-GGUF/Qwen_Qwen3-8B-Q4_0",
+  "dev": "npu",
+  "kind": "server",
+  "files": [],
+  "fresh": true
+ },
+ {
+  "id": "applab.qwen3-4b.server.r2",
+  "engine": "applab",
+  "model": "bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0",
+  "dev": "npu",
+  "kind": "server",
+  "files": [],
+  "fresh": true
+ },
+ {
+  "id": "applab.qwen3-4b.server.r3",
+  "engine": "applab",
+  "model": "bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0",
+  "dev": "npu",
+  "kind": "server",
+  "files": [],
+  "fresh": true
+ },
+ {
+  "id": "applab.qwen3-4b.server.no8b",
+  "engine": "applab",
+  "model": "bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0",
+  "dev": "npu",
+  "kind": "server",
+  "files": [],
+  "fresh": true
+ },
+ {
+  "id": "applab.qwen3-4b.server.no8b2",
+  "engine": "applab",
+  "model": "bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0",
+  "dev": "npu",
+  "kind": "server",
+  "files": [],
+  "fresh": true
  }
 ]

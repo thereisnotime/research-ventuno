@@ -423,3 +423,20 @@
 16:21:00 end mbuf.m5.gemma-4-e4b.bench.d0 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
 16:21:00 delete gemma-4-E4B_q4_0-it.gguf
 16:21:01 queue finished
+16:54:32 start applab.qwen3-4b.server (pinned 32 MB)
+16:54:49 end applab.qwen3-4b.server ok=False HTTP Error 500: Internal Server Error
+16:54:49 start applab.qwen3-8b.server (pinned 56 MB)
+16:54:56 end applab.qwen3-8b.server ok=False HTTP Error 500: Internal Server Error
+16:54:56 queue finished
+16:55:48 start applab.qwen3-4b.server.r2 (pinned 0 MB)
+16:56:09 end applab.qwen3-4b.server.r2 ok=False HTTP Error 500: Internal Server Error
+16:56:09 queue finished
+16:57:57 start applab.qwen3-4b.server.r3 (pinned 24 MB)
+16:58:05 end applab.qwen3-4b.server.r3 ok=False HTTP Error 500: Internal Server Error
+16:58:05 queue finished
+17:09:27 start applab.qwen3-4b.server.no8b (pinned 0 MB)
+17:09:48 end applab.qwen3-4b.server.no8b ok=False HTTP Error 500: Internal Server Error
+17:09:48 queue finished
+17:10:34 start applab.qwen3-4b.server.no8b2 (pinned 24 MB)
+17:10:42 end applab.qwen3-4b.server.no8b2 ok=False HTTP Error 500: Internal Server Error
+17:10:42 queue finished
