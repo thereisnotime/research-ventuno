@@ -54,10 +54,67 @@ BADGES = {
 }
 MEDALS = ["🥇", "🥈", "🥉"]
 
+# Known NPU (cDSP) firmware files by sha256 prefix. dpkg reports linux-firmware-dragonwing 20260825, but its
+# cdsp0.mbn broke NPU mapping, so the 20260612 files were restored into /lib/firmware/updates on 2026-11-08.
+CDSP_FW = {"9ef6c8dc39d866a1": "dragonwing 20260612 (restored)"}
+# Runs recorded before the suite saved its environment get one inferred from the package and boot history
+FW_UPGRADE = "2026-11-09 17:14"      # linux-firmware 0ubuntu2.27 -> 0ubuntu3.1
+WDT_PARAM = "2026-11-09 11:44"       # watchdog.stop_on_reboot=0 added to the kernel cmdline
+LLAMA_BUILDS = {"llama-npu": "7fe450e", "llama-npu-b12244": "d5bbcd1"}   # install dir -> commit
+ENV_FIELDS = [("kernel", "Kernel"), ("cmdline_extra", "Extra kernel args"), ("cdsp_fw", "NPU firmware (cdsp0.mbn)"),
+              ("linux-firmware", "linux-firmware"), ("qcom-fastrpc1", "qcom-fastrpc1 (libcdsprpc)"),
+              ("engine", "Engine"), ("engine_build", "Engine build")]
+
 
 def load():
     rows = [json.loads(l) for l in open(RES)]
     return {r["id"]: r for r in rows}
+
+
+def env_of(r):
+    """Flatten a run's environment into the fields that tell runs apart; infer it for early runs."""
+    e = r.get("env")
+    if e:
+        pk = e.get("packages", {})
+        extra = " ".join(a for a in e["cmdline"].split() if a.startswith("watchdog.")) or "—"
+        out = {"kernel": e["kernel"], "cmdline_extra": extra,
+               "cdsp_fw": CDSP_FW.get(e.get("cdsp_fw_sha256"), e.get("cdsp_fw_sha256") or "?"),
+               "linux-firmware": pk.get("linux-firmware"), "qcom-fastrpc1": pk.get("qcom-fastrpc1"),
+               "inferred": False}
+    else:
+        t = r.get("started", "")
+        out = {"kernel": "6.8.0-1089-qcom", "cmdline_extra": "watchdog.stop_on_reboot=0" if t >= WDT_PARAM else "—",
+               "cdsp_fw": CDSP_FW["9ef6c8dc39d866a1"],
+               "linux-firmware": "20240318.git3b128b60.0ubuntu3.1" if t >= FW_UPGRADE else "20240318.git3b128b60-0ubuntu2.27",
+               "qcom-fastrpc1": "1.0.15+repack2", "inferred": True}
+    if r.get("engine") == "genie":
+        out["engine"] = "Genie (genai-llm-vlm-service)"
+        out["engine_build"] = ((e or {}).get("genie_image") or ":1.5.0").rsplit(":", 1)[-1]
+    else:
+        out["engine"] = "llama.cpp"
+        out["engine_build"] = (e or {}).get("llama_commit") or LLAMA_BUILDS.get(r.get("llama_build"), "7fe450e")
+    return out
+
+
+ENVS = {}
+
+
+def env_id(r):
+    """Stable profile id (E1, E2, ...) per distinct environment, in order of first use."""
+    e = env_of(r)
+    key = tuple(e[k] for k, _ in ENV_FIELDS)
+    if key not in ENVS:
+        ENVS[key] = (f"E{len(ENVS) + 1}", e, [])
+    ENVS[key][2].append(r["id"])
+    return ENVS[key][0]
+
+
+def build_of(r):
+    return env_of(r)["engine_build"]
+
+
+def envlink(r, base=""):
+    return f"[{r['_env']}]({base}environments.md#{r['_env'].lower()})"
 
 
 def tr_path(rid):
@@ -155,6 +212,10 @@ def run_page(r):
           f"NPU sessions `{r.get('htp_sessions', '—')}`, started {r.get('started')}, finished {r.get('finished', '—')}.", ""]
     if r.get("error"):
         L += [f"> ❌ **Error:** `{cell(r['error'], 400)}`", ""]
+    e = env_of(r)
+    L += [f"**Environment [{r['_env']}](environments.md#{r['_env'].lower()})**"
+          + (" (inferred from the package and boot history; this run predates environment capture)" if e["inferred"] else "")
+          + ": " + ", ".join(f"{lbl} `{e[k]}`" for k, lbl in ENV_FIELDS), ""]
     p = tr_path(rid)
     L += [f"Raw transcript: [{os.path.basename(p)}](../{p})" if p else "No transcript was recorded for this run (it ran before the suite saved transcripts), so only pass/fail is known.", ""]
     L += ["## Numbers", "", "| Metric | Value |", "|---|---|"]
@@ -226,7 +287,8 @@ def run_page(r):
 def bench_page(r):
     L = [f"# {r['id']}", "", "[← README](../README.md) · [all runs](index.md)", "",
          f"llama-bench, model `{r.get('model')}`, device `{r.get('dev')}`, NPU sessions `{r.get('htp_sessions', '—')}`, "
-         f"started {r.get('started')}.", ""]
+         f"started {r.get('started')}.", "",
+         f"Environment [{r['_env']}](environments.md#{r['_env'].lower()}): llama.cpp `{build_of(r)}`.", ""]
     if r.get("error"):
         L += [f"> ❌ **Error:** `{cell(r['error'], 600)}`", ""]
     L += ["| Test | t/s |", "|---|---:|"]
@@ -274,10 +336,10 @@ def matrix_pages(R):
 
 def index_page(R):
     L = ["# All runs", "", "[← README](../README.md) · [quiz matrix](quiz.md) · [tools matrix](tools.md)", "",
-         "| Run | Kind | Model | Engine | Device | OK |", "|---|---|---|---|---|---|"]
+         "| Run | Kind | Model | Engine | Build | Device | Env | OK |", "|---|---|---|---|---|---|---|---|"]
     for r in R.values():
         L.append(f"| [{r['id']}]({r['id']}.md) | {r.get('kind')} | {r.get('model')} | {r.get('engine')} | "
-                 f"{r.get('dev')} | {yn(r.get('ok'))} |")
+                 f"`{build_of(r)}` | {r.get('dev')} | {envlink(r)} | {yn(r.get('ok'))} |")
     return "\n".join(L) + "\n"
 
 
@@ -288,7 +350,7 @@ def summary_table(R):
     for r in R.values():
         if not is_server(r):
             continue
-        groups.setdefault((r["model"], r["engine"], r["dev"] if r["engine"] == "llama" else "npu (QNN)"), []).append(r)
+        groups.setdefault((r["model"], r["engine"], r["dev"] if r["engine"] == "llama" else "npu (QNN)", build_of(r)), []).append(r)
     rows = []
     for key, rs in groups.items():
         best = max(rs, key=lambda r: (score_num(r.get("tools_score")) + score_num(r.get("quiz_score")),
@@ -306,9 +368,9 @@ def summary_table(R):
     vv = [v for _, b, v in rows if v and score_num(v.get("vision_score")) > 0]
     m_vis = rank_scores([score_num(v["vision_score"]) for v in vv])
     m_vs = rank([v["vision_avg_s"] for v in vv], higher=False)
-    L = ["| Model | Pick | Engine | Device | Gen t/s | Prefill t/s | Tools | JSON | Quiz | Needle | Vision | s/image | Peak RAM MB |",
-         "|---|---|---|---|---:|---:|---|---|---|---|---|---:|---:|"]
-    for (model, eng, dev), b, v in rows:
+    L = ["| Model | Pick | Engine | Build | Device | Env | Gen t/s | Prefill t/s | Tools | JSON | Quiz | Needle | Vision | s/image | Peak RAM MB |",
+         "|---|---|---|---|---|---|---:|---:|---|---|---|---|---|---:|---:|"]
+    for (model, eng, dev, bld), b, v in rows:
         ok = bool(b.get("short_gen_tps"))
         sc = lambda s, t: medal(score_num(s), t, lambda n: s) if ok and s and score_num(s) > 0 else (s or "—")
         vis = "—"
@@ -317,7 +379,8 @@ def summary_table(R):
             vis = f"[{medal(score_num(v['vision_score']), m_vis, lambda n: v['vision_score'])}]({REP}/{v['id']}.md#vision)"
             vs = medal(v["vision_avg_s"], m_vs)
         L.append(" | ".join([
-            f"| {runlink(b['id'], model)}", BADGES.get((model, eng, dev), ""), eng, dev,
+            f"| {runlink(b['id'], model)}", BADGES.get((model, eng, dev), "") if bld in ("7fe450e", "1.5.0") else "",
+            eng, f"`{bld}`", dev, envlink(b, REP + "/"),
             medal(b.get("short_gen_tps"), m_gen) if ok else "—",
             medal(b.get("long_prompt_tps"), m_pre) if ok else "—",
             f"[{sc(b.get('tools_score'), m_tools)}]({REP}/{b['id']}.md#tools)" if b.get("tools_score") else "—",
@@ -330,14 +393,14 @@ def summary_table(R):
 
 
 def server_table(R):
-    L = ["| Test | htp | Gen t/s | Prefill t/s | Load s | Needle | Tools | JSON | Quiz | Vision | s/image | Peak RAM MB | Note |",
-         "|---|---|---:|---:|---:|---|---|---|---|---|---:|---:|---|"]
+    L = ["| Test | Env | htp | Gen t/s | Prefill t/s | Load s | Needle | Tools | JSON | Quiz | Vision | s/image | Peak RAM MB | Note |",
+         "|---|---|---|---:|---:|---:|---|---|---|---|---|---:|---:|---|"]
     for r in R.values():
         if not is_server(r):
             continue
         d = lambda k: "—" if r.get(k) is None else str(r[k])
         status = "❌ " if r.get("error") or not r.get("short_gen_tps") and not r.get("tools_score") else ""
-        L.append(f"| {status}{runlink(r['id'])} | {r.get('htp_sessions', '—')} | {d('short_gen_tps')} | "
+        L.append(f"| {status}{runlink(r['id'])} | {envlink(r, REP + '/')} | {r.get('htp_sessions', '—')} | {d('short_gen_tps')} | "
                  f"{d('long_prompt_tps')} | {d('load_s')} | {yn(r.get('needle_ok'))} | {d('tools_score')} | "
                  f"{yn(r.get('json_ok'))} | {d('quiz_score')} | {d('vision_score')} | {d('vision_avg_s')} | "
                  f"{d('peak_used_mb')} | {cell(r.get('error') or '', 60) if r.get('error') else ''} |")
@@ -348,18 +411,89 @@ def bench_table(R):
     B = [r for r in R.values() if r.get("kind") == "llamabench"]
     ok = [r for r in B if r.get("tg128_d0")]
     m = {k: rank([r.get(k) for r in ok]) for k in ("pp512_d0", "tg128_d0", "pp512_d2048", "tg128_d2048")}
-    L = ["| Test | htp | pp512 | tg128 | pp512 @2k | tg128 @2k | Note |", "|---|---|---:|---:|---:|---:|---|"]
+    L = ["| Test | Env | htp | pp512 | tg128 | pp512 @2k | tg128 @2k | Note |", "|---|---|---|---:|---:|---:|---:|---|"]
     for r in B:
         st = "" if r.get("tg128_d0") else "❌ "
-        L.append(f"| {st}{runlink(r['id'])} | {r.get('htp_sessions', '—')} | "
+        L.append(f"| {st}{runlink(r['id'])} | {envlink(r, REP + '/')} | {r.get('htp_sessions', '—')} | "
                  + " | ".join(medal(r.get(k), m[k]) for k in m)
                  + f" | {cell(r.get('error') or '', 60) if r.get('error') else ''} |")
     return "\n".join(L)
 
 
+def env_page():
+    L = ["# Test environments", "", "[← README](../README.md) · [all runs](index.md)", "",
+         "Each run is tagged with the environment it ran in. Runs from 2026-11-10 on record it themselves "
+         "(`env` in `results/results.jsonl`: kernel, full cmdline, package versions, NPU firmware hash, engine "
+         "commit or image). Earlier runs are *inferred* from `/var/log/dpkg.log`, the kernel cmdline history and "
+         "the llama.cpp/Genie versions installed at the time.", "",
+         "Constant for every run: Arduino VENTUNO Q (QCS8300, 16 GB), Ubuntu 24.04.5, Arduino image "
+         "`20260710-235`, NPU firmware `cdsp0.mbn` from `linux-firmware-dragonwing` 20260612. dpkg records "
+         "20260825 for that package, but its firmware broke NPU memory mapping, so the 20260612 files were restored "
+         "into `/lib/firmware/updates` before any run (sha256 `9ef6c8dc39d866a1…`).", "",
+         "| Env | " + " | ".join(lbl for _, lbl in ENV_FIELDS) + " | Inferred | Runs |",
+         "|---|" + "---|" * len(ENV_FIELDS) + "---|---:|"]
+    for eid, e, runs in ENVS.values():
+        L.append(f'| <a id="{eid.lower()}"></a>**{eid}** | ' + " | ".join(f"`{e[k]}`" for k, _ in ENV_FIELDS)
+                 + f" | {'yes' if e['inferred'] else 'no'} | {len(runs)} |")
+    for eid, e, runs in ENVS.values():
+        L += ["", f"## {eid}", "", ", ".join(f"[{x}]({x}.md)" for x in runs)]
+    return "\n".join(L) + "\n"
+
+
+def compare_table(R):
+    """Same model and device on both llama.cpp builds: best server run and best llama-bench run per build."""
+    builds = sorted({build_of(r) for r in R.values() if r.get("engine") == "llama"}, key=lambda b: b != "7fe450e")
+    if len(builds) < 2:
+        return "| Model | Device | Metric | Old | New | Change |\n|---|---|---|---:|---:|---:|"
+    old, new = builds[0], builds[1]
+    def best(model, dev, kind, bld):
+        rs = [r for r in R.values() if r.get("model") == model and r.get("dev") == dev and r.get("kind") == kind
+              and build_of(r) == bld and (r.get("short_gen_tps") or r.get("tg128_d0"))]
+        key = (lambda r: (score_num(r.get("tools_score")) + score_num(r.get("quiz_score")), r.get("short_gen_tps") or 0)) \
+            if kind == "server" else (lambda r: r.get("tg128_d0") or 0)
+        return max(rs, key=key) if rs else None
+    pairs = sorted({(r["model"], r["dev"]) for r in R.values() if r.get("engine") == "llama" and build_of(r) == new})
+    L = [f"| Model | Device | Metric | `{old}` | `{new}` | Change |", "|---|---|---|---:|---:|---:|"]
+    def row(model, dev, label, a, b, link_a, link_b, higher=True, pct=True):
+        if a is None and b is None:
+            return
+        ch = ""
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)) and a:
+            d = (b - a) / a * 100
+            good = d >= 0 if higher else d <= 0
+            ch = f"{'🟢' if good and abs(d) >= 3 else '🔴' if abs(d) >= 3 else '⚪'} {d:+.0f}%"
+        L.append(f"| {model} | {dev} | {label} | {f'[{a}]({link_a})' if a is not None else '❌'} | "
+                 f"{f'[{b}]({link_b})' if b is not None else '❌'} | {ch} |")
+    for model, dev in pairs:
+        for kind in ("llamabench", "server"):
+            a, b = best(model, dev, kind, old), best(model, dev, kind, new)
+            la = f"{REP}/{a['id']}.md" if a else ""
+            lb = f"{REP}/{b['id']}.md" if b else ""
+            fails = [r for r in R.values() if r.get("model") == model and r.get("dev") == dev and r.get("kind") == kind
+                     and build_of(r) == new and not (r.get("short_gen_tps") or r.get("tg128_d0"))]
+            if not b and fails:
+                L.append(f"| {model} | {dev} | {kind} | {'ok' if a else '❌'} | ❌ [{fails[-1]['id']}]({REP}/{fails[-1]['id']}.md) | |")
+                continue
+            if kind == "llamabench":
+                for k in ("pp512_d0", "tg128_d0", "pp512_d2048", "tg128_d2048"):
+                    row(model, dev, k, (a or {}).get(k), (b or {}).get(k), la, lb)
+            else:
+                row(model, dev, "Gen t/s", (a or {}).get("short_gen_tps"), (b or {}).get("short_gen_tps"), la, lb)
+                row(model, dev, "Prefill t/s", (a or {}).get("long_prompt_tps"), (b or {}).get("long_prompt_tps"), la, lb)
+                for k, lbl in (("tools_score", "Tools"), ("quiz_score", "Quiz"), ("vision_score", "Vision")):
+                    if (a or {}).get(k) or (b or {}).get(k):
+                        L.append(f"| {model} | {dev} | {lbl} | {(a or {}).get(k, '—')} | {(b or {}).get(k, '—')} | |")
+                row(model, dev, "Peak RAM MB", (a or {}).get("peak_used_mb"), (b or {}).get("peak_used_mb"), la, lb, higher=False)
+    return "\n".join(L)
+
+
 def replace_table(text, heading, table):
+    """Swap the first table in the section under `heading`; never reach into the next section."""
     i = text.index(heading)
-    j = text.index("\n|", i) + 1
+    end = min(x for x in (text.find("\n## ", i + 1), text.find("\n### ", i + 1), len(text)) if x > 0)
+    j = text.find("\n|", i, end) + 1
+    if j == 0:
+        raise SystemExit(f"no table under {heading!r}")
     k = j
     while k < len(text) and text[k] == "|":
         k = text.index("\n", k) + 1
@@ -368,6 +502,8 @@ def replace_table(text, heading, table):
 
 def main():
     R = load()
+    for r in R.values():
+        r["_env"] = env_id(r)
     os.makedirs(REP, exist_ok=True)
     for r in R.values():
         open(f"{REP}/{r['id']}.md", "w").write(run_page(r) if is_server(r) else bench_page(r))
@@ -375,10 +511,13 @@ def main():
     open(f"{REP}/quiz.md", "w").write(q)
     open(f"{REP}/tools.md", "w").write(t)
     open(f"{REP}/index.md", "w").write(index_page(R))
+    open(f"{REP}/environments.md", "w").write(env_page())
     s = open("README.md").read()
     s = replace_table(s, "### 4.1 Summary: best run per model", summary_table(R))
     s = replace_table(s, "### 4.3 Server tests, every run", server_table(R))
     s = replace_table(s, "### 4.4 llama-bench", bench_table(R))
+    if "### 4.6 llama.cpp build comparison" in s:
+        s = replace_table(s, "### 4.6 llama.cpp build comparison", compare_table(R))
     open("README.md", "w").write(s)
 
 

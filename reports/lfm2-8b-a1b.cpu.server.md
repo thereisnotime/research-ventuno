@@ -4,6 +4,8 @@
 
 Model `lfm2-8b-a1b`, engine `llama`, device `cpu`, NPU sessions `—`, started 2026-11-08 21:27:08, finished 2026-11-08 21:30:07.
 
+**Environment [E1](environments.md#e1)** (inferred from the package and boot history; this run predates environment capture): Kernel `6.8.0-1089-qcom`, Extra kernel args `—`, NPU firmware (cdsp0.mbn) `dragonwing 20260612 (restored)`, linux-firmware `20240318.git3b128b60-0ubuntu2.27`, qcom-fastrpc1 (libcdsprpc) `1.0.15+repack2`, Engine `llama.cpp`, Engine build `7fe450e`
+
 No transcript was recorded for this run (it ran before the suite saved transcripts), so only pass/fail is known.
 
 ## Numbers

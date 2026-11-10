@@ -4,6 +4,8 @@
 
 llama-bench, model `qwen3.5-4b`, device `npu`, NPU sessions `—`, started 2026-11-09 10:33:14.
 
+Environment [E1](environments.md#e1): llama.cpp `7fe450e`.
+
 | Test | t/s |
 |---|---:|
 | pp512_d0 | 159.97 |

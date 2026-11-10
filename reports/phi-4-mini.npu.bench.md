@@ -4,6 +4,8 @@
 
 llama-bench, model `phi-4-mini`, device `npu`, NPU sessions `—`, started 2026-11-08 21:55:49.
 
+Environment [E1](environments.md#e1): llama.cpp `7fe450e`.
+
 | Test | t/s |
 |---|---:|
 | pp512_d0 | 502.45 |

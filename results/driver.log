@@ -287,3 +287,19 @@
 10:21:57 qwen3-8b.npu.server.tr wedged on first request (no reply 15 min), manual sysrq reset
 10:38:54 start qwen3-8b.npu.server.tr2 (pinned 0 MB)
 10:54:34 qwen3-8b.npu.server.tr2 wedged after tool case 5 (no progress 8 min), sysrq reset
+11:06:15 queue finished
+11:06:34 start qwen3-4b-2507.npu.bench.b12244.s1 (pinned 0 MB)
+11:06:34 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+11:07:58 end qwen3-4b-2507.npu.bench.b12244.s1 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+11:07:58 pinned 1728 MB > 1200, reboot 32/60
+11:07:40 start qwen3-4b-2507.npu.server.b12244.s1 (pinned 0 MB)
+11:09:06 end qwen3-4b-2507.npu.server.b12244.s1 ok=False server did not become healthy
+11:09:06 pinned 1996 MB > 1200, reboot 33/60
+11:09:19 start qwen3-4b-2507.npu.bench.b12244 (pinned 0 MB)
+11:11:38 end qwen3-4b-2507.npu.bench.b12244 ok=True 
+11:11:38 start qwen3-4b-2507.npu.server.b12244 (pinned 32 MB)
+11:14:05 end qwen3-4b-2507.npu.server.b12244 ok=True 
+11:14:05 start qwen3-8b.npu.bench.b12244 (pinned 64 MB)
+11:14:33 end qwen3-8b.npu.bench.b12244 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+11:14:33 pinned 4142 MB > 1200, reboot 34/60
+11:14:09 start qwen3-8b.npu.server.b12244 (pinned 0 MB)

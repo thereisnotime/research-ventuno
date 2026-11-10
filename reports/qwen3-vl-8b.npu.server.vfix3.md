@@ -4,6 +4,8 @@
 
 Model `qwen3-vl-8b`, engine `llama`, device `npu`, NPU sessions `4`, started 2026-11-09 21:03:30, finished 2026-11-09 21:35:15.
 
+**Environment [E3](environments.md#e3)** (inferred from the package and boot history; this run predates environment capture): Kernel `6.8.0-1089-qcom`, Extra kernel args `watchdog.stop_on_reboot=0`, NPU firmware (cdsp0.mbn) `dragonwing 20260612 (restored)`, linux-firmware `20240318.git3b128b60.0ubuntu3.1`, qcom-fastrpc1 (libcdsprpc) `1.0.15+repack2`, Engine `llama.cpp`, Engine build `7fe450e`
+
 Raw transcript: [qwen3-vl-8b.npu.server.vfix3.transcript.jsonl](../results/transcripts/qwen3-vl-8b.npu.server.vfix3.transcript.jsonl)
 
 ## Numbers

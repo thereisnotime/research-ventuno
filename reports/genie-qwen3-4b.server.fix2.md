@@ -4,6 +4,8 @@
 
 Model `qwen3_4b_instruct_2507`, engine `genie`, device `None`, NPU sessions `0`, started 2026-11-09 19:58:35, finished 2026-11-09 20:02:49.
 
+**Environment [E4](environments.md#e4)** (inferred from the package and boot history; this run predates environment capture): Kernel `6.8.0-1089-qcom`, Extra kernel args `watchdog.stop_on_reboot=0`, NPU firmware (cdsp0.mbn) `dragonwing 20260612 (restored)`, linux-firmware `20240318.git3b128b60.0ubuntu3.1`, qcom-fastrpc1 (libcdsprpc) `1.0.15+repack2`, Engine `Genie (genai-llm-vlm-service)`, Engine build `1.5.0`
+
 Raw transcript: [genie-qwen3-4b.server.fix2.transcript.jsonl](../results/transcripts/genie-qwen3-4b.server.fix2.transcript.jsonl)
 
 ## Numbers

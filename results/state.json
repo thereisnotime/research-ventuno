@@ -81,9 +81,15 @@
   "qwen3-4b-2507.cpu.server.tr": "ok",
   "lfm2-8b-a1b.npu.server.tr": "ok",
   "lfm2-8b-a1b.cpu.server.tr": "ok",
-  "qwen3-8b.npu.server.tr": "hung",
-  "qwen3-8b.npu.server.tr2": "hung"
+  "qwen3-8b.npu.server.tr": "started",
+  "qwen3-8b.npu.server.tr2": "started",
+  "qwen3-4b-2507.npu.bench.b12244.s1": "failed",
+  "qwen3-4b-2507.npu.server.b12244.s1": "failed",
+  "qwen3-4b-2507.npu.bench.b12244": "ok",
+  "qwen3-4b-2507.npu.server.b12244": "ok",
+  "qwen3-8b.npu.bench.b12244": "failed",
+  "qwen3-8b.npu.server.b12244": "started"
  },
- "reboots": 31,
- "last_reboot_item": "qwen3-4b-2507.npu.server.tr"
+ "reboots": 34,
+ "last_reboot_item": "qwen3-8b.npu.server.b12244"
 }

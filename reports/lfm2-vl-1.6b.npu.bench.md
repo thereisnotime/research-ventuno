@@ -4,6 +4,8 @@
 
 llama-bench, model `lfm2-vl-1.6b`, device `npu`, NPU sessions `—`, started 2026-11-08 22:13:38.
 
+Environment [E1](environments.md#e1): llama.cpp `7fe450e`.
+
 | Test | t/s |
 |---|---:|
 | pp512_d0 | 1440.54 |

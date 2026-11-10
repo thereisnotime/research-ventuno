@@ -1,0 +1,35 @@
+# Test environments
+
+[← README](../README.md) · [all runs](index.md)
+
+Each run is tagged with the environment it ran in. Runs from 2026-11-10 on record it themselves (`env` in `results/results.jsonl`: kernel, full cmdline, package versions, NPU firmware hash, engine commit or image). Earlier runs are *inferred* from `/var/log/dpkg.log`, the kernel cmdline history and the llama.cpp/Genie versions installed at the time.
+
+Constant for every run: Arduino VENTUNO Q (QCS8300, 16 GB), Ubuntu 24.04.5, Arduino image `20260710-235`, NPU firmware `cdsp0.mbn` from `linux-firmware-dragonwing` 20260612. dpkg records 20260825 for that package, but its firmware broke NPU memory mapping, so the 20260612 files were restored into `/lib/firmware/updates` before any run (sha256 `9ef6c8dc39d866a1…`).
+
+| Env | Kernel | Extra kernel args | NPU firmware (cdsp0.mbn) | linux-firmware | qcom-fastrpc1 (libcdsprpc) | Engine | Engine build | Inferred | Runs |
+|---|---|---|---|---|---|---|---|---|---:|
+| <a id="e1"></a>**E1** | `6.8.0-1089-qcom` | `—` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60-0ubuntu2.27` | `1.0.15+repack2` | `llama.cpp` | `7fe450e` | yes | 29 |
+| <a id="e2"></a>**E2** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60-0ubuntu2.27` | `1.0.15+repack2` | `llama.cpp` | `7fe450e` | yes | 2 |
+| <a id="e3"></a>**E3** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `llama.cpp` | `7fe450e` | yes | 24 |
+| <a id="e4"></a>**E4** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `Genie (genai-llm-vlm-service)` | `1.5.0` | yes | 12 |
+| <a id="e5"></a>**E5** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `llama.cpp` | `d5bbcd1` | yes | 5 |
+
+## E1
+
+[qwen3-4b-2507.npu.bench](qwen3-4b-2507.npu.bench.md), [qwen3-4b-2507.npu.server](qwen3-4b-2507.npu.server.md), [qwen3-4b-2507.cpu.bench](qwen3-4b-2507.cpu.bench.md), [qwen3-4b-2507.cpu.server](qwen3-4b-2507.cpu.server.md), [qwen3-8b.npu.bench](qwen3-8b.npu.bench.md), [qwen3-8b.npu.server](qwen3-8b.npu.server.md), [lfm2-8b-a1b.npu.bench](lfm2-8b-a1b.npu.bench.md), [lfm2-8b-a1b.npu.server](lfm2-8b-a1b.npu.server.md), [lfm2-8b-a1b.cpu.bench](lfm2-8b-a1b.cpu.bench.md), [lfm2-8b-a1b.cpu.server](lfm2-8b-a1b.cpu.server.md), [granite-4-h-tiny.npu.bench](granite-4-h-tiny.npu.bench.md), [granite-4-h-tiny.npu.server](granite-4-h-tiny.npu.server.md), [phi-4-mini.npu.bench](phi-4-mini.npu.bench.md), [phi-4-mini.npu.server](phi-4-mini.npu.server.md), [gemma-3-4b.npu.bench](gemma-3-4b.npu.bench.md), [gemma-3-4b.npu.server](gemma-3-4b.npu.server.md), [qwen3-vl-4b.npu.bench](qwen3-vl-4b.npu.bench.md), [qwen3-vl-4b.npu.server](qwen3-vl-4b.npu.server.md), [lfm2-vl-1.6b.npu.bench](lfm2-vl-1.6b.npu.bench.md), [lfm2-vl-1.6b.npu.server](lfm2-vl-1.6b.npu.server.md), [qwen3-vl-8b.npu.bench](qwen3-vl-8b.npu.bench.md), [qwen3-vl-8b.npu.server](qwen3-vl-8b.npu.server.md), [qwen3.5-4b.npu.bench](qwen3.5-4b.npu.bench.md), [qwen3.5-4b.npu.server](qwen3.5-4b.npu.server.md), [qwen3.5-9b.npu.bench](qwen3.5-9b.npu.bench.md), [qwen3.5-9b.npu.server](qwen3.5-9b.npu.server.md), [gemma-4-e4b.npu.bench](gemma-4-e4b.npu.bench.md), [gemma-4-e4b.npu.server](gemma-4-e4b.npu.server.md), [granite-4.2-8b.npu.bench](granite-4.2-8b.npu.bench.md)
+
+## E2
+
+[ministral-3-8b.npu.server](ministral-3-8b.npu.server.md), [llama-3.2-3b.npu.bench](llama-3.2-3b.npu.bench.md)
+
+## E3
+
+[lfm2.5-1.2b.npu.bench](lfm2.5-1.2b.npu.bench.md), [lfm2.5-1.2b.npu.server](lfm2.5-1.2b.npu.server.md), [phi-mini-moe.npu.bench](phi-mini-moe.npu.bench.md), [phi-mini-moe.npu.server](phi-mini-moe.npu.server.md), [olmoe-1b-7b.npu.bench](olmoe-1b-7b.npu.bench.md), [olmoe-1b-7b.npu.server](olmoe-1b-7b.npu.server.md), [qwen3-4b-2507.cpu.server.rerun](qwen3-4b-2507.cpu.server.rerun.md), [qwen3-8b.npu.server.rerun](qwen3-8b.npu.server.rerun.md), [lfm2-8b-a1b.npu.server.rerun](lfm2-8b-a1b.npu.server.rerun.md), [lfm2-8b-a1b.cpu.server.rerun](lfm2-8b-a1b.cpu.server.rerun.md), [gemma-3-4b.npu.bench.d0](gemma-3-4b.npu.bench.d0.md), [qwen3-4b-2507.npu.server.s1](qwen3-4b-2507.npu.server.s1.md), [qwen3-vl-4b.npu.server.vfix](qwen3-vl-4b.npu.server.vfix.md), [qwen3-vl-8b.npu.server.vfix](qwen3-vl-8b.npu.server.vfix.md), [ministral-3-8b.npu.server.vfix](ministral-3-8b.npu.server.vfix.md), [gemma-4-e4b.npu.server.vfix](gemma-4-e4b.npu.server.vfix.md), [qwen3-vl-4b.npu.server.vfix2](qwen3-vl-4b.npu.server.vfix2.md), [qwen3-vl-8b.npu.server.vfix3](qwen3-vl-8b.npu.server.vfix3.md), [ministral-3-8b.npu.server.vfix3](ministral-3-8b.npu.server.vfix3.md), [gemma-4-e4b.npu.server.vfix3](gemma-4-e4b.npu.server.vfix3.md), [qwen3-4b-2507.npu.server.tr](qwen3-4b-2507.npu.server.tr.md), [qwen3-4b-2507.cpu.server.tr](qwen3-4b-2507.cpu.server.tr.md), [lfm2-8b-a1b.npu.server.tr](lfm2-8b-a1b.npu.server.tr.md), [lfm2-8b-a1b.cpu.server.tr](lfm2-8b-a1b.cpu.server.tr.md)
+
+## E4
+
+[genie-qwen3-4b.server](genie-qwen3-4b.server.md), [genie-qwen3-vl-8b.server](genie-qwen3-vl-8b.server.md), [genie-qwen3-4b.server.fix](genie-qwen3-4b.server.fix.md), [genie-qwen3-vl-8b.server.fix](genie-qwen3-vl-8b.server.fix.md), [genie-qwen3-4b.server.fix2](genie-qwen3-4b.server.fix2.md), [genie-qwen3-vl-8b.server.fix2](genie-qwen3-vl-8b.server.fix2.md), [genie-qwen3-4b.server.fix3](genie-qwen3-4b.server.fix3.md), [genie-qwen3-vl-8b.server.fix3](genie-qwen3-vl-8b.server.fix3.md), [genie-qwen3-4b.server.fix4](genie-qwen3-4b.server.fix4.md), [genie-qwen3-vl-8b.server.fix4](genie-qwen3-vl-8b.server.fix4.md), [genie-qwen3-4b.server.fix5](genie-qwen3-4b.server.fix5.md), [genie-qwen3-vl-8b.server.fix5](genie-qwen3-vl-8b.server.fix5.md)
+
+## E5
+
+[qwen3-4b-2507.npu.bench.b12244.s1](qwen3-4b-2507.npu.bench.b12244.s1.md), [qwen3-4b-2507.npu.server.b12244.s1](qwen3-4b-2507.npu.server.b12244.s1.md), [qwen3-4b-2507.npu.bench.b12244](qwen3-4b-2507.npu.bench.b12244.md), [qwen3-4b-2507.npu.server.b12244](qwen3-4b-2507.npu.server.b12244.md), [qwen3-8b.npu.bench.b12244](qwen3-8b.npu.bench.b12244.md)

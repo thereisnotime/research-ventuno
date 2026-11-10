@@ -4,6 +4,8 @@
 
 llama-bench, model `granite-4-h-tiny`, device `npu`, NPU sessions `—`, started 2026-11-08 21:32:29.
 
+Environment [E1](environments.md#e1): llama.cpp `7fe450e`.
+
 > ❌ **Error:** `llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed (see log for details)']`
 
 | Test | t/s |

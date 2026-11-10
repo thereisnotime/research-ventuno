@@ -4,6 +4,8 @@
 
 llama-bench, model `gemma-4-e4b`, device `npu`, NPU sessions `—`, started 2026-11-09 10:54:41.
 
+Environment [E1](environments.md#e1): llama.cpp `7fe450e`.
+
 > ❌ **Error:** `llama-bench rc=-6: ['warning: 360\t../csu/libc-start.c: No such file or directory']`
 
 | Test | t/s |

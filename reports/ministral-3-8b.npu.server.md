@@ -4,6 +4,8 @@
 
 Model `ministral-3-8b`, engine `llama`, device `npu`, NPU sessions `—`, started 2026-11-09 12:46:13, finished 2026-11-09 12:50:15.
 
+**Environment [E2](environments.md#e2)** (inferred from the package and boot history; this run predates environment capture): Kernel `6.8.0-1089-qcom`, Extra kernel args `watchdog.stop_on_reboot=0`, NPU firmware (cdsp0.mbn) `dragonwing 20260612 (restored)`, linux-firmware `20240318.git3b128b60-0ubuntu2.27`, qcom-fastrpc1 (libcdsprpc) `1.0.15+repack2`, Engine `llama.cpp`, Engine build `7fe450e`
+
 Raw transcript: [ministral-3-8b.npu.server.transcript.jsonl](../results/transcripts/ministral-3-8b.npu.server.transcript.jsonl)
 
 ## Numbers

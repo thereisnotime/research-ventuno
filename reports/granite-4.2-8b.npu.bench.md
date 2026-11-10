@@ -4,6 +4,8 @@
 
 llama-bench, model `granite-4.2-8b`, device `npu`, NPU sessions `—`, started 2026-11-09 11:03:19.
 
+Environment [E1](environments.md#e1): llama.cpp `7fe450e`.
+
 > ❌ **Error:** `llama-bench rc=-9: ['ggml-hex: device 3: HTP3 (phys=0, virt=3, domain=cdsp:3)']`
 
 | Test | t/s |

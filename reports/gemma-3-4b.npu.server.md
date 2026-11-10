@@ -4,6 +4,8 @@
 
 Model `gemma-3-4b`, engine `llama`, device `npu`, NPU sessions `—`, started 2026-11-08 22:02:26, finished 2026-11-08 22:07:27.
 
+**Environment [E1](environments.md#e1)** (inferred from the package and boot history; this run predates environment capture): Kernel `6.8.0-1089-qcom`, Extra kernel args `—`, NPU firmware (cdsp0.mbn) `dragonwing 20260612 (restored)`, linux-firmware `20240318.git3b128b60-0ubuntu2.27`, qcom-fastrpc1 (libcdsprpc) `1.0.15+repack2`, Engine `llama.cpp`, Engine build `7fe450e`
+
 Raw transcript: [gemma-3-4b.npu.server.transcript.jsonl](../results/transcripts/gemma-3-4b.npu.server.transcript.jsonl)
 
 ## Numbers

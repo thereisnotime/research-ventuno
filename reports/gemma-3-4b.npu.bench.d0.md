@@ -4,6 +4,8 @@
 
 llama-bench, model `gemma-3-4b`, device `npu`, NPU sessions `1`, started 2026-11-09 19:24:36.
 
+Environment [E3](environments.md#e3): llama.cpp `7fe450e`.
+
 > ❌ **Error:** `llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed (see log for details)']`
 
 | Test | t/s |

@@ -479,11 +479,38 @@ def run_llamabench(item, logf):
     return out
 
 
+ENV_PKGS = ["linux-image-{kernel}", "linux-firmware", "linux-firmware-dragonwing", "qcom-fastrpc1", "arduino-app-cli"]
+
+
+def env_snapshot(item):
+    """Everything under the model that can change a result: kernel, boot args, firmware, NPU userspace, engine build."""
+    sh = lambda c: subprocess.run(c, shell=True, capture_output=True, text=True).stdout.strip()
+    kernel = os.uname().release
+    env = {"kernel": kernel, "cmdline": open("/proc/cmdline").read().strip(),
+           "packages": {}, "cdsp_fw_sha256": sh("sha256sum /lib/firmware/updates/qcom/qcs8300/cdsp0.mbn | cut -c1-16")}
+    for pkg in ENV_PKGS:
+        pkg = pkg.format(kernel=kernel)
+        env["packages"][pkg] = sh(f"dpkg-query -W -f='${{Version}}' {pkg} 2>/dev/null") or None
+    if item["engine"] == "llama":
+        env["llama_build"] = os.path.basename(LLAMA)
+        v = sh(f"LD_LIBRARY_PATH={LLAMA}/lib {LLAMA}/bin/llama-server --version 2>&1")
+        m = re.search(r"commit ([0-9a-f]+)", v)
+        env["llama_commit"] = m.group(1) if m else None
+        env["llama_version"] = (re.search(r"version: (\S+)", v) or [None, None])[1]
+    else:
+        env["genie_image"] = sh("grep -m1 'image:' /opt/genie/compose.yaml | awk '{print $2}'")
+    return env
+
+
 def run_item(item):
+    # Optional per-item llama.cpp build, e.g. "llama": "/home/arduino/llama-npu-b12244"
+    global LLAMA, LENV
+    LLAMA = item.get("llama", "/home/arduino/llama-npu")
+    LENV = dict(LENV, LD_LIBRARY_PATH=f"{LLAMA}/lib", ADSP_LIBRARY_PATH=f"{LLAMA}/lib")
     os.makedirs(f"{ROOT}/logs", exist_ok=True)
     ensure(item.get("files", []))
     res = {"id": item["id"], "engine": item["engine"], "model": item["model"], "dev": item.get("dev"),
-           "kind": item["kind"], "htp_sessions": htp(item)[0] if item.get("dev") == "npu" else 0, "started": time.strftime("%F %T"), "pinned_before_mb": pinned_mb()}
+           "kind": item["kind"], "htp_sessions": htp(item)[0] if item.get("dev") == "npu" else 0, "started": time.strftime("%F %T"), "pinned_before_mb": pinned_mb(), "llama_build": os.path.basename(LLAMA), "env": env_snapshot(item)}
     s = Sampler()
     s.start()
     with open(f"{ROOT}/logs/{item['id']}.log", "a") as logf:
