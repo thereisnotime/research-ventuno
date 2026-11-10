@@ -114,8 +114,18 @@
   "combo.c2.qwen3-8b.ngl20": "ok",
   "combo.c3.qwen3-4b.spec4": "ok",
   "combo.c4.qwen3-4b.spec8": "ok",
-  "applab.gemma-4-e4b.server": "ok"
+  "applab.gemma-4-e4b.server": "ok",
+  "mbuf.m1.qwen3-4b.bench.s1": "failed",
+  "mbuf.m2.qwen3-4b.server.s1": "failed",
+  "mbuf.m3.qwen3-4b.server.s4": "ok",
+  "mbuf.m4.qwen3-4b-q8.bench": "ok",
+  "mbuf.m5.gemma-4-e4b.bench": "failed",
+  "mbuf.m6.gemma-4-e4b.server": "failed",
+  "mbuf.m7.qwen3-8b.bench": "ok",
+  "mbuf.m8.qwen3-8b.server": "failed",
+  "mbuf.m1.qwen3-4b.bench.s1.d0": "failed",
+  "mbuf.m5.gemma-4-e4b.bench.d0": "failed"
  },
- "reboots": 39,
- "last_reboot_item": "combo.c2.qwen3-8b.ngl20"
+ "reboots": 43,
+ "last_reboot_item": "mbuf.m5.gemma-4-e4b.bench.d0"
 }

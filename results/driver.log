@@ -390,3 +390,36 @@
 15:52:07 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
 15:52:07 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
 15:52:07 queue finished
+16:00:33 start mbuf.m1.qwen3-4b.bench.s1 (pinned 0 MB)
+16:00:33 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+16:01:57 end mbuf.m1.qwen3-4b.bench.s1 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+16:01:58 pinned 2752 MB > 1200, reboot 40/60
+16:01:33 start mbuf.m2.qwen3-4b.server.s1 (pinned 0 MB)
+16:03:06 end mbuf.m2.qwen3-4b.server.s1 ok=False server did not become healthy
+16:03:06 pinned 2930 MB > 1200, reboot 41/60
+16:03:19 start mbuf.m3.qwen3-4b.server.s4 (pinned 0 MB)
+16:06:29 end mbuf.m3.qwen3-4b.server.s4 ok=True 
+16:06:29 start mbuf.m4.qwen3-4b-q8.bench (pinned 32 MB)
+16:06:29 download Qwen_Qwen3-4B-Instruct-2507-Q8_0.gguf
+16:11:45 end mbuf.m4.qwen3-4b-q8.bench ok=True 
+16:11:45 delete Qwen_Qwen3-4B-Instruct-2507-Q8_0.gguf
+16:11:46 start mbuf.m5.gemma-4-e4b.bench (pinned 64 MB)
+16:11:46 download gemma-4-E4B_q4_0-it.gguf
+16:14:49 end mbuf.m5.gemma-4-e4b.bench ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+16:14:49 start mbuf.m6.gemma-4-e4b.server (pinned 96 MB)
+16:14:49 download mmproj-gemma-4-e4b.gguf
+16:15:40 end mbuf.m6.gemma-4-e4b.server ok=False server did not become healthy
+16:15:40 delete mmproj-gemma-4-e4b.gguf
+16:15:40 start mbuf.m7.qwen3-8b.bench (pinned 128 MB)
+16:18:26 end mbuf.m7.qwen3-8b.bench ok=True 
+16:18:26 start mbuf.m8.qwen3-8b.server (pinned 160 MB)
+16:18:37 end mbuf.m8.qwen3-8b.server ok=False server did not become healthy
+16:18:37 pinned 5425 MB > 1200, reboot 42/60
+16:18:07 start mbuf.m1.qwen3-4b.bench.s1.d0 (pinned 0 MB)
+16:19:43 end mbuf.m1.qwen3-4b.bench.s1.d0 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+16:19:43 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+16:19:44 pinned 2752 MB > 1200, reboot 43/60
+16:19:57 start mbuf.m5.gemma-4-e4b.bench.d0 (pinned 0 MB)
+16:21:00 end mbuf.m5.gemma-4-e4b.bench.d0 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+16:21:00 delete gemma-4-E4B_q4_0-it.gguf
+16:21:01 queue finished

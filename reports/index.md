@@ -102,3 +102,13 @@
 | [combo.c3.qwen3-4b.spec4](combo.c3.qwen3-4b.spec4.md) | server | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
 | [combo.c4.qwen3-4b.spec8](combo.c4.qwen3-4b.spec8.md) | server | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
 | [applab.gemma-4-e4b.server](applab.gemma-4-e4b.server.md) | server | gemma-4-E4B_q4_0-it | applab | `f4d8af608 (runner 0.13.2)` | npu | [E6](environments.md#e6) | ✅ |
+| [mbuf.m1.qwen3-4b.bench.s1](mbuf.m1.qwen3-4b.bench.s1.md) | llamabench | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [mbuf.m2.qwen3-4b.server.s1](mbuf.m2.qwen3-4b.server.s1.md) | server | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [mbuf.m3.qwen3-4b.server.s4](mbuf.m3.qwen3-4b.server.s4.md) | server | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [mbuf.m4.qwen3-4b-q8.bench](mbuf.m4.qwen3-4b-q8.bench.md) | llamabench | qwen3-4b-2507-q8 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [mbuf.m5.gemma-4-e4b.bench](mbuf.m5.gemma-4-e4b.bench.md) | llamabench | gemma-4-e4b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [mbuf.m6.gemma-4-e4b.server](mbuf.m6.gemma-4-e4b.server.md) | server | gemma-4-e4b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [mbuf.m7.qwen3-8b.bench](mbuf.m7.qwen3-8b.bench.md) | llamabench | qwen3-8b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [mbuf.m8.qwen3-8b.server](mbuf.m8.qwen3-8b.server.md) | server | qwen3-8b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [mbuf.m1.qwen3-4b.bench.s1.d0](mbuf.m1.qwen3-4b.bench.s1.d0.md) | llamabench | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [mbuf.m5.gemma-4-e4b.bench.d0](mbuf.m5.gemma-4-e4b.bench.d0.md) | llamabench | gemma-4-e4b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |

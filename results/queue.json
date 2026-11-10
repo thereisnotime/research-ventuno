@@ -1743,5 +1743,200 @@
   "dev": "npu",
   "kind": "server",
   "files": []
+ },
+ {
+  "id": "mbuf.m1.qwen3-4b.bench.s1",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 1
+ },
+ {
+  "id": "mbuf.m2.qwen3-4b.server.s1",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 1
+ },
+ {
+  "id": "mbuf.m3.qwen3-4b.server.s4",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4
+ },
+ {
+  "engine": "llama",
+  "dev": "npu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "sessions": 4,
+  "pp": "128,512,2048",
+  "tg": "128",
+  "reps": 3,
+  "id": "mbuf.m4.qwen3-4b-q8.bench",
+  "model": "qwen3-4b-2507-q8",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q8_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q8_0.gguf"
+   ]
+  ],
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  }
+ },
+ {
+  "id": "mbuf.m5.gemma-4-e4b.bench",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true,
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4
+ },
+ {
+  "id": "mbuf.m6.gemma-4-e4b.server",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ],
+   [
+    "mmproj-gemma-4-e4b.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B-it-mmproj.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-gemma-4-e4b.gguf",
+  "vision": true,
+  "sessions": 4,
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  }
+ },
+ {
+  "id": "mbuf.m7.qwen3-8b.bench",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4
+ },
+ {
+  "id": "mbuf.m8.qwen3-8b.server",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4
+ },
+ {
+  "id": "mbuf.m1.qwen3-4b.bench.s1.d0",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 1,
+  "depths": "0",
+  "fresh": true
+ },
+ {
+  "id": "mbuf.m5.gemma-4-e4b.bench.d0",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true,
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4,
+  "depths": "0"
  }
 ]
