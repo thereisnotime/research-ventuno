@@ -270,3 +270,18 @@
 22:07:25 start genie-qwen3-vl-8b.server.fix5 (pinned 0 MB)
 22:15:57 end genie-qwen3-vl-8b.server.fix5 ok=True 
 22:15:57 queue finished
+09:44:28 pinned 6215 MB > 1200, reboot 31/60
+09:44:39 start qwen3-4b-2507.npu.server.tr (pinned 0 MB)
+09:44:39 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+09:49:03 end qwen3-4b-2507.npu.server.tr ok=True 
+09:49:03 start qwen3-4b-2507.cpu.server.tr (pinned 167 MB)
+09:56:03 end qwen3-4b-2507.cpu.server.tr ok=True 
+09:56:03 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+09:56:03 start lfm2-8b-a1b.npu.server.tr (pinned 167 MB)
+09:56:03 download LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+10:00:05 end lfm2-8b-a1b.npu.server.tr ok=True 
+10:00:05 start lfm2-8b-a1b.cpu.server.tr (pinned 334 MB)
+10:06:16 end lfm2-8b-a1b.cpu.server.tr ok=True 
+10:06:16 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+10:06:17 start qwen3-8b.npu.server.tr (pinned 334 MB)
+10:21:57 qwen3-8b.npu.server.tr wedged on first request (no reply 15 min), manual sysrq reset

@@ -67,3 +67,7 @@
 | [genie-qwen3-vl-8b.server.fix4](genie-qwen3-vl-8b.server.fix4.md) | server | qwen3_vl_8b_instruct | genie | None | ✅ |
 | [genie-qwen3-4b.server.fix5](genie-qwen3-4b.server.fix5.md) | server | qwen3_4b_instruct_2507 | genie | None | ✅ |
 | [genie-qwen3-vl-8b.server.fix5](genie-qwen3-vl-8b.server.fix5.md) | server | qwen3_vl_8b_instruct | genie | None | ✅ |
+| [qwen3-4b-2507.npu.server.tr](qwen3-4b-2507.npu.server.tr.md) | server | qwen3-4b-2507 | llama | npu | ✅ |
+| [qwen3-4b-2507.cpu.server.tr](qwen3-4b-2507.cpu.server.tr.md) | server | qwen3-4b-2507 | llama | cpu | ✅ |
+| [lfm2-8b-a1b.npu.server.tr](lfm2-8b-a1b.npu.server.tr.md) | server | lfm2-8b-a1b | llama | npu | ✅ |
+| [lfm2-8b-a1b.cpu.server.tr](lfm2-8b-a1b.cpu.server.tr.md) | server | lfm2-8b-a1b | llama | cpu | ✅ |

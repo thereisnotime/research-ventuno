@@ -86,16 +86,16 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [lfm2-vl-1.6b](reports/lfm2-vl-1.6b.npu.server.md) |  | llama | npu | 🥇 29.51 | 🥈 1233.42 | [2/7](reports/lfm2-vl-1.6b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-vl-1.6b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/lfm2-vl-1.6b.npu.server.md#vision) | 🥈 5.1 | 🥈 3976 |
 | [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.md) | ⚡ fastest useful | llama | npu | 🥈 29.13 | 🥇 1263.86 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.md#quiz) | ✅ | — | — | 🥇 2504 |
 | [olmoe-1b-7b](reports/olmoe-1b-7b.npu.server.md) | ⚠️ bad at tools | llama | npu | 🥉 28.76 | 🥉 567.83 | [1/7](reports/olmoe-1b-7b.npu.server.md#tools) | ✅ | [7/12](reports/olmoe-1b-7b.npu.server.md#quiz) | ❌ | — | — | 7371 |
-| [lfm2-8b-a1b](reports/lfm2-8b-a1b.cpu.server.md) | 🛡️ safe 24/7 | llama | cpu | 24.54 | 49.22 | [🥈 6/7](reports/lfm2-8b-a1b.cpu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.cpu.server.md#quiz) | ✅ | — | — | 5492 |
-| [lfm2-8b-a1b](reports/lfm2-8b-a1b.npu.server.md) |  | llama | npu | 23.5 | 511.43 | [🥈 6/7](reports/lfm2-8b-a1b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.npu.server.md#quiz) | ✅ | — | — | 6673 |
+| [lfm2-8b-a1b](reports/lfm2-8b-a1b.cpu.server.tr.md) | 🛡️ safe 24/7 | llama | cpu | 24.7 | 49.0 | [🥈 6/7](reports/lfm2-8b-a1b.cpu.server.tr.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.cpu.server.tr.md#quiz) | ✅ | — | — | 5430 |
+| [lfm2-8b-a1b](reports/lfm2-8b-a1b.npu.server.tr.md) |  | llama | npu | 23.97 | 511.4 | [🥈 6/7](reports/lfm2-8b-a1b.npu.server.tr.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.npu.server.tr.md#quiz) | ✅ | — | — | 6597 |
 | [phi-mini-moe](reports/phi-mini-moe.npu.server.md) | ⚠️ bad at tools | llama | npu | 18.63 | 352.77 | [1/7](reports/phi-mini-moe.npu.server.md#tools) | ❌ | [8/12](reports/phi-mini-moe.npu.server.md#quiz) | ❌ | — | — | 7306 |
 | [qwen3_4b_instruct_2507](reports/genie-qwen3-4b.server.fix5.md) | 🚀 fastest 4B | genie | npu (QNN) | 16.45 | — | [🥈 6/7](reports/genie-qwen3-4b.server.fix5.md#tools) | ❌ | [🥉 10/12](reports/genie-qwen3-4b.server.fix5.md#quiz) | ✅ | — | — | 7752 |
 | [phi-4-mini](reports/phi-4-mini.npu.server.md) |  | llama | npu | 14.04 | 456.92 | [2/7](reports/phi-4-mini.npu.server.md#tools) | ✅ | [9/12](reports/phi-4-mini.npu.server.md#quiz) | ✅ | — | — | 5429 |
 | [gemma-3-4b](reports/gemma-3-4b.npu.server.md) | 🎯 most accurate vision | llama | npu | 13.26 | 445.78 | [1/7](reports/gemma-3-4b.npu.server.md#tools) | ✅ | [🥇 12/12](reports/gemma-3-4b.npu.server.md#quiz) | ✅ | [🥇 4/4](reports/gemma-3-4b.npu.server.md#vision) | 27.7 | 7048 |
-| [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.md) | 🏆 best all-round | llama | npu | 12.55 | 394.97 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.md#quiz) | ✅ | — | — | 6287 |
+| [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.tr.md) | 🏆 best all-round | llama | npu | 12.79 | 395.46 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.tr.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.tr.md#quiz) | ✅ | — | — | 5405 |
 | [qwen3-vl-4b](reports/qwen3-vl-4b.npu.server.md) |  | llama | npu | 12.55 | 385.69 | [🥇 7/7](reports/qwen3-vl-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3-vl-4b.npu.server.vfix2.md#vision) | 🥉 9.8 | 6800 |
 | [gemma-4-e4b](reports/gemma-4-e4b.npu.server.md) | ⛔ never loaded | llama | npu | 10.47 | — | [0/7](reports/gemma-4-e4b.npu.server.md#tools) | ❌ | [0/12](reports/gemma-4-e4b.npu.server.md#quiz) | ❌ | — | — | 9007 |
-| [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.md) |  | llama | cpu | 9.93 | 27.88 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.md#quiz) | ✅ | — | — | 🥉 5406 |
+| [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.tr.md) |  | llama | cpu | 10.0 | 27.81 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.tr.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.tr.md#quiz) | ✅ | — | — | 🥉 4482 |
 | [qwen3.5-4b](reports/qwen3.5-4b.npu.server.md) | 👁️ fast vision | llama | npu | 8.59 | 151.21 | [🥇 7/7](reports/qwen3.5-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.md#vision) | 🥇 3.9 | 9557 |
 | [qwen3-8b](reports/qwen3-8b.npu.server.md) |  | llama | npu | 7.64 | 250.26 | [🥇 7/7](reports/qwen3-8b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/qwen3-8b.npu.server.md#quiz) | ✅ | — | — | 7370 |
 | [qwen3-vl-8b](reports/qwen3-vl-8b.npu.server.md) |  | llama | npu | 7.57 | 246.36 | [🥇 7/7](reports/qwen3-vl-8b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-8b.npu.server.md#quiz) | ✅ | — | — | 9079 |
@@ -172,6 +172,10 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | [genie-qwen3-vl-8b.server.fix4](reports/genie-qwen3-vl-8b.server.fix4.md) | 0 | — | — | 4.2 | ❌ | 0/7 | ❌ | 0/12 | 0/4 | 4.3 | 9703 |  |
 | [genie-qwen3-4b.server.fix5](reports/genie-qwen3-4b.server.fix5.md) | 0 | 16.45 | — | 76.6 | ✅ | 6/7 | ❌ | 10/12 | — | — | 7752 |  |
 | [genie-qwen3-vl-8b.server.fix5](reports/genie-qwen3-vl-8b.server.fix5.md) | 0 | — | — | 6.3 | ❌ | 0/7 | ❌ | 0/12 | 0/4 | 4.0 | 9704 |  |
+| [qwen3-4b-2507.npu.server.tr](reports/qwen3-4b-2507.npu.server.tr.md) | 4 | 12.79 | 395.46 | 6.1 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5405 |  |
+| [qwen3-4b-2507.cpu.server.tr](reports/qwen3-4b-2507.cpu.server.tr.md) | 0 | 10.0 | 27.81 | 4.0 | ✅ | 7/7 | ✅ | 11/12 | — | — | 4482 |  |
+| [lfm2-8b-a1b.npu.server.tr](reports/lfm2-8b-a1b.npu.server.tr.md) | 4 | 23.97 | 511.4 | 8.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 6597 |  |
+| [lfm2-8b-a1b.cpu.server.tr](reports/lfm2-8b-a1b.cpu.server.tr.md) | 0 | 24.7 | 49.0 | 10.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 5430 |  |
 
 ### 4.4 llama-bench
 
@@ -218,6 +222,7 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | qwen3-vl-8b.npu.server.vfix2 | hung |
 | ministral-3-8b.npu.server.vfix2 | skipped-hung |
 | gemma-4-e4b.npu.server.vfix2 | skipped-hung |
+| qwen3-8b.npu.server.tr | hung (NPU wedged on the first request, board reset by hand) |
 
 ## 5. Stability findings
 
@@ -238,11 +243,14 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 
 - Accuracy tests are small (7 tool cases, 12 quiz questions, 4 images). They separate usable from unusable
   models but are not a substitute for standard benchmarks; differences of one point should not be over-read.
-- Each configuration was run once (reruns only after failures), so no variance is reported.
+- Most configurations were run once, so no variance is reported. Four were rerun on 2026-11-10 to capture
+  transcripts (`*.tr`): Qwen3-4B (NPU, CPU) and LFM2-8B-A1B (NPU, CPU). Every tools, quiz, JSON and needle
+  result matched the original run exactly, and throughput was within 2%. The Qwen3-8B rerun wedged the NPU
+  on its first request, so that model still has pass/fail results only.
 - Everything ran on one board with one llama.cpp build (`7fe450e`). Newer llama.cpp builds change the Hexagon
   memory layout and may change both the single-session limits and the stability results.
 - Not measured: Qwen3-VL-8B vision (NPU wedged in 2 of 3 attempts), Gemma 4 E4B (failed to load).
-- Some early runs predate transcript capture; their pages show pass/fail only.
+- The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
 
 ## 7. Reproducibility
 

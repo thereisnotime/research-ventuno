@@ -76,8 +76,13 @@
   "genie-qwen3-4b.server.fix4": "ok",
   "genie-qwen3-vl-8b.server.fix4": "ok",
   "genie-qwen3-4b.server.fix5": "ok",
-  "genie-qwen3-vl-8b.server.fix5": "ok"
+  "genie-qwen3-vl-8b.server.fix5": "ok",
+  "qwen3-4b-2507.npu.server.tr": "ok",
+  "qwen3-4b-2507.cpu.server.tr": "ok",
+  "lfm2-8b-a1b.npu.server.tr": "ok",
+  "lfm2-8b-a1b.cpu.server.tr": "ok",
+  "qwen3-8b.npu.server.tr": "started"
  },
- "reboots": 30,
- "last_reboot_item": "genie-qwen3-vl-8b.server.fix5"
+ "reboots": 31,
+ "last_reboot_item": "qwen3-4b-2507.npu.server.tr"
 }
