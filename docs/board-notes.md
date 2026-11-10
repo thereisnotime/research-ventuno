@@ -2,6 +2,12 @@
 
 Arduino VENTUNO Q (Qualcomm QCS8300), Ubuntu image from Arduino. Notes kept while running the benchmark.
 
+> **Historical log.** This is the running log from 2026-11-06 to 11-09, kept as written. Later results supersede
+> some of it: the "~4 GB per process" mapping limit was partly llama.cpp's default buffer chunk size (fixed by
+> `GGML_HEXAGON_MBUF=256,256`; the real limit is ~3.1 GiB per session, four sessions per process), Gemma 4 E4B runs
+> through Arduino's App Lab runner, and the "still queued" items were all run. For current findings see the
+> [README](../README.md), [stability fixes](stability-fixes.md) and [environments](../reports/environments.md).
+
 ### Canonical telemetry off (2026-11-08)
 
 ```bash
