@@ -187,7 +187,7 @@ def run_page(r):
             else:
                 e = find(E, lambda e: (e["request"].get("messages") or [{}])[-1].get("role") == "tool")
             txt, tcs = reply_of(e) if e else (NA, [])
-            out = (fmt_calls(tcs) + " " + cell(txt, 160)).strip() if tcs else cell(txt)
+            out = (fmt_calls(tcs) + (" " + cell(txt, 160) if txt.strip() else "")) if tcs else cell(txt)
             err = r["tools"].get(name + "_err")
             if err:
                 out += f" ⚠️ `{cell(err, 120)}`"

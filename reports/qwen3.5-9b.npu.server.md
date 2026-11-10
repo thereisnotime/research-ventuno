@@ -40,12 +40,12 @@ A secret code (4417) buried in a ~1.7k-token filler log; the model is asked to r
 
 | # | Case | Prompt | Expected | Pass | Model output |
 |---|---|---|---|---|---|
-| <a id="tool-weather"></a>1 | weather | What's the weather in Sofia right now, in celsius? | get_weather(city=Sofia, unit=celsius) | ✅ | `get_weather({"city":"Sofia","unit":"celsius"})` *(empty)* |
-| <a id="tool-flights"></a>2 | flights | Find me flights from London to Tokyo on 24 December 2026. | search_flights(London, Tokyo, 2026-12-24) | ✅ | `search_flights({"origin":"London","destination":"Tokyo","date":"2026-12-24"})` *(empty)* |
-| <a id="tool-calculator"></a>3 | calculator | Use the calculator to compute 1234 * 5678. | calculator(expression has 1234 and 5678) | ✅ | `calculator({"expression":"1234 * 5678"})` *(empty)* |
-| <a id="tool-email"></a>4 | email | Email bob@example.com with subject 'Lunch' and tell him I'm 10 minutes late. | send_email(to=bob@example.com, subject has Lunch) | ✅ | `send_email({"to":"bob@example.com","subject":"Lunch","body":"I'm 10 minutes late."})` *(empty)* |
+| <a id="tool-weather"></a>1 | weather | What's the weather in Sofia right now, in celsius? | get_weather(city=Sofia, unit=celsius) | ✅ | `get_weather({"city":"Sofia","unit":"celsius"})` |
+| <a id="tool-flights"></a>2 | flights | Find me flights from London to Tokyo on 24 December 2026. | search_flights(London, Tokyo, 2026-12-24) | ✅ | `search_flights({"origin":"London","destination":"Tokyo","date":"2026-12-24"})` |
+| <a id="tool-calculator"></a>3 | calculator | Use the calculator to compute 1234 * 5678. | calculator(expression has 1234 and 5678) | ✅ | `calculator({"expression":"1234 * 5678"})` |
+| <a id="tool-email"></a>4 | email | Email bob@example.com with subject 'Lunch' and tell him I'm 10 minutes late. | send_email(to=bob@example.com, subject has Lunch) | ✅ | `send_email({"to":"bob@example.com","subject":"Lunch","body":"I'm 10 minutes late."})` |
 | <a id="tool-no_tool"></a>5 | no_tool | Tell me a short joke about cats. | plain text, no tool call | ✅ | Why don't cats play poker in the jungle? Because there's a cheetah! 🐱🃏 |
-| <a id="tool-parallel"></a>6 | parallel | What's the weather in Paris and in Berlin? | get_weather for both Paris and Berlin | ✅ | `get_weather({"city":"Paris"})` `get_weather({"city":"Berlin"})` *(empty)* |
+| <a id="tool-parallel"></a>6 | parallel | What's the weather in Paris and in Berlin? | get_weather for both Paris and Berlin | ✅ | `get_weather({"city":"Paris"})` `get_weather({"city":"Berlin"})` |
 | <a id="tool-use_result"></a>7 | use_result | What is the weather in Oslo? (then the tool result) | after tool result {temp_c: 7, light rain}: answer mentions 7 and rain, no new call | ✅ | The current weather in Oslo is 7°C with light rain. |
 
 <a id="json"></a>

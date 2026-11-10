@@ -39,8 +39,8 @@ A secret code (4417) buried in a ~1.7k-token filler log; the model is asked to r
 
 | # | Case | Prompt | Expected | Pass | Model output |
 |---|---|---|---|---|---|
-| <a id="tool-weather"></a>1 | weather | What's the weather in Sofia right now, in celsius? | get_weather(city=Sofia, unit=celsius) | ✅ | `get_weather({"city": "Sofia", "unit": "celsius"})` *(empty)* |
-| <a id="tool-flights"></a>2 | flights | Find me flights from London to Tokyo on 24 December 2026. | search_flights(London, Tokyo, 2026-12-24) | ✅ | `search_flights({"origin": "London", "destination": "Tokyo", "date": "2026-12-24"})` *(empty)* |
+| <a id="tool-weather"></a>1 | weather | What's the weather in Sofia right now, in celsius? | get_weather(city=Sofia, unit=celsius) | ✅ | `get_weather({"city": "Sofia", "unit": "celsius"})` |
+| <a id="tool-flights"></a>2 | flights | Find me flights from London to Tokyo on 24 December 2026. | search_flights(London, Tokyo, 2026-12-24) | ✅ | `search_flights({"origin": "London", "destination": "Tokyo", "date": "2026-12-24"})` |
 | <a id="tool-calculator"></a>3 | calculator | Use the calculator to compute 1234 * 5678. | calculator(expression has 1234 and 5678) | ❌ | (no reply: {"error": "timed out"}) ⚠️ `timed out` |
 | <a id="tool-email"></a>4 | email | Email bob@example.com with subject 'Lunch' and tell him I'm 10 minutes late. | send_email(to=bob@example.com, subject has Lunch) | ❌ | (no reply: {"error": "timed out"}) ⚠️ `timed out` |
 | <a id="tool-no_tool"></a>5 | no_tool | Tell me a short joke about cats. | plain text, no tool call | ❌ | (no reply: {"error": "Remote end closed connection without response"}) ⚠️ `Remote end closed connection without response` |
