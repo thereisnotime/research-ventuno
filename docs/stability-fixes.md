@@ -25,7 +25,7 @@ without someone pressing the power button. See [§5 of the README](../README.md#
 | 9 | llama-bench can hang forever | 900 s timeout; on timeout disable the runner instead of killing | Runner | ✅ |
 | 10 | Crash evidence lost on reset | EFI pstore for panic dumps | Kernel module | ⚠️ not yet seen persisting |
 | 11 | Model too big for one NPU session | Split over 4 sessions | Runner | ✅ |
-| 11b | Random `fastrpc_mmap failed` at load | `GGML_HEXAGON_MBUF=256,256` | llama.cpp env | ✅ Q8_0 and 8B load |
+| 11b | Random `fastrpc_mmap failed` at load | `GGML_HEXAGON_MBUF=256,256` | llama.cpp env | ✅ Q8_0 and 8B load; ❌ 8B freezes mid-generation |
 | 12 | Vision encoder fails to map on the NPU | Run the image encoder on CPU | Runner | ✅ |
 | 13 | Genie crashes or returns empty replies | Streaming only, one session per request, eviction off, real call ids | Genie, runner | ✅ |
 
@@ -137,7 +137,7 @@ An external watcher polls the board every 30 s. If neither the current transcrip
 3 wedges in one batch. A planned reboot (runner briefly inactive) is not a stall; only a disabled runner stops the
 watcher. Script: [`suite/probes/watch.sh`](../suite/probes/watch.sh).
 
-Two bugs in earlier versions, both fixed:
+Three bugs in earlier versions, all fixed:
 
 - It found the runner with `pgrep -f suite.py`, which also matched the watcher's own SSH shell (its command line
   contains "suite.py"). It paused itself, that SSH call never returned, and the reset after it never ran
@@ -174,7 +174,11 @@ computes the session count per model instead and keeps each session under 85% of
 - **Fix:** `GGML_HEXAGON_MBUF=256,256` (256 MiB chunks for both). With it, Qwen3-4B Q8_0 and Qwen3-8B load
   reliably in llama-bench; Qwen3-4B speed and scores are unchanged (12.8 t/s, 7/7, 12/12). See
   [§4.10](../README.md#410-arduino-app-lab-path-gemma-4-e4b). The main result tables predate this fix.
-- **Not fixed by it:** one session for a 4B model (§11), Gemma 4 E4B on plain llama.cpp, Qwen3-8B as a server.
+- **Not fixed by it:** one session for a 4B model (§11), Gemma 4 E4B on plain llama.cpp, Qwen3-8B as a server,
+  and freezes during generation: Ministral 3 8B and Qwen3-VL-8B both froze mid-answer with MBUF 256
+  ([§4.11](../README.md#411-mbuf-rerun-of-the-main-picks)).
+- **Side effect:** Qwen3-VL-4B's image tests passed (3/4) on the first run with MBUF 256; with the defaults they
+  needed a separate fix run.
 
 ## 12. Vision encoder on CPU
 

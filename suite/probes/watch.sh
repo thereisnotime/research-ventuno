@@ -12,7 +12,7 @@ while true; do
   echo "$tl" | grep -q "queue finished" && { echo "DONE: $tl"; break; }
   [ "$en" != "enabled" ] && { echo "RUNNER DISABLED: $tl"; break; }
   if [ "$sig" = "$last" ]; then still=$((still+1)); else still=0; last=$sig; fi
-  if [ $still -ge 16 ] && echo "$tl" | grep -q "server"; then
+  if [ $still -ge 16 ] && ! echo "$tl" | grep -q "finished"; then
     resets=$((resets+1)); echo "$(date +%T) WEDGED #$resets: $tl"
     if [ $resets -gt 3 ]; then
       echo "too many wedges, disabling runner"

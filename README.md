@@ -102,8 +102,8 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | Model | Pick | Engine | Build | Device | Env | Gen t/s | Prefill t/s | Tools | JSON | Quiz | Needle | Vision | s/image | Peak RAM MB |
 |---|---|---|---|---|---|---:|---:|---|---|---|---|---|---:|---:|
 | [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 🥇 29.88 | 🥇 1317.85 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.b12244.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.b12244.md#quiz) | ✅ | — | — | 🥇 2382 |
-| [lfm2-vl-1.6b](reports/lfm2-vl-1.6b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 🥈 29.51 | 🥉 1233.42 | [2/7](reports/lfm2-vl-1.6b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-vl-1.6b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/lfm2-vl-1.6b.npu.server.md#vision) | 🥈 5.1 | 🥉 3976 |
-| [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.md) | ⚡ fastest useful | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 🥉 29.13 | 🥈 1263.86 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.md#quiz) | ✅ | — | — | 🥈 2504 |
+| [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.mbuf256.md) | ⚡ fastest useful | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 🥈 29.63 | 🥈 1277.36 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.mbuf256.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.mbuf256.md#quiz) | ✅ | — | — | 🥈 2468 |
+| [lfm2-vl-1.6b](reports/lfm2-vl-1.6b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 🥉 29.51 | 🥉 1233.42 | [2/7](reports/lfm2-vl-1.6b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-vl-1.6b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/lfm2-vl-1.6b.npu.server.md#vision) | 🥈 5.1 | 🥉 3976 |
 | [olmoe-1b-7b](reports/olmoe-1b-7b.npu.server.md) | ⚠️ bad at tools | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 28.76 | 567.83 | [1/7](reports/olmoe-1b-7b.npu.server.md#tools) | ✅ | [7/12](reports/olmoe-1b-7b.npu.server.md#quiz) | ❌ | — | — | 7371 |
 | [lfm2-8b-a1b](reports/lfm2-8b-a1b.cpu.server.tr.md) | 🛡️ safe 24/7 | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 24.7 | 49.0 | [🥈 6/7](reports/lfm2-8b-a1b.cpu.server.tr.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.cpu.server.tr.md#quiz) | ✅ | — | — | 5430 |
 | [lfm2-8b-a1b](reports/lfm2-8b-a1b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 24.23 | 550.86 | [🥉 5/7](reports/lfm2-8b-a1b.npu.server.b12244.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.npu.server.b12244.md#quiz) | ✅ | — | — | 6480 |
@@ -112,9 +112,9 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [qwen3_4b_instruct_2507](reports/genie-qwen3-4b.server.fix5.md) | 🚀 fastest 4B | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | 16.45 | — | [🥈 6/7](reports/genie-qwen3-4b.server.fix5.md#tools) | ❌ | [🥉 10/12](reports/genie-qwen3-4b.server.fix5.md#quiz) | ✅ | — | — | 7752 |
 | [phi-4-mini](reports/phi-4-mini.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 14.04 | 456.92 | [2/7](reports/phi-4-mini.npu.server.md#tools) | ✅ | [9/12](reports/phi-4-mini.npu.server.md#quiz) | ✅ | — | — | 5429 |
 | [gemma-3-4b](reports/gemma-3-4b.npu.server.md) | 🎯 most accurate vision | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 13.26 | 445.78 | [1/7](reports/gemma-3-4b.npu.server.md#tools) | ✅ | [🥇 12/12](reports/gemma-3-4b.npu.server.md#quiz) | ✅ | [🥇 4/4](reports/gemma-3-4b.npu.server.md#vision) | 27.7 | 7048 |
+| [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.mbuf256.md) | 🏆 best all-round | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 12.91 | 394.34 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.mbuf256.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.mbuf256.md#quiz) | ✅ | — | — | 5566 |
 | [qwen3-4b-2507](reports/mbuf.m3.qwen3-4b.server.s4.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 12.84 | 400.96 | [🥇 7/7](reports/mbuf.m3.qwen3-4b.server.s4.md#tools) | ✅ | [🥇 12/12](reports/mbuf.m3.qwen3-4b.server.s4.md#quiz) | ✅ | — | — | 5171 |
-| [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.tr.md) | 🏆 best all-round | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 12.79 | 395.46 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.tr.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.tr.md#quiz) | ✅ | — | — | 5405 |
-| [qwen3-vl-4b](reports/qwen3-vl-4b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 12.55 | 385.69 | [🥇 7/7](reports/qwen3-vl-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3-vl-4b.npu.server.vfix2.md#vision) | 🥉 9.8 | 6800 |
+| [qwen3-vl-4b](reports/qwen3-vl-4b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 12.55 | 385.69 | [🥇 7/7](reports/qwen3-vl-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3-vl-4b.npu.server.mbuf256.md#vision) | 🥉 7.9 | 6800 |
 | [qwen3.5-4b](reports/qwen3.5-4b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 10.6 | 372.61 | [🥇 7/7](reports/qwen3.5-4b.npu.server.b12244.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.b12244.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.b12244.md#vision) | 21.2 | 8890 |
 | [gemma-4-e4b](reports/gemma-4-e4b.npu.server.md) | ⛔ never loaded | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 10.47 | — | [0/7](reports/gemma-4-e4b.npu.server.md#tools) | ❌ | [0/12](reports/gemma-4-e4b.npu.server.md#quiz) | ❌ | — | — | 9007 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.tr.md) |  | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 10.0 | 27.81 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.tr.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.tr.md#quiz) | ✅ | — | — | 4482 |
@@ -234,6 +234,12 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | ❌ [applab.qwen3-4b.server.r3](reports/applab.qwen3-4b.server.r3.md) | [E6](reports/environments.md#e6) | 4 | — | — | 0.0 | — | — | — | — | — | — | 3801 | HTTP Error 500: Internal Server Error |
 | ❌ [applab.qwen3-4b.server.no8b](reports/applab.qwen3-4b.server.no8b.md) | [E6](reports/environments.md#e6) | 4 | — | — | 2.1 | — | — | — | — | — | — | 3858 | HTTP Error 500: Internal Server Error |
 | ❌ [applab.qwen3-4b.server.no8b2](reports/applab.qwen3-4b.server.no8b2.md) | [E6](reports/environments.md#e6) | 4 | — | — | 0.0 | — | — | — | — | — | — | 3628 | HTTP Error 500: Internal Server Error |
+| [qwen3-4b-2507.npu.server.mbuf256](reports/qwen3-4b-2507.npu.server.mbuf256.md) | [E3](reports/environments.md#e3) | 4 | 12.91 | 394.34 | 6.1 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5566 |  |
+| [lfm2.5-1.2b.npu.server.mbuf256](reports/lfm2.5-1.2b.npu.server.mbuf256.md) | [E3](reports/environments.md#e3) | 4 | 29.63 | 1277.36 | 2.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 2468 |  |
+| [lfm2-8b-a1b.npu.server.mbuf256](reports/lfm2-8b-a1b.npu.server.mbuf256.md) | [E3](reports/environments.md#e3) | 4 | 23.85 | 511.6 | 8.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 6634 |  |
+| [qwen3.5-4b.npu.server.mbuf256](reports/qwen3.5-4b.npu.server.mbuf256.md) | [E3](reports/environments.md#e3) | 4 | 8.09 | 151.0 | 8.1 | ✅ | 7/7 | ✅ | 11/12 | 3/4 | 11.0 | 9374 |  |
+| [qwen3-vl-4b.npu.server.mbuf256](reports/qwen3-vl-4b.npu.server.mbuf256.md) | [E3](reports/environments.md#e3) | 4 | 12.33 | 386.06 | 6.0 | ✅ | 7/7 | ✅ | 11/12 | 3/4 | 7.9 | 6665 |  |
+| ❌ [ministral-3-8b.npu.server.mbuf256](reports/ministral-3-8b.npu.server.mbuf256.md) | [E3](reports/environments.md#e3) | 4 | — | — | 8.1 | — | — | — | — | — | — | 8084 | [Errno 104] Connection reset by peer |
 
 ### 4.4 llama-bench
 
@@ -348,15 +354,12 @@ Table 4. Same model and device on the original build (`7fe450e`, 2026-10-02) and
 | qwen3-4b-2507 | npu | tg128_d0 | [12.99](reports/qwen3-4b-2507.npu.bench.md) | [13.13](reports/tops.t1.qwen3-4b-q4.hmx.md) | ⚪ +1% |
 | qwen3-4b-2507 | npu | pp512_d2048 | [330.31](reports/qwen3-4b-2507.npu.bench.md) | ❌ |  |
 | qwen3-4b-2507 | npu | tg128_d2048 | [9.19](reports/qwen3-4b-2507.npu.bench.md) | ❌ |  |
-| qwen3-4b-2507 | npu | Gen t/s | [12.79](reports/qwen3-4b-2507.npu.server.tr.md) | [12.84](reports/mbuf.m3.qwen3-4b.server.s4.md) | ⚪ +0% |
-| qwen3-4b-2507 | npu | Prefill t/s | [395.46](reports/qwen3-4b-2507.npu.server.tr.md) | [400.96](reports/mbuf.m3.qwen3-4b.server.s4.md) | ⚪ +1% |
+| qwen3-4b-2507 | npu | Gen t/s | [12.79](reports/qwen3-4b-2507.npu.server.tr.md) | [12.71](reports/qwen3-4b-2507.npu.server.b12244.md) | ⚪ -1% |
+| qwen3-4b-2507 | npu | Prefill t/s | [395.46](reports/qwen3-4b-2507.npu.server.tr.md) | [402.2](reports/qwen3-4b-2507.npu.server.b12244.md) | ⚪ +2% |
 | qwen3-4b-2507 | npu | Tools | 7/7 | 7/7 | |
 | qwen3-4b-2507 | npu | Quiz | 12/12 | 12/12 | |
-| qwen3-4b-2507 | npu | Peak RAM MB | [5405](reports/qwen3-4b-2507.npu.server.tr.md) | [5171](reports/mbuf.m3.qwen3-4b.server.s4.md) | 🟢 -4% |
-| qwen3-4b-2507-q8 | npu | pp512_d0 | ❌ | [439.51](reports/mbuf.m4.qwen3-4b-q8.bench.md) |  |
-| qwen3-4b-2507-q8 | npu | tg128_d0 | ❌ | [8.45](reports/mbuf.m4.qwen3-4b-q8.bench.md) |  |
-| qwen3-4b-2507-q8 | npu | pp512_d2048 | ❌ | [332.34](reports/mbuf.m4.qwen3-4b-q8.bench.md) |  |
-| qwen3-4b-2507-q8 | npu | tg128_d2048 | ❌ | [6.65](reports/mbuf.m4.qwen3-4b-q8.bench.md) |  |
+| qwen3-4b-2507 | npu | Peak RAM MB | [5405](reports/qwen3-4b-2507.npu.server.tr.md) | [5287](reports/qwen3-4b-2507.npu.server.b12244.md) | ⚪ -2% |
+| qwen3-4b-2507-q8 | npu | llamabench | ❌ | ❌ [tops.t4.qwen3-4b-q8.hmx](reports/tops.t4.qwen3-4b-q8.hmx.md) | |
 | qwen3-8b | npu | pp512_d0 | ❌ | [269.82](reports/qwen3-8b.npu.bench.b12244.d0.md) |  |
 | qwen3-8b | npu | tg128_d0 | ❌ | [7.99](reports/qwen3-8b.npu.bench.b12244.d0.md) |  |
 | qwen3-8b | npu | server | ok | ❌ [mbuf.m8.qwen3-8b.server](reports/mbuf.m8.qwen3-8b.server.md) | |
@@ -487,9 +490,36 @@ What App Lab's runner does differently, from its compose file and `configure-lla
 - Context capped automatically for models that need all four sessions; `GGML_HEXAGON_OPBATCH=2048`, batch
   1024 / micro-batch 512, threads pinned to the A78 cores.
 
-**Open question:** several failures attributed above to the NPU's mapping limit (one session for a 4B model,
-Q8_0, 8B models) may instead be the 512 MiB / 1 GiB chunk size. Rerunning them with `GGML_HEXAGON_MBUF=256,256`
-is the next test.
+### 4.11 MBUF rerun of the main picks
+
+Seven NPU server configurations from the main tables were rerun on 2026-11-10 with `GGML_HEXAGON_MBUF=256,256`.
+They used the original build (`7fe450e`) and environment E3, each from a fresh reboot.
+
+Table 6. Same model and test, default buffer chunks vs `MBUF=256,256`.
+
+| Model | Default: tools / quiz / vision | MBUF 256: tools / quiz / vision | Gen t/s | Prefill t/s | Outcome |
+|---|---|---|---|---|---|
+| Qwen3-4B-2507 | 7/7, 12/12 | [7/7, 12/12](reports/qwen3-4b-2507.npu.server.mbuf256.md) | 12.6 → 12.9 | 395 → 394 | ✅ same |
+| LFM2.5-1.2B | 6/7, 10/12 | [6/7, 10/12](reports/lfm2.5-1.2b.npu.server.mbuf256.md) | 29.1 → 29.6 | 1264 → 1277 | ✅ same |
+| LFM2-8B-A1B | 6/7, 10/12 | [6/7, 10/12](reports/lfm2-8b-a1b.npu.server.mbuf256.md) | 23.5 → 23.9 | 511 → 512 | ✅ same |
+| Qwen3.5-4B | 7/7, 11/12, 3/4 | [7/7, 11/12, 3/4](reports/qwen3.5-4b.npu.server.mbuf256.md) | 8.6 → 8.1 | 151 → 151 | ✅ same, 11.0 s/image (3.9 before) |
+| Qwen3-VL-4B | 7/7, 11/12, 0/4 | [7/7, 11/12, **3/4**](reports/qwen3-vl-4b.npu.server.mbuf256.md) | 12.6 → 12.3 | 386 → 386 | 🟢 vision works on the first run, 7.9 s/image |
+| Ministral 3 8B | 7/7, 11/12, 0/4 | [❌ froze](reports/ministral-3-8b.npu.server.mbuf256.md) | 6.8 → 7.0 | — | 🔴 froze mid-generation |
+| Qwen3-VL-8B | 7/7, 11/12, 0/4 | ❌ froze, no result row ([transcript](results/transcripts/qwen3-vl-8b.npu.server.mbuf256.transcript.jsonl)) | 7.6 → 7.9 | — | 🔴 froze mid-generation |
+
+Findings:
+
+- **No speed cost.** Generation and prefill stayed within ±3% for every model that finished, and scores were identical.
+- **Qwen3-VL-4B vision now works without the workaround.** Its default-settings run scored 0/4 on images, and
+  3/4 needed a separate fix run. With MBUF 256 it scored 3/4 on the first run, at 7.9 s per image.
+- **MBUF does not stop the 8B models freezing during generation.** Ministral 3 8B and Qwen3-VL-8B both loaded,
+  then stopped mid-answer during the repeated speed-test generations, at a steady 7.0 and 7.9 t/s. Neither log has an error
+  or assert, the kernel log has no fault, and 5.7 GB of NPU memory stayed pinned, so the process was stuck inside
+  an NPU call. Both needed a sysrq reset. MBUF 256 fixes load failures, not this freeze.
+- The smaller (1–4B and A1B) models passed every run in this batch without a freeze.
+
+A 12-hour soak of Qwen3-4B with MBUF 256 is running to measure how often the freeze happens on a 4B model
+under continuous use. Its results will be added here.
 
 ## 5. Stability findings
 
@@ -509,7 +539,7 @@ configuration in [docs/stability-fixes.md](docs/stability-fixes.md).
 Not every NPU load failure was the driver: the random `fastrpc_mmap failed` errors at load time came from
 llama.cpp mapping memory in 512 MiB / 1 GiB chunks, and disappear with `GGML_HEXAGON_MBUF=256,256` (§4.10). The hard
 limit is about 3.1 GiB of address space per NPU session (four sessions per process). Wedges during inference are a
-separate problem. The NPU wedges are consistent with open fastrpc driver bugs (context leak and hang on a signal-interrupted invoke)
+separate problem: MBUF 256 did not stop Ministral 3 8B or Qwen3-VL-8B freezing mid-generation (§4.11). The NPU wedges are consistent with open fastrpc driver bugs (context leak and hang on a signal-interrupted invoke)
 that were not fixed in the newest kernel available for the board at the time (6.8.0-1089-qcom). The full incident
 log, watchdog configuration and recovery procedure are in [docs/board-notes.md](docs/board-notes.md).
 
@@ -524,7 +554,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
   results only; the second attempt's partial transcript is kept.
 - Everything ran on one board. Two upstream llama.cpp builds were tested (`7fe450e`, `d5bbcd1`); the newer one did
   not change the 8B instability or generation speed (§4.6). The main tables (§4.1-4.5) ran with llama.cpp's default
-  NPU buffer chunks; the MBUF retest (§4.10) covers only the models that had failed. Qwen3-8B as a server did not
+  NPU buffer chunks. MBUF 256 was retested on the models that had failed (§4.10) and on seven main picks (§4.11). Qwen3-8B as a server did not
   load even with MBUF 256 (4 slots, default micro-batch).
 - Arduino App Lab's runner failed to load user-installed Qwen3 GGUFs (`rpcmem_alloc failed`); the cause inside the
   runner was not found.

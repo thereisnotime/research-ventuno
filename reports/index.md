@@ -118,3 +118,9 @@
 | [applab.qwen3-4b.server.r3](applab.qwen3-4b.server.r3.md) | server | bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0 | applab | `f4d8af608 (runner 0.13.2)` | npu | [E6](environments.md#e6) | ❌ |
 | [applab.qwen3-4b.server.no8b](applab.qwen3-4b.server.no8b.md) | server | bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0 | applab | `f4d8af608 (runner 0.13.2)` | npu | [E6](environments.md#e6) | ❌ |
 | [applab.qwen3-4b.server.no8b2](applab.qwen3-4b.server.no8b2.md) | server | bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/Qwen_Qwen3-4B-Instruct-2507-Q4_0 | applab | `f4d8af608 (runner 0.13.2)` | npu | [E6](environments.md#e6) | ❌ |
+| [qwen3-4b-2507.npu.server.mbuf256](qwen3-4b-2507.npu.server.mbuf256.md) | server | qwen3-4b-2507 | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
+| [lfm2.5-1.2b.npu.server.mbuf256](lfm2.5-1.2b.npu.server.mbuf256.md) | server | lfm2.5-1.2b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
+| [lfm2-8b-a1b.npu.server.mbuf256](lfm2-8b-a1b.npu.server.mbuf256.md) | server | lfm2-8b-a1b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
+| [qwen3.5-4b.npu.server.mbuf256](qwen3.5-4b.npu.server.mbuf256.md) | server | qwen3.5-4b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
+| [qwen3-vl-4b.npu.server.mbuf256](qwen3-vl-4b.npu.server.mbuf256.md) | server | qwen3-vl-4b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
+| [ministral-3-8b.npu.server.mbuf256](ministral-3-8b.npu.server.mbuf256.md) | server | ministral-3-8b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ❌ |

@@ -130,8 +130,15 @@
   "applab.qwen3-4b.server.r2": "failed",
   "applab.qwen3-4b.server.r3": "failed",
   "applab.qwen3-4b.server.no8b": "failed",
-  "applab.qwen3-4b.server.no8b2": "failed"
+  "applab.qwen3-4b.server.no8b2": "failed",
+  "qwen3-4b-2507.npu.server.mbuf256": "ok",
+  "lfm2.5-1.2b.npu.server.mbuf256": "ok",
+  "lfm2-8b-a1b.npu.server.mbuf256": "ok",
+  "qwen3.5-4b.npu.server.mbuf256": "ok",
+  "qwen3-vl-4b.npu.server.mbuf256": "ok",
+  "ministral-3-8b.npu.server.mbuf256": "failed",
+  "qwen3-vl-8b.npu.server.mbuf256": "started"
  },
- "reboots": 43,
- "last_reboot_item": "mbuf.m5.gemma-4-e4b.bench.d0"
+ "reboots": 47,
+ "last_reboot_item": "qwen3-vl-8b.npu.server.mbuf256"
 }

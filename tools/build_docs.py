@@ -457,7 +457,8 @@ def compare_table(R):
     old, new = builds[0], builds[1]
     def best(model, dev, kind, bld):
         rs = [r for r in R.values() if r.get("model") == model and r.get("dev") == dev and r.get("kind") == kind
-              and build_of(r) == bld and (r.get("short_gen_tps") or r.get("tg128_d0"))]
+              and build_of(r) == bld and (r.get("short_gen_tps") or r.get("tg128_d0"))
+              and "GGML_HEXAGON_MBUF" not in r.get("extra_env", {})]  # default settings only
         key = (lambda r: (score_num(r.get("tools_score")) + score_num(r.get("quiz_score")), r.get("short_gen_tps") or 0)) \
             if kind == "server" else (lambda r: r.get("tg128_d0") or 0)
         return max(rs, key=key) if rs else None

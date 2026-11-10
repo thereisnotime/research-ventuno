@@ -440,3 +440,42 @@
 17:10:34 start applab.qwen3-4b.server.no8b2 (pinned 24 MB)
 17:10:42 end applab.qwen3-4b.server.no8b2 ok=False HTTP Error 500: Internal Server Error
 17:10:42 queue finished
+20:10:23 start qwen3-4b-2507.npu.server.mbuf256 (pinned 48 MB)
+20:10:23 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+20:14:08 end qwen3-4b-2507.npu.server.mbuf256 ok=True 
+20:14:08 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+20:14:08 pinned 215 MB > 1200, reboot 44/60
+20:13:38 start lfm2.5-1.2b.npu.server.mbuf256 (pinned 0 MB)
+20:13:38 download LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+20:16:20 end lfm2.5-1.2b.npu.server.mbuf256 ok=True 
+20:16:20 delete LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+20:16:21 start lfm2-8b-a1b.npu.server.mbuf256 (pinned 167 MB)
+20:16:21 download LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+20:20:21 end lfm2-8b-a1b.npu.server.mbuf256 ok=True 
+20:20:21 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+20:20:22 pinned 334 MB > 1200, reboot 45/60
+20:20:11 start qwen3.5-4b.npu.server.mbuf256 (pinned 0 MB)
+20:20:11 download Qwen3.5-4B-Q4_0.gguf
+20:22:33 download mmproj-qwen3.5-4b.gguf
+20:27:43 end qwen3.5-4b.npu.server.mbuf256 ok=True 
+20:27:43 delete mmproj-qwen3.5-4b.gguf
+20:27:43 delete Qwen3.5-4B-Q4_0.gguf
+20:27:44 start qwen3-vl-4b.npu.server.mbuf256 (pinned 167 MB)
+20:27:44 download Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+20:29:00 download mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+20:32:22 end qwen3-vl-4b.npu.server.mbuf256 ok=True 
+20:32:22 delete Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+20:32:22 delete mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+20:32:22 pinned 334 MB > 1200, reboot 46/60
+20:31:53 start ministral-3-8b.npu.server.mbuf256 (pinned 0 MB)
+20:31:53 download Ministral-3-8B-Instruct-2512-Q4_0.gguf
+20:35:43 download mmproj-ministral-3-8b.gguf
+21:06:25 end ministral-3-8b.npu.server.mbuf256 ok=False [Errno 104] Connection reset by peer
+21:06:25 delete Ministral-3-8B-Instruct-2512-Q4_0.gguf
+21:06:25 delete mmproj-ministral-3-8b.gguf
+21:06:26 pinned 5744 MB > 1200, reboot 47/60
+21:06:33 start qwen3-vl-8b.npu.server.mbuf256 (pinned 0 MB)
+21:06:33 download Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+21:09:46 download mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+21:39:05 manual: qwen3-vl-8b stalled 27 min mid-generation, sysrq reset
+21:39:23 queue finished
