@@ -266,6 +266,10 @@ Table 4. Same model and device on the original build (`7fe450e`, 2026-10-02) and
 
 ## 5. Stability findings
 
+All fixes and workarounds that kept the board running (firmware rollback, leak guards, watchdog, sysrq
+reboots, the never-kill procedure, the stall watcher and the Genie fixes) are collected with their exact
+configuration in [docs/stability-fixes.md](docs/stability-fixes.md).
+
 - The NPU wedges at random (Llama 3.2 3B, Qwen3-4B rerun, Qwen3-VL-8B twice); runs that wedged are listed in the
   detail tables but excluded above. See [docs/board-notes.md](docs/board-notes.md) for the freeze history and mitigations.
 - One NPU session can't map a 4B model on this llama.cpp build (`fastrpc_mmap`), so all NPU runs use 4 sessions.
@@ -305,6 +309,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 | [`suite/genie-compose.yaml`](suite/genie-compose.yaml) | Working Genie configuration |
 | [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
 | [`reports/environments.md`](reports/environments.md) | Environment profiles (kernel, firmware, packages, engine build) and their runs |
+| [`docs/stability-fixes.md`](docs/stability-fixes.md) | Every crash fix and workaround, with config and verification status |
 | [`docs/board-notes.md`](docs/board-notes.md) | Board setup, kernel and firmware notes, incident log |
 
 ## License and citation
