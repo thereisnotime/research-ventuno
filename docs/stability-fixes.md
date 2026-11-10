@@ -25,6 +25,7 @@ without someone pressing the power button. See [§5 of the README](../README.md#
 | 9 | llama-bench can hang forever | 900 s timeout; on timeout disable the runner instead of killing | Runner | ✅ |
 | 10 | Crash evidence lost on reset | EFI pstore for panic dumps | Kernel module | ⚠️ not yet seen persisting |
 | 11 | Model too big for one NPU session | Split over 4 sessions | Runner | ✅ |
+| 11b | Random `fastrpc_mmap failed` at load | `GGML_HEXAGON_MBUF=256,256` | llama.cpp env | ✅ Q8_0 and 8B load |
 | 12 | Vision encoder fails to map on the NPU | Run the image encoder on CPU | Runner | ✅ |
 | 13 | Genie crashes or returns empty replies | Streaming only, one session per request, eviction off, real call ids | Genie, runner | ✅ |
 
@@ -156,10 +157,24 @@ Wi-Fi cannot do netconsole; the serial console is `ttyMSM0` at 115200.
 
 ## 11. NPU sessions
 
-One fastrpc session can map about 3.5 GB on paper, but with these builds a single session fails to map a 4B Q4_0
-model (`fastrpc_mmap failed`), on both llama.cpp `7fe450e` and `d5bbcd1`. All NPU runs use 4 sessions:
+One NPU session offers about 3.1 GiB of address space (3134 MiB, printed as `vmem` when the session opens), and a
+process can open four. A 4B Q4_0 model does not fit one session with its KV cache and compute buffers (fails at
+about 3.05 GB pinned, on every build and with any buffer setting), so NPU runs split the model over sessions:
 `GGML_HEXAGON_DEVICES=4` and `-dev HTP0,HTP1,HTP2,HTP3` for llama-server (comma-separated; llama-bench uses `/`).
-The layers are split across sessions and run in sequence. This makes models fit; it is not a speed-up.
+The layers run in sequence across sessions; this makes models fit, it is not a speed-up. Arduino's App Lab runner
+computes the session count per model instead and keeps each session under 85% of its address space.
+
+## 11b. NPU buffer chunk size
+
+- **Symptom:** `fastrpc_mmap failed` at load, at random, for models well inside four sessions' address space
+  (Qwen3-4B Q8_0, Qwen3-8B in llama-bench).
+- **Cause:** llama.cpp's Hexagon backend maps NPU memory in chunks of 512 MiB (compute buffers) and 1 GiB (weights
+  and KV cache) by default, and mapping a chunk that large fails at random. Arduino's App Lab runner notes the same:
+  "3 loads in 5 for gemma-4-E4B, 0 in 9 once MBUF was 256".
+- **Fix:** `GGML_HEXAGON_MBUF=256,256` (256 MiB chunks for both). With it, Qwen3-4B Q8_0 and Qwen3-8B load
+  reliably in llama-bench; Qwen3-4B speed and scores are unchanged (12.8 t/s, 7/7, 12/12). See
+  [§4.10](../README.md#410-arduino-app-lab-path-gemma-4-e4b). The main result tables predate this fix.
+- **Not fixed by it:** one session for a 4B model (§11), Gemma 4 E4B on plain llama.cpp, Qwen3-8B as a server.
 
 ## 12. Vision encoder on CPU
 
@@ -185,7 +200,7 @@ prompt.
 - **Newer kernel:** `6.8.0-1089-qcom` is the newest kernel for this board and already has the known fastrpc
   fixes (including CVE-2025-68252). The remaining hang matches an unmerged upstream patch ("misc: fastrpc: fix
   context leak and hang on signal-interrupted invoke").
-- **Newer llama.cpp:** `d5bbcd1` (2026-11-10) behaves the same as `7fe450e` for single-session mapping and 8B
+- **Newer llama.cpp alone:** `d5bbcd1` (2026-11-10) behaves the same as `7fe450e` for single-session mapping and 8B
   loading; see [§4.6](../README.md#46-llamacpp-build-comparison).
 - **Docker:** the leak is in the kernel driver, which containers share.
 - **Splitting 8B models between NPU and CPU** (`-ngl` below the layer count): 28 NPU layers crashed, 20 worked at

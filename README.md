@@ -18,7 +18,9 @@ sizes and in two cases froze the whole board, which is documented together with 
 run unattended. Against the advertised "up to 40 dense TOPS" for LLMs, prompt processing with llama.cpp reached about
 3.5 TOPS (9%) on two different models, with the NPU's matrix engine carrying all of it; Qualcomm's own runtime
 reached about 10.4 TOPS (26%). Generation is limited by memory: the board delivers about 28-30 GB/s, and the NPU
-already generates at that limit, so the CPU nearly matches it. All raw requests, responses and per-test results are published so every figure can be traced to the
+already generates at that limit, so the CPU nearly matches it. Many "out of NPU memory" failures turned out to be llama.cpp's default buffer
+chunk size: with `GGML_HEXAGON_MBUF=256,256`, as Arduino's App Lab runner uses, 8-bit and 8B models load. Gemma 4
+E4B runs only through Arduino's App Lab runner (7/7 tools), which in turn could not load user-installed Qwen3 models. All raw requests, responses and per-test results are published so every figure can be traced to the
 model output it came from.
 
 ## 1. Motivation
@@ -44,7 +46,9 @@ discrete GPU. Vendor material does not answer the practical questions this raise
 - DSP firmware (remoteproc, running): `qcom/qcs8300/cdsp0.mbn`, `adsp.mbn`, `gpdsp0.mbn`;
   packages `linux-firmware-dragonwing 20260825`, `linux-firmware 20240318...0ubuntu2.27`
 - NPU userspace: `qcom-fastrpc1 1.0.15+repack2` (libcdsprpc), unsigned PD shell `/usr/lib/dsp/cdsp/fastrpc_shell_unsigned_3`
-- llama.cpp: upstream `7fe450e`, ggml 0.25.1, Hexagon backend (`libggml-hexagon`, HTP libs v73/v75/v79/v81),
+- llama.cpp, three builds: upstream `7fe450e` (main results, ggml 0.25.1), upstream `d5bbcd1` / `b12244`
+  (§4.6, §4.7, MBUF retest) and Arduino App Lab's runner `f4d8af608` in `llamacpp-npu-runner:0.13.2` (§4.10).
+  The `7fe450e` build: Hexagon backend (`libggml-hexagon`, HTP libs v73/v75/v79/v81),
   4 HTP sessions (`GGML_HEXAGON_DEVICES=4`, `-dev HTP0/HTP1/HTP2/HTP3`), `-c 4096`, `-fa 1`, `-t 4` pinned to cores 0-3
 - Genie: arduino-app-cli 0.14.1, bundles `qwen3_4b_instruct_2507`, `qwen3_8b`, `qwen3_vl_8b_instruct` (`genie-w4a16-qualcomm_qcs8275`)
 - Arduino meta: `arduino-ventunoq 0.2.0` (0.4.0 available but pulls `arduino-cloud-connector`, held back)
@@ -144,6 +148,9 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
 | 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
+
+**Setting for any llama.cpp deployment here:** `GGML_HEXAGON_MBUF=256,256` (no speed cost, removes random
+`fastrpc_mmap` failures; §4.10). The main result tables predate this finding and ran with the defaults.
 
 Not recommended on this board: dense 8-9B models (slower without accuracy gains over the 4B models), Granite 4
 (froze the board), OLMoE-1B-7B and Phi-mini-MoE (fast but 1/7 tool calls), Genie Qwen3-VL-8B (hangs on a
@@ -397,8 +404,9 @@ Findings:
   figure is the matrix engine's dense 8-bit integer rate.
 - **Power mode makes no difference** (`burst` vs `balanced`: 445 vs 445 t/s), so clock and bus votes are not the
   limit.
-- **The 8-bit model (Q8_0), the closest format to the 40 TOPS precision, cannot be tested**: at 4.3 GB it fails to
-  map on the NPU (`fastrpc_mmap failed`), the same limit as the 8B models.
+- **The 8-bit model (Q8_0), the closest format to the 40 TOPS precision, fails at the default buffer chunks**
+  (`fastrpc_mmap failed`). With `GGML_HEXAGON_MBUF=256,256` it loads (§4.10) and reads prompts at 440 t/s, the
+  same ~3.5 TOPS ceiling as Q4_0, so 8-bit weights do not unlock more of the matrix engine in llama.cpp.
 - **Generation is unaffected by the matrix engine** (Qwen3-4B 13.1 vs 13.0 t/s). For LFM2.5-1.2B this llama-bench
   run measured lower generation with HMX on (20.7 vs 28.9 t/s), but the same build's earlier bench measured 30.3
   t/s with HMX on, so that difference is not reliable from one run.
@@ -498,7 +506,10 @@ configuration in [docs/stability-fixes.md](docs/stability-fixes.md).
 - The two late CPU reruns (Qwen3-4B 3.3 t/s, LFM2-8B 7.8 t/s) were slowed by something else on the CPU; the
   original CPU numbers stand.
 
-The NPU wedges are consistent with open fastrpc driver bugs (context leak and hang on a signal-interrupted invoke)
+Not every NPU load failure was the driver: the random `fastrpc_mmap failed` errors at load time came from
+llama.cpp mapping memory in 512 MiB / 1 GiB chunks, and disappear with `GGML_HEXAGON_MBUF=256,256` (§4.10). The hard
+limit is about 3.1 GiB of address space per NPU session (four sessions per process). Wedges during inference are a
+separate problem. The NPU wedges are consistent with open fastrpc driver bugs (context leak and hang on a signal-interrupted invoke)
 that were not fixed in the newest kernel available for the board at the time (6.8.0-1089-qcom). The full incident
 log, watchdog configuration and recovery procedure are in [docs/board-notes.md](docs/board-notes.md).
 
@@ -511,8 +522,12 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
   result matched the original run exactly, and throughput was within 2%. Qwen3-8B was rerun twice and wedged
   the NPU both times (on the first request, then mid-way through the tool tests), so it still has pass/fail
   results only; the second attempt's partial transcript is kept.
-- Everything ran on one board. Two llama.cpp builds were tested (`7fe450e`, `d5bbcd1`); the newer one did not
-  change the NPU mapping limit, the 8B instability or generation speed (§4.6).
+- Everything ran on one board. Two upstream llama.cpp builds were tested (`7fe450e`, `d5bbcd1`); the newer one did
+  not change the 8B instability or generation speed (§4.6). The main tables (§4.1-4.5) ran with llama.cpp's default
+  NPU buffer chunks; the MBUF retest (§4.10) covers only the models that had failed. Qwen3-8B as a server did not
+  load even with MBUF 256 (4 slots, default micro-batch).
+- Arduino App Lab's runner failed to load user-installed Qwen3 GGUFs (`rpcmem_alloc failed`); the cause inside the
+  runner was not found.
 - Genie prompt speed was measured once, with repeated filler text (§4.7).
 - Not measured: Qwen3-VL-8B vision (NPU wedged in every attempt). Gemma 4 E4B fails on plain llama.cpp but runs
   through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
