@@ -1,0 +1,4 @@
+words=100 prompt_tokens=None ttft_s=0.207
+words=600 prompt_tokens=None ttft_s=0.675
+words=1300 prompt_tokens=None ttft_s=1.500
+words=2200 prompt_tokens=None ttft_s=2.148

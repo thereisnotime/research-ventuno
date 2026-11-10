@@ -381,3 +381,7 @@
 14:26:36 download Qwen_Qwen3-0.6B-Q4_0.gguf
 14:29:32 end combo.c3.qwen3-4b.spec4 ok=True 
 14:29:32 start combo.c4.qwen3-4b.spec8 (pinned 157 MB)
+14:59:44 end combo.c4.qwen3-4b.spec8 ok=True 
+14:59:44 delete Qwen_Qwen3-0.6B-Q4_0.gguf
+14:59:44 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+14:59:44 queue finished

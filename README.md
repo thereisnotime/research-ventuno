@@ -16,7 +16,9 @@ the NPU (7/7 tools, 12/12 quiz, 12.6 tokens/s); the fastest usable model was LFM
 1264 tokens/s prompt processing). The NPU path was not stable: driver-level wedges occurred at random across model
 sizes and in two cases froze the whole board, which is documented together with the mitigations used to finish the
 run unattended. Against the advertised "up to 40 dense TOPS" for LLMs, prompt processing with llama.cpp reached about
-3.5 TOPS (9%) on two different models, with the NPU's matrix engine carrying all of it. All raw requests, responses and per-test results are published so every figure can be traced to the
+3.5 TOPS (9%) on two different models, with the NPU's matrix engine carrying all of it; Qualcomm's own runtime
+reached about 10.4 TOPS (26%). Generation is limited by memory: the board delivers about 28-30 GB/s, and the NPU
+already generates at that limit, so the CPU nearly matches it. All raw requests, responses and per-test results are published so every figure can be traced to the
 model output it came from.
 
 ## 1. Motivation
@@ -208,6 +210,7 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | ❌ [combo.c1.qwen3-8b.ngl28](reports/combo.c1.qwen3-8b.ngl28.md) | [E3](reports/environments.md#e3) | 4 | — | — | 32.2 | — | — | — | — | — | — | 6998 | [Errno 104] Connection reset by peer |
 | [combo.c2.qwen3-8b.ngl20](reports/combo.c2.qwen3-8b.ngl20.md) | [E3](reports/environments.md#e3) | 3 | 0.89 | 24.66 | 62.6 | ✅ | 7/7 | ✅ | 10/12 | — | — | 7255 |  |
 | [combo.c3.qwen3-4b.spec4](reports/combo.c3.qwen3-4b.spec4.md) | [E5](reports/environments.md#e5) | 4 | 12.53 | 401.19 | 14.0 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5926 |  |
+| [combo.c4.qwen3-4b.spec8](reports/combo.c4.qwen3-4b.spec8.md) | [E5](reports/environments.md#e5) | 4 | 12.44 | 400.64 | 6.0 | ✅ | 7/7 | ✅ | 7/12 | — | — | 5740 |  |
 
 ### 4.4 llama-bench
 
@@ -378,8 +381,55 @@ Findings:
 - **Generation is unaffected by the matrix engine** (Qwen3-4B 13.1 vs 13.0 t/s). For LFM2.5-1.2B this llama-bench
   run measured lower generation with HMX on (20.7 vs 28.9 t/s), but the same build's earlier bench measured 30.3
   t/s with HMX on, so that difference is not reliable from one run.
-- **Result: with llama.cpp, LLM prompt processing reaches about 9% of the advertised 40 TOPS.** Qualcomm's own
-  runtime (Genie, QNN) uses a different execution path and is measured separately.
+- **Qualcomm's own runtime gets about 3× further.** Genie (QNN) read Qwen3-4B prompts at about 1290 t/s
+  (~2770 tokens in 2.15 s to first token), which is **~10.4 TOPS, 26% of 40**
+  ([raw](results/probes/genie_prefill_qwen3-4b.txt), [script](suite/probes/genie_prefill.py)). Token counts are
+  from the Qwen3 tokenizer, since Genie's stream does not report them. The test prompts repeat one filler
+  paragraph; each request used a fresh Genie session, so prefix reuse is unlikely but not ruled out.
+- **Result: with llama.cpp, LLM prompt processing reaches about 9% of the advertised 40 TOPS; with Qualcomm's
+  Genie about 26%.** Neither comes close to 40 TOPS for an LLM.
+
+### 4.8 Memory bandwidth
+
+Table 6. CPU memory bandwidth measured on the board with a STREAM-style test
+([source](suite/probes/bw.c), [raw](results/probes/memory_bandwidth.txt)), 256 MB per thread.
+
+| Cores | Read GB/s | Copy GB/s |
+|---|---:|---:|
+| 1× Cortex-A78 | 16.7 | 24.7 |
+| 2× Cortex-A78 | 27.8 | 30.2 |
+| 4× Cortex-A78 | 26.1 | 27.2 |
+| 4× Cortex-A55 | 5.7 | 8.7 |
+| All 8 | 28.4 | 29.6 |
+
+The usable memory bandwidth is **about 28-30 GB/s**, well below the ~51 GB/s that the product brief's
+"4x16 LPDDR5/5x @ 3200 MHz" implies, and two CPU cores already saturate it. LLM generation reads every weight
+once per token, so this is the ceiling for generation speed on any engine. Measured against it, NPU generation
+is already at the limit: Qwen3-4B at 12.8 t/s reads ~2.4 GB per token, about 31 GB/s, and Qwen3-8B at 7.6 t/s
+about 34 GB/s (the NPU may see slightly more bandwidth than the CPU cluster). This is why the CPU nearly matches
+the NPU for generation while the NPU is 14× faster at reading prompts.
+
+### 4.9 Combination tests
+
+Table 7. Using the NPU and CPU together (llama.cpp; C1, C2 on `7fe450e`, the rest on `d5bbcd1`).
+
+| Test | Setup | Result |
+|---|---|---|
+| [C1](reports/combo.c1.qwen3-8b.ngl28.md) | Qwen3-8B, 28 layers on NPU (4 sessions), rest on CPU | ❌ crashed after 30 min (connection reset) |
+| [C2](reports/combo.c2.qwen3-8b.ngl20.md) | Qwen3-8B, 20 layers on NPU (3 sessions), rest on CPU | ✅ 7/7 tools, 10/12 quiz, but **0.89 t/s** generation, 25 t/s prefill |
+| [C3](reports/combo.c3.qwen3-4b.spec4.md) | Qwen3-4B on NPU + Qwen3-0.6B draft on CPU, 4-token drafts | ✅ 7/7, 12/12, **12.5 t/s** (no gain over 12.7 without a draft) |
+| [C4](reports/combo.c4.qwen3-4b.spec8.md) | Same, 8-token drafts | ❌ answered 7 quiz questions correctly, then hung and crashed (timeouts, connection refused) |
+| [Parallel](results/probes/combo_parallel.jsonl) | Qwen3-4B on NPU (host threads on A55) + LFM2-8B-A1B on CPU (A78), both generating at once ([script](suite/probes/combo_parallel.py)) | NPU 10.9 → 10.3 t/s, CPU 26.4 → **15.4 t/s**, total **25.7 t/s**, 9.4 GB RAM |
+
+Findings:
+
+- **Splitting a model between NPU and CPU does not get around the NPU mapping limit usefully**: with more layers on
+  the NPU it crashes, with fewer it works but is 8× slower than running it on the NPU alone.
+- **Speculative decoding gives nothing here.** The draft model guesses essay text poorly, and every speculation
+  step still has to read the full 4B model's weights; with 8-token drafts the server hung.
+- **Running two models at once does not add throughput.** Both compete for the same ~30 GB/s; together they
+  produce less than the CPU model alone. It is still useful when two different models must be available at once.
+- Driving the NPU from the slow A55 cores costs about 15% generation speed (10.9 vs 12.7 t/s from the A78s).
 
 ## 5. Stability findings
 
@@ -409,8 +459,9 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
   result matched the original run exactly, and throughput was within 2%. Qwen3-8B was rerun twice and wedged
   the NPU both times (on the first request, then mid-way through the tool tests), so it still has pass/fail
   results only; the second attempt's partial transcript is kept.
-- Everything ran on one board with one llama.cpp build (`7fe450e`). Newer llama.cpp builds change the Hexagon
-  memory layout and may change both the single-session limits and the stability results.
+- Everything ran on one board. Two llama.cpp builds were tested (`7fe450e`, `d5bbcd1`); the newer one did not
+  change the NPU mapping limit, the 8B instability or generation speed (§4.6).
+- Genie prompt speed was measured once, with repeated filler text (§4.7).
 - Not measured: Qwen3-VL-8B vision (NPU wedged in 2 of 3 attempts), Gemma 4 E4B (failed to load).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
 
@@ -426,6 +477,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 | [`suite/genie-compose.yaml`](suite/genie-compose.yaml) | Working Genie configuration |
 | [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
 | [`reports/environments.md`](reports/environments.md) | Environment profiles (kernel, firmware, packages, engine build) and their runs |
+| [`results/probes/`](results/probes/), [`suite/probes/`](suite/probes/) | Memory bandwidth, Genie prompt speed and two-model results, with their scripts and the stall watcher |
 | [`docs/sources.md`](docs/sources.md) | Vendor claims under test, with Wayback Machine snapshots |
 | [`docs/stability-fixes.md`](docs/stability-fixes.md) | Every crash fix and workaround, with config and verification status |
 | [`docs/board-notes.md`](docs/board-notes.md) | Board setup, kernel and firmware notes, incident log |

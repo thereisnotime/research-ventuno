@@ -134,7 +134,14 @@ A wedged server request otherwise blocks until the client timeout (600 s per req
 An external watcher polls the board every 30 s. If neither the current transcript nor the driver log grows for
 8 minutes during a server test, it applies the procedure from §7 and lets the queue continue. It gives up after
 3 wedges in one batch. A planned reboot (runner briefly inactive) is not a stall; only a disabled runner stops the
-watcher.
+watcher. Script: [`suite/probes/watch.sh`](../suite/probes/watch.sh).
+
+Two bugs in earlier versions, both fixed:
+
+- It found the runner with `pgrep -f suite.py`, which also matched the watcher's own SSH shell (its command line
+  contains "suite.py"). It paused itself, that SSH call never returned, and the reset after it never ran
+  (2026-11-10, twice). It now pauses only systemd's `MainPID` of the runner.
+- It now checks the board's uptime after the reset and stops if the reset did not happen, instead of assuming it.
 
 ## 9. llama-bench timeout
 
@@ -181,3 +188,6 @@ prompt.
 - **Newer llama.cpp:** `d5bbcd1` (2026-11-10) behaves the same as `7fe450e` for single-session mapping and 8B
   loading; see [§4.6](../README.md#46-llamacpp-build-comparison).
 - **Docker:** the leak is in the kernel driver, which containers share.
+- **Splitting 8B models between NPU and CPU** (`-ngl` below the layer count): 28 NPU layers crashed, 20 worked at
+  0.89 t/s; see [§4.9](../README.md#49-combination-tests).
+- **Speculative decoding with 8-token drafts** made the server hang and crash mid-test.

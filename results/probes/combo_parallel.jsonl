@@ -1,0 +1,4 @@
+{"phase": "npu_alone (qwen3-4b, host on A55)", "port8080_gen_tps": 10.93, "total_tps": 10.93}
+{"phase": "cpu_alone (lfm2-8b-a1b, A78)", "port8081_gen_tps": 26.42, "total_tps": 26.42}
+{"phase": "both_at_once", "port8080_gen_tps": 10.28, "port8081_gen_tps": 15.41, "total_tps": 25.69}
+{"phase": "ram", "used_mb": 9406, "total_mb": 15284}
