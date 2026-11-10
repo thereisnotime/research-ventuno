@@ -285,3 +285,5 @@
 10:06:16 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
 10:06:17 start qwen3-8b.npu.server.tr (pinned 334 MB)
 10:21:57 qwen3-8b.npu.server.tr wedged on first request (no reply 15 min), manual sysrq reset
+10:38:54 start qwen3-8b.npu.server.tr2 (pinned 0 MB)
+10:54:34 qwen3-8b.npu.server.tr2 wedged after tool case 5 (no progress 8 min), sysrq reset

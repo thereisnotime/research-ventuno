@@ -1160,5 +1160,18 @@
   ],
   "dev": "npu",
   "kind": "server"
+ },
+ {
+  "id": "qwen3-8b.npu.server.tr2",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
  }
 ]

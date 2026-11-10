@@ -223,6 +223,7 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | ministral-3-8b.npu.server.vfix2 | skipped-hung |
 | gemma-4-e4b.npu.server.vfix2 | skipped-hung |
 | qwen3-8b.npu.server.tr | hung (NPU wedged on the first request, board reset by hand) |
+| qwen3-8b.npu.server.tr2 | hung after tool case 5 of 7 (NPU wedged, sysrq reset); [partial transcript](results/transcripts/qwen3-8b.npu.server.tr2.transcript.jsonl) |
 
 ## 5. Stability findings
 
@@ -245,8 +246,9 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
   models but are not a substitute for standard benchmarks; differences of one point should not be over-read.
 - Most configurations were run once, so no variance is reported. Four were rerun on 2026-11-10 to capture
   transcripts (`*.tr`): Qwen3-4B (NPU, CPU) and LFM2-8B-A1B (NPU, CPU). Every tools, quiz, JSON and needle
-  result matched the original run exactly, and throughput was within 2%. The Qwen3-8B rerun wedged the NPU
-  on its first request, so that model still has pass/fail results only.
+  result matched the original run exactly, and throughput was within 2%. Qwen3-8B was rerun twice and wedged
+  the NPU both times (on the first request, then mid-way through the tool tests), so it still has pass/fail
+  results only; the second attempt's partial transcript is kept.
 - Everything ran on one board with one llama.cpp build (`7fe450e`). Newer llama.cpp builds change the Hexagon
   memory layout and may change both the single-session limits and the stability results.
 - Not measured: Qwen3-VL-8B vision (NPU wedged in 2 of 3 attempts), Gemma 4 E4B (failed to load).
