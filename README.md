@@ -518,7 +518,7 @@ Findings:
   an NPU call. Both needed a sysrq reset. MBUF 256 fixes load failures, not this freeze.
 - The smaller (1–4B and A1B) models passed every run in this batch without a freeze.
 
-A 12-hour soak of Qwen3-4B with MBUF 256 is running to measure how often the freeze happens on a 4B model
+A 12-hour soak of Qwen3-4B with MBUF 256 ([`suite/soak/`](suite/soak/)) is running to measure how often the freeze happens on a 4B model
 under continuous use. Its results will be added here.
 
 ## 5. Stability findings

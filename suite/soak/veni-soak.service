@@ -1,0 +1,14 @@
+[Unit]
+Description=VENI NPU soak test (Qwen3-4B, resumes after reboots until its deadline)
+After=network-online.target veni-bench.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c 'while systemctl is-enabled -q veni-bench; do sleep 60; done'
+ExecStart=/usr/bin/python3 /home/arduino/llm-bench/soak/soak.py
+Restart=no
+TimeoutStartSec=infinity
+
+[Install]
+WantedBy=multi-user.target
