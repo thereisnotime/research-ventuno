@@ -115,6 +115,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [gemma-4-e4b](reports/gemma-4-e4b.npu.server.md) | ⛔ never loaded | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 10.47 | — | [0/7](reports/gemma-4-e4b.npu.server.md#tools) | ❌ | [0/12](reports/gemma-4-e4b.npu.server.md#quiz) | ❌ | — | — | 9007 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.tr.md) |  | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 10.0 | 27.81 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.tr.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.tr.md#quiz) | ✅ | — | — | 4482 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.b12244.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 9.84 | 22.02 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.b12244.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.b12244.md#quiz) | ✅ | — | — | 4290 |
+| [gemma-4-E4B_q4_0-it](reports/applab.gemma-4-e4b.server.md) | 🏅 runs via App Lab | applab | `f4d8af608 (runner 0.13.2)` | npu (App Lab) | [E6](reports/environments.md#e6) | 9.78 | 358.64 | [🥇 7/7](reports/applab.gemma-4-e4b.server.md#tools) | ✅ | [🥈 11/12](reports/applab.gemma-4-e4b.server.md#quiz) | ✅ | — | — | 7581 |
 | [qwen3.5-4b](reports/qwen3.5-4b.npu.server.md) | 👁️ fast vision | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 8.59 | 151.21 | [🥇 7/7](reports/qwen3.5-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.md#vision) | 🥇 3.9 | 9557 |
 | [qwen3-8b](reports/qwen3-8b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 7.64 | 250.26 | [🥇 7/7](reports/qwen3-8b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/qwen3-8b.npu.server.md#quiz) | ✅ | — | — | 7370 |
 | [qwen3-vl-8b](reports/qwen3-vl-8b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 7.57 | 246.36 | [🥇 7/7](reports/qwen3-vl-8b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-8b.npu.server.md#quiz) | ✅ | — | — | 9079 |
@@ -138,6 +139,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 🛡️ No NPU (stability first) | LFM2-8B-A1B, llama.cpp, CPU | 24.5 t/s, 6/7 tools, no NPU involvement |
 | 👁️ Vision, speed | Qwen3.5-4B, NPU + CPU image encoder | 3/4 images, 3.9 s/image, 7/7 tools |
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
+| 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
 
 Not recommended on this board: dense 8-9B models (slower without accuracy gains over the 4B models), Granite 4
@@ -211,6 +213,7 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | [combo.c2.qwen3-8b.ngl20](reports/combo.c2.qwen3-8b.ngl20.md) | [E3](reports/environments.md#e3) | 3 | 0.89 | 24.66 | 62.6 | ✅ | 7/7 | ✅ | 10/12 | — | — | 7255 |  |
 | [combo.c3.qwen3-4b.spec4](reports/combo.c3.qwen3-4b.spec4.md) | [E5](reports/environments.md#e5) | 4 | 12.53 | 401.19 | 14.0 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5926 |  |
 | [combo.c4.qwen3-4b.spec8](reports/combo.c4.qwen3-4b.spec8.md) | [E5](reports/environments.md#e5) | 4 | 12.44 | 400.64 | 6.0 | ✅ | 7/7 | ✅ | 7/12 | — | — | 5740 |  |
+| [applab.gemma-4-e4b.server](reports/applab.gemma-4-e4b.server.md) | [E6](reports/environments.md#e6) | 4 | 9.78 | 358.64 | 2.1 | ✅ | 7/7 | ✅ | 11/12 | — | — | 7581 |  |
 
 ### 4.4 llama-bench
 
@@ -431,6 +434,37 @@ Findings:
   produce less than the CPU model alone. It is still useful when two different models must be available at once.
 - Driving the NPU from the slow A55 cores costs about 15% generation speed (10.9 vs 12.7 t/s from the A78s).
 
+### 4.10 Arduino App Lab path (Gemma 4 E4B)
+
+Gemma 4 E4B is in Arduino's curated model list as a llama.cpp model (`llamacpp:gemma-4-E4B_q4_0-it`), installed
+with `arduino-app-cli model install` and served by App Lab's own container
+(`ghcr.io/arduino/app-bricks/llamacpp-npu-runner:0.13.2`, llama.cpp `f4d8af608`). The suite started that container
+from Arduino's shipped `service_compose.yaml`, unchanged, and ran the same tests against it
+([run](reports/applab.gemma-4-e4b.server.md)).
+
+| | Gemma 4 E4B, App Lab | Gemma 4 E4B, plain llama.cpp (`7fe450e`, `d5bbcd1`) |
+|---|---|---|
+| Loads | ✅ first reply after 4.5 s | ❌ `fastrpc_mmap failed` / server never healthy, every attempt |
+| Tools / quiz | **7/7**, **11/12** | — |
+| JSON schema, needle | ✅, ✅ | — |
+| Generation / prompt | 9.8 / 359 t/s | — |
+| Peak RAM / pinned NPU memory | 7.6 GB / 3.4 GB | — |
+
+What App Lab's runner does differently, from its compose file and `configure-llamacpp.py`:
+
+- **`GGML_HEXAGON_MBUF=256,256`**: the backend maps NPU memory in 256 MiB chunks instead of the defaults (512 MiB
+  compute, 1 GiB weights). Arduino's own notes: with 512 MiB chunks, "mapping a 512 MiB chunk failed at random
+  (3 loads in 5 for gemma-4-E4B, 0 in 9 once MBUF was 256)". Every llama.cpp run in this report used the defaults.
+- **Session sizing from the GGUF header**: one NPU session offers about 3134 MiB of address space; the runner sizes
+  weights, KV cache and compute buffers per model and fills at most 85% of it per session, then picks the session
+  count. Gemma 4's per-layer token embeddings stay on the CPU, so only about a third of the file goes to the NPU.
+- Context capped automatically for models that need all four sessions; `GGML_HEXAGON_OPBATCH=2048`, batch
+  1024 / micro-batch 512, threads pinned to the A78 cores.
+
+**Open question:** several failures attributed above to the NPU's mapping limit (one session for a 4B model,
+Q8_0, 8B models) may instead be the 512 MiB / 1 GiB chunk size. Rerunning them with `GGML_HEXAGON_MBUF=256,256`
+is the next test.
+
 ## 5. Stability findings
 
 All fixes and workarounds that kept the board running (firmware rollback, leak guards, watchdog, sysrq
@@ -462,7 +496,8 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 - Everything ran on one board. Two llama.cpp builds were tested (`7fe450e`, `d5bbcd1`); the newer one did not
   change the NPU mapping limit, the 8B instability or generation speed (§4.6).
 - Genie prompt speed was measured once, with repeated filler text (§4.7).
-- Not measured: Qwen3-VL-8B vision (NPU wedged in 2 of 3 attempts), Gemma 4 E4B (failed to load).
+- Not measured: Qwen3-VL-8B vision (NPU wedged in every attempt). Gemma 4 E4B fails on plain llama.cpp but runs
+  through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
 
 ## 7. Reproducibility

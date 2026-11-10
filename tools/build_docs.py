@@ -49,6 +49,7 @@ BADGES = {
     ("granite-4-h-tiny", "llama", "npu"): "⛔ froze the board",
     ("qwen3_vl_8b_instruct", "genie", "npu (QNN)"): "⛔ hangs",
     ("gemma-4-e4b", "llama", "npu"): "⛔ never loaded",
+    ("gemma-4-E4B_q4_0-it", "applab", "npu (App Lab)"): "🏅 runs via App Lab",
     ("olmoe-1b-7b", "llama", "npu"): "⚠️ bad at tools",
     ("phi-mini-moe", "llama", "npu"): "⚠️ bad at tools",
 }
@@ -87,7 +88,11 @@ def env_of(r):
                "cdsp_fw": CDSP_FW["9ef6c8dc39d866a1"],
                "linux-firmware": "20240318.git3b128b60.0ubuntu3.1" if t >= FW_UPGRADE else "20240318.git3b128b60-0ubuntu2.27",
                "qcom-fastrpc1": "1.0.15+repack2", "inferred": True}
-    if r.get("engine") == "genie":
+    if r.get("engine") == "applab":
+        out["engine"] = "Arduino App Lab (llamacpp-npu-runner)"
+        tag = ((e or {}).get("applab_image") or ":?").rsplit(":", 1)[-1]
+        out["engine_build"] = f"{(e or {}).get('llama_commit') or '?'} (runner {tag})"
+    elif r.get("engine") == "genie":
         out["engine"] = "Genie (genai-llm-vlm-service)"
         out["engine_build"] = ((e or {}).get("genie_image") or ":1.5.0").rsplit(":", 1)[-1]
     else:
@@ -353,7 +358,8 @@ def summary_table(R):
     for r in R.values():
         if not is_server(r):
             continue
-        groups.setdefault((r["model"], r["engine"], r["dev"] if r["engine"] == "llama" else "npu (QNN)", build_of(r)), []).append(r)
+        dev = r["dev"] if r["engine"] == "llama" else "npu (App Lab)" if r["engine"] == "applab" else "npu (QNN)"
+        groups.setdefault((r["model"], r["engine"], dev, build_of(r)), []).append(r)
     rows = []
     for key, rs in groups.items():
         best = max(rs, key=lambda r: (score_num(r.get("tools_score")) + score_num(r.get("quiz_score")),
@@ -382,7 +388,7 @@ def summary_table(R):
             vis = f"[{medal(score_num(v['vision_score']), m_vis, lambda n: v['vision_score'])}]({REP}/{v['id']}.md#vision)"
             vs = medal(v["vision_avg_s"], m_vs)
         L.append(" | ".join([
-            f"| {runlink(b['id'], model)}", BADGES.get((model, eng, dev), "") if bld in ("7fe450e", "1.5.0") else "",
+            f"| {runlink(b['id'], model)}", BADGES.get((model, eng, dev), "") if bld in ("7fe450e", "1.5.0") or eng == "applab" else "",
             eng, f"`{bld}`", dev, envlink(b, REP + "/"),
             medal(b.get("short_gen_tps"), m_gen) if ok else "—",
             medal(b.get("long_prompt_tps"), m_pre) if ok else "—",

@@ -113,7 +113,8 @@
   "combo.c1.qwen3-8b.ngl28": "failed",
   "combo.c2.qwen3-8b.ngl20": "ok",
   "combo.c3.qwen3-4b.spec4": "ok",
-  "combo.c4.qwen3-4b.spec8": "ok"
+  "combo.c4.qwen3-4b.spec8": "ok",
+  "applab.gemma-4-e4b.server": "ok"
  },
  "reboots": 39,
  "last_reboot_item": "combo.c2.qwen3-8b.ngl20"

@@ -1735,5 +1735,13 @@
    "--spec-draft-n-max",
    "8"
   ]
+ },
+ {
+  "id": "applab.gemma-4-e4b.server",
+  "engine": "applab",
+  "model": "gemma-4-E4B_q4_0-it",
+  "dev": "npu",
+  "kind": "server",
+  "files": []
  }
 ]

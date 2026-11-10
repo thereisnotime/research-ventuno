@@ -13,6 +13,7 @@ Constant for every run: Arduino VENTUNO Q (QCS8300, 16 GB), Ubuntu 24.04.5, Ardu
 | <a id="e3"></a>**E3** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `llama.cpp` | `7fe450e` | yes | 26 |
 | <a id="e4"></a>**E4** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `Genie (genai-llm-vlm-service)` | `1.5.0` | yes | 12 |
 | <a id="e5"></a>**E5** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `llama.cpp` | `d5bbcd1` | yes | 28 |
+| <a id="e6"></a>**E6** | `6.8.0-1089-qcom` | `watchdog.stop_on_reboot=0` | `dragonwing 20260612 (restored)` | `20240318.git3b128b60.0ubuntu3.1` | `1.0.15+repack2` | `Arduino App Lab (llamacpp-npu-runner)` | `f4d8af608 (runner 0.13.2)` | no | 1 |
 
 ## E1
 
@@ -33,3 +34,7 @@ Constant for every run: Arduino VENTUNO Q (QCS8300, 16 GB), Ubuntu 24.04.5, Ardu
 ## E5
 
 [qwen3-4b-2507.npu.bench.b12244.s1](qwen3-4b-2507.npu.bench.b12244.s1.md), [qwen3-4b-2507.npu.server.b12244.s1](qwen3-4b-2507.npu.server.b12244.s1.md), [qwen3-4b-2507.npu.bench.b12244](qwen3-4b-2507.npu.bench.b12244.md), [qwen3-4b-2507.npu.server.b12244](qwen3-4b-2507.npu.server.b12244.md), [qwen3-8b.npu.bench.b12244](qwen3-8b.npu.bench.b12244.md), [qwen3-4b-2507.npu.bench.b12244.s1.d0](qwen3-4b-2507.npu.bench.b12244.s1.d0.md), [lfm2.5-1.2b.npu.bench.b12244](lfm2.5-1.2b.npu.bench.b12244.md), [lfm2.5-1.2b.npu.server.b12244](lfm2.5-1.2b.npu.server.b12244.md), [lfm2-8b-a1b.npu.bench.b12244](lfm2-8b-a1b.npu.bench.b12244.md), [lfm2-8b-a1b.npu.server.b12244](lfm2-8b-a1b.npu.server.b12244.md), [qwen3.5-4b.npu.bench.b12244](qwen3.5-4b.npu.bench.b12244.md), [qwen3.5-4b.npu.server.b12244](qwen3.5-4b.npu.server.b12244.md), [ministral-3-8b.npu.server.b12244](ministral-3-8b.npu.server.b12244.md), [gemma-4-e4b.npu.bench.b12244](gemma-4-e4b.npu.bench.b12244.md), [gemma-4-e4b.npu.server.b12244](gemma-4-e4b.npu.server.b12244.md), [qwen3-vl-8b.npu.server.b12244](qwen3-vl-8b.npu.server.b12244.md), [qwen3-4b-2507.cpu.bench.b12244](qwen3-4b-2507.cpu.bench.b12244.md), [qwen3-4b-2507.cpu.server.b12244](qwen3-4b-2507.cpu.server.b12244.md), [qwen3-8b.npu.bench.b12244.d0](qwen3-8b.npu.bench.b12244.d0.md), [tops.t1.qwen3-4b-q4.hmx](tops.t1.qwen3-4b-q4.hmx.md), [tops.t2.qwen3-4b-q4.nohmx](tops.t2.qwen3-4b-q4.nohmx.md), [tops.t3.qwen3-4b-q4.balanced](tops.t3.qwen3-4b-q4.balanced.md), [tops.t4.qwen3-4b-q8.hmx](tops.t4.qwen3-4b-q8.hmx.md), [tops.t5.lfm2.5-1.2b.hmx](tops.t5.lfm2.5-1.2b.hmx.md), [tops.t5b.lfm2.5-1.2b.nohmx](tops.t5b.lfm2.5-1.2b.nohmx.md), [gemma-4-e4b.npu.bench.b12244.d0](gemma-4-e4b.npu.bench.b12244.d0.md), [combo.c3.qwen3-4b.spec4](combo.c3.qwen3-4b.spec4.md), [combo.c4.qwen3-4b.spec8](combo.c4.qwen3-4b.spec8.md)
+
+## E6
+
+[applab.gemma-4-e4b.server](applab.gemma-4-e4b.server.md)

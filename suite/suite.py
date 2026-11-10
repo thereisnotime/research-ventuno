@@ -12,7 +12,9 @@ MODELS = "/home/arduino/llm-models"
 LLAMA = "/home/arduino/llama-npu"
 REBOOT_MB = 1200
 MAX_REBOOTS = 60
-PORT = {"llama": 8080, "genie": 9001}
+PORT = {"llama": 8080, "genie": 9001, "applab": 9999}
+# Arduino App Lab's own llama.cpp service, started from its compose file as shipped
+APPLAB_COMPOSE = "/var/lib/arduino-app-cli/assets/0.13.2/services/arduino/llamacpp/service_compose.yaml"
 KEEP = {"Qwen_Qwen3-8B-Q4_0.gguf"}
 LENV = dict(os.environ, LD_LIBRARY_PATH=f"{LLAMA}/lib", ADSP_LIBRARY_PATH=f"{LLAMA}/lib",
             GGML_HEXAGON_DEVICES="1")  # was 4; 1 session since 2026-11-09 to test the hangs
@@ -122,6 +124,11 @@ def wait_health(url, proc, timeout=900):
 
 
 def start_server(item, logf):
+    if item["engine"] == "applab":
+        subprocess.run(["docker", "compose", "-p", "veni-applab", "-f", APPLAB_COMPOSE, "up", "-d"],
+                       stdout=logf, stderr=logf)
+        # Router mode: the model loads on its first request, health only means the server is up
+        return None, wait_health("http://127.0.0.1:9999/health", None, 300)
     if item["engine"] == "genie":
         subprocess.run(["docker", "compose", "-f", "/opt/genie/compose.yaml", "up", "-d"],
                        stdout=logf, stderr=logf)
@@ -141,6 +148,12 @@ def start_server(item, logf):
 
 
 def stop_server(item, proc, logf):
+    if item["engine"] == "applab":
+        # The container holds a live fastrpc session; tearing it down can hang, so it is left
+        # running and the next pinned-memory check reboots the board (sysrq) before anything else
+        subprocess.run(["docker", "logs", "--tail", "200", "veni-applab-llamacpp-models-runner-1"],
+                       stdout=logf, stderr=logf)
+        return
     if item["engine"] == "genie":
         subprocess.run(["docker", "compose", "-f", "/opt/genie/compose.yaml", "stop"],
                        stdout=logf, stderr=logf)
@@ -172,7 +185,7 @@ def transcript(item, body, reply):
 def chat(item, messages, stream=False, timeout=600, **kw):
     body = {"model": item["model"], "messages": messages, "stream": stream,
             "max_tokens": kw.pop("max_tokens", 512), "temperature": 0}
-    if item["engine"] == "llama":
+    if item["engine"] in ("llama", "applab"):
         # Hybrid thinkers (Qwen3) answer directly; reasoning is out of scope for this suite
         body["chat_template_kwargs"] = {"enable_thinking": False}
     else:
@@ -499,6 +512,13 @@ def env_snapshot(item):
         m = re.search(r"commit ([0-9a-f]+)", v)
         env["llama_commit"] = m.group(1) if m else None
         env["llama_version"] = (re.search(r"version: (\S+)", v) or [None, None])[1]
+    elif item["engine"] == "applab":
+        env["applab_image"] = sh(f"grep -m1 'image:' {APPLAB_COMPOSE} | awk '{{print $2}}'")
+        v = sh("docker exec veni-applab-llamacpp-models-runner-1 /opt/pkg-snapdragon/bin/llama-server --version 2>&1"
+               " || docker run --rm --entrypoint /opt/pkg-snapdragon/bin/llama-server "
+               "ghcr.io/arduino/app-bricks/llamacpp-npu-runner:0.13.2 --version 2>&1")
+        m = re.search(r"commit ([0-9a-f]+)", v)
+        env["llama_commit"] = m.group(1) if m else None
     else:
         env["genie_image"] = sh("grep -m1 'image:' /opt/genie/compose.yaml | awk '{print $2}'")
     return env

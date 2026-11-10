@@ -101,3 +101,4 @@
 | [combo.c2.qwen3-8b.ngl20](combo.c2.qwen3-8b.ngl20.md) | server | qwen3-8b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
 | [combo.c3.qwen3-4b.spec4](combo.c3.qwen3-4b.spec4.md) | server | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
 | [combo.c4.qwen3-4b.spec8](combo.c4.qwen3-4b.spec8.md) | server | qwen3-4b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [applab.gemma-4-e4b.server](applab.gemma-4-e4b.server.md) | server | gemma-4-E4B_q4_0-it | applab | `f4d8af608 (runner 0.13.2)` | npu | [E6](environments.md#e6) | ✅ |

@@ -385,3 +385,8 @@
 14:59:44 delete Qwen_Qwen3-0.6B-Q4_0.gguf
 14:59:44 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
 14:59:44 queue finished
+15:49:19 start applab.gemma-4-e4b.server (pinned 0 MB)
+15:52:07 end applab.gemma-4-e4b.server ok=True 
+15:52:07 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+15:52:07 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+15:52:07 queue finished
