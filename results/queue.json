@@ -1,0 +1,1099 @@
+[
+ {
+  "id": "qwen3-4b-2507.npu.bench",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "qwen3-4b-2507.npu.server",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "qwen3-4b-2507.cpu.bench",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "qwen3-4b-2507.cpu.server",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "server"
+ },
+ {
+  "id": "qwen3-8b.npu.bench",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "qwen3-8b.npu.server",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "lfm2-8b-a1b.npu.bench",
+  "engine": "llama",
+  "model": "lfm2-8b-a1b",
+  "files": [
+   [
+    "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "lfm2-8b-a1b.npu.server",
+  "engine": "llama",
+  "model": "lfm2-8b-a1b",
+  "files": [
+   [
+    "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "lfm2-8b-a1b.cpu.bench",
+  "engine": "llama",
+  "model": "lfm2-8b-a1b",
+  "files": [
+   [
+    "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "lfm2-8b-a1b.cpu.server",
+  "engine": "llama",
+  "model": "lfm2-8b-a1b",
+  "files": [
+   [
+    "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "server"
+ },
+ {
+  "id": "granite-4-h-tiny.npu.bench",
+  "engine": "llama",
+  "model": "granite-4-h-tiny",
+  "files": [
+   [
+    "ibm-granite_granite-4.0-h-tiny-Q4_0.gguf",
+    "https://huggingface.co/bartowski/ibm-granite_granite-4.0-h-tiny-GGUF/resolve/main/ibm-granite_granite-4.0-h-tiny-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "granite-4-h-tiny.npu.server",
+  "engine": "llama",
+  "model": "granite-4-h-tiny",
+  "files": [
+   [
+    "ibm-granite_granite-4.0-h-tiny-Q4_0.gguf",
+    "https://huggingface.co/bartowski/ibm-granite_granite-4.0-h-tiny-GGUF/resolve/main/ibm-granite_granite-4.0-h-tiny-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "phi-4-mini.npu.bench",
+  "engine": "llama",
+  "model": "phi-4-mini",
+  "files": [
+   [
+    "microsoft_Phi-4-mini-instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/microsoft_Phi-4-mini-instruct-GGUF/resolve/main/microsoft_Phi-4-mini-instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "phi-4-mini.npu.server",
+  "engine": "llama",
+  "model": "phi-4-mini",
+  "files": [
+   [
+    "microsoft_Phi-4-mini-instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/microsoft_Phi-4-mini-instruct-GGUF/resolve/main/microsoft_Phi-4-mini-instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "gemma-3-4b.npu.bench",
+  "engine": "llama",
+  "model": "gemma-3-4b",
+  "files": [
+   [
+    "google_gemma-3-4b-it-Q4_0.gguf",
+    "https://huggingface.co/bartowski/google_gemma-3-4b-it-GGUF/resolve/main/google_gemma-3-4b-it-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "gemma-3-4b.npu.server",
+  "engine": "llama",
+  "model": "gemma-3-4b",
+  "files": [
+   [
+    "google_gemma-3-4b-it-Q4_0.gguf",
+    "https://huggingface.co/bartowski/google_gemma-3-4b-it-GGUF/resolve/main/google_gemma-3-4b-it-Q4_0.gguf"
+   ],
+   [
+    "mmproj-google_gemma-3-4b-it-f16.gguf",
+    "https://huggingface.co/bartowski/google_gemma-3-4b-it-GGUF/resolve/main/mmproj-google_gemma-3-4b-it-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-google_gemma-3-4b-it-f16.gguf",
+  "vision": true
+ },
+ {
+  "id": "qwen3-vl-4b.npu.bench",
+  "engine": "llama",
+  "model": "qwen3-vl-4b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "qwen3-vl-4b.npu.server",
+  "engine": "llama",
+  "model": "qwen3-vl-4b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf",
+  "vision": true
+ },
+ {
+  "id": "lfm2-vl-1.6b.npu.bench",
+  "engine": "llama",
+  "model": "lfm2-vl-1.6b",
+  "files": [
+   [
+    "LFM2-VL-1.6B-Q4_0.gguf",
+    "https://huggingface.co/LiquidAI/LFM2-VL-1.6B-GGUF/resolve/main/LFM2-VL-1.6B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench"
+ },
+ {
+  "id": "lfm2-vl-1.6b.npu.server",
+  "engine": "llama",
+  "model": "lfm2-vl-1.6b",
+  "files": [
+   [
+    "LFM2-VL-1.6B-Q4_0.gguf",
+    "https://huggingface.co/LiquidAI/LFM2-VL-1.6B-GGUF/resolve/main/LFM2-VL-1.6B-Q4_0.gguf"
+   ],
+   [
+    "mmproj-LFM2-VL-1.6B-F16.gguf",
+    "https://huggingface.co/LiquidAI/LFM2-VL-1.6B-GGUF/resolve/main/mmproj-LFM2-VL-1.6B-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-LFM2-VL-1.6B-F16.gguf",
+  "vision": true
+ },
+ {
+  "id": "qwen3-vl-8b.npu.bench",
+  "engine": "llama",
+  "model": "qwen3-vl-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "qwen3-vl-8b.npu.server",
+  "engine": "llama",
+  "model": "qwen3-vl-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+  "vision": true,
+  "fresh": true
+ },
+ {
+  "id": "qwen3-8b.npu.bench.retry",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "qwen3.5-4b.npu.bench",
+  "engine": "llama",
+  "model": "qwen3.5-4b",
+  "files": [
+   [
+    "Qwen3.5-4B-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": false
+ },
+ {
+  "id": "qwen3.5-4b.npu.server",
+  "engine": "llama",
+  "model": "qwen3.5-4b",
+  "files": [
+   [
+    "Qwen3.5-4B-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q4_0.gguf"
+   ],
+   [
+    "mmproj-qwen3.5-4b.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/resolve/main/mmproj-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": false,
+  "mmproj": "mmproj-qwen3.5-4b.gguf",
+  "vision": true
+ },
+ {
+  "id": "qwen3.5-9b.npu.bench",
+  "engine": "llama",
+  "model": "qwen3.5-9b",
+  "files": [
+   [
+    "Qwen3.5-9B-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "qwen3.5-9b.npu.server",
+  "engine": "llama",
+  "model": "qwen3.5-9b",
+  "files": [
+   [
+    "Qwen3.5-9B-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_0.gguf"
+   ],
+   [
+    "mmproj-qwen3.5-9b.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/mmproj-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-qwen3.5-9b.gguf",
+  "vision": true
+ },
+ {
+  "id": "gemma-4-e4b.npu.bench",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "gemma-4-e4b.npu.server",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ],
+   [
+    "mmproj-gemma-4-e4b.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B-it-mmproj.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-gemma-4-e4b.gguf",
+  "vision": true
+ },
+ {
+  "id": "granite-4.2-8b.npu.bench",
+  "engine": "llama",
+  "model": "granite-4.2-8b",
+  "files": [
+   [
+    "granite-4.2-8b-Q4_0.gguf",
+    "https://huggingface.co/bartowski/granite-4.2-8b-GGUF/resolve/main/granite-4.2-8b-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "granite-4.2-8b.npu.server",
+  "engine": "llama",
+  "model": "granite-4.2-8b",
+  "files": [
+   [
+    "granite-4.2-8b-Q4_0.gguf",
+    "https://huggingface.co/bartowski/granite-4.2-8b-GGUF/resolve/main/granite-4.2-8b-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true
+ },
+ {
+  "id": "ministral-3-8b.npu.bench",
+  "engine": "llama",
+  "model": "ministral-3-8b",
+  "files": [
+   [
+    "Ministral-3-8B-Instruct-2512-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "ministral-3-8b.npu.server",
+  "engine": "llama",
+  "model": "ministral-3-8b",
+  "files": [
+   [
+    "Ministral-3-8B-Instruct-2512-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_0.gguf"
+   ],
+   [
+    "mmproj-ministral-3-8b.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/mmproj-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-ministral-3-8b.gguf",
+  "vision": true
+ },
+ {
+  "id": "llama-3.2-3b.npu.bench",
+  "engine": "llama",
+  "model": "llama-3.2-3b",
+  "files": [
+   [
+    "Llama-3.2-3B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": false
+ },
+ {
+  "id": "llama-3.2-3b.npu.server",
+  "engine": "llama",
+  "model": "llama-3.2-3b",
+  "files": [
+   [
+    "Llama-3.2-3B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": false
+ },
+ {
+  "id": "lfm2.5-1.2b.npu.bench",
+  "engine": "llama",
+  "model": "lfm2.5-1.2b",
+  "files": [
+   [
+    "LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2.5-1.2B-Instruct-GGUF/resolve/main/LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": false
+ },
+ {
+  "id": "lfm2.5-1.2b.npu.server",
+  "engine": "llama",
+  "model": "lfm2.5-1.2b",
+  "files": [
+   [
+    "LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2.5-1.2B-Instruct-GGUF/resolve/main/LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": false
+ },
+ {
+  "id": "phi-mini-moe.npu.bench",
+  "engine": "llama",
+  "model": "phi-mini-moe",
+  "files": [
+   [
+    "Phi-mini-MoE-instruct-Q4_0.gguf",
+    "https://huggingface.co/gabriellarson/Phi-mini-MoE-instruct-GGUF/resolve/main/Phi-mini-MoE-instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": false
+ },
+ {
+  "id": "phi-mini-moe.npu.server",
+  "engine": "llama",
+  "model": "phi-mini-moe",
+  "files": [
+   [
+    "Phi-mini-MoE-instruct-Q4_0.gguf",
+    "https://huggingface.co/gabriellarson/Phi-mini-MoE-instruct-GGUF/resolve/main/Phi-mini-MoE-instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": false
+ },
+ {
+  "id": "olmoe-1b-7b.npu.bench",
+  "engine": "llama",
+  "model": "olmoe-1b-7b",
+  "files": [
+   [
+    "OLMoE-1B-7B-0924-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/OLMoE-1B-7B-0924-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": false
+ },
+ {
+  "id": "olmoe-1b-7b.npu.server",
+  "engine": "llama",
+  "model": "olmoe-1b-7b",
+  "files": [
+   [
+    "OLMoE-1B-7B-0924-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/OLMoE-1B-7B-0924-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": false
+ },
+ {
+  "id": "genie-qwen3-4b.server",
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507-genie-w4a16-qualcomm_qcs8275",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-vl-8b.server",
+  "engine": "genie",
+  "model": "qwen3_vl_8b_instruct-genie-w4a16-qualcomm_qcs8275",
+  "kind": "server",
+  "vision": true,
+  "fresh": true
+ },
+ {
+  "id": "qwen3-4b-2507.npu.server.rerun",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "qwen3-4b-2507.cpu.server.rerun",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "server"
+ },
+ {
+  "id": "qwen3-8b.npu.server.rerun",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "lfm2-8b-a1b.npu.server.rerun",
+  "engine": "llama",
+  "model": "lfm2-8b-a1b",
+  "files": [
+   [
+    "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "lfm2-8b-a1b.cpu.server.rerun",
+  "engine": "llama",
+  "model": "lfm2-8b-a1b",
+  "files": [
+   [
+    "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "server"
+ },
+ {
+  "id": "qwen3-8b.npu.bench.d0",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "depths": "0",
+  "fresh": true
+ },
+ {
+  "id": "granite-4-h-tiny.npu.bench.d0",
+  "engine": "llama",
+  "model": "granite-4-h-tiny",
+  "files": [
+   [
+    "ibm-granite_granite-4.0-h-tiny-Q4_0.gguf",
+    "https://huggingface.co/bartowski/ibm-granite_granite-4.0-h-tiny-GGUF/resolve/main/ibm-granite_granite-4.0-h-tiny-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "depths": "0",
+  "fresh": true
+ },
+ {
+  "id": "gemma-3-4b.npu.bench.d0",
+  "engine": "llama",
+  "model": "gemma-3-4b",
+  "files": [
+   [
+    "google_gemma-3-4b-it-Q4_0.gguf",
+    "https://huggingface.co/bartowski/google_gemma-3-4b-it-GGUF/resolve/main/google_gemma-3-4b-it-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "depths": "0",
+  "fresh": true
+ },
+ {
+  "id": "qwen3-8b.npu.bench.retry2",
+  "engine": "llama",
+  "model": "qwen3-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-8B-Q4_0.gguf",
+    ""
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true
+ },
+ {
+  "id": "qwen3.5-9b.npu.bench.d0",
+  "engine": "llama",
+  "model": "qwen3.5-9b",
+  "files": [
+   [
+    "Qwen3.5-9B-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true,
+  "depths": "0"
+ },
+ {
+  "id": "gemma-4-e4b.npu.bench.d0",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true,
+  "depths": "0"
+ },
+ {
+  "id": "granite-4.2-8b.npu.bench.d0",
+  "engine": "llama",
+  "model": "granite-4.2-8b",
+  "files": [
+   [
+    "granite-4.2-8b-Q4_0.gguf",
+    "https://huggingface.co/bartowski/granite-4.2-8b-GGUF/resolve/main/granite-4.2-8b-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "fresh": true,
+  "depths": "0"
+ },
+ {
+  "id": "qwen3-4b-2507.npu.server.s1",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-4b.server.fix",
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-vl-8b.server.fix",
+  "engine": "genie",
+  "model": "qwen3_vl_8b_instruct",
+  "kind": "server",
+  "vision": true,
+  "fresh": true
+ },
+ {
+  "id": "qwen3-vl-4b.npu.server.vfix",
+  "engine": "llama",
+  "model": "qwen3-vl-4b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf",
+  "vision": true,
+  "sessions": 1
+ },
+ {
+  "id": "qwen3-vl-8b.npu.server.vfix",
+  "engine": "llama",
+  "model": "qwen3-vl-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+  "vision": true,
+  "fresh": true,
+  "sessions": 4
+ },
+ {
+  "id": "ministral-3-8b.npu.server.vfix",
+  "engine": "llama",
+  "model": "ministral-3-8b",
+  "files": [
+   [
+    "Ministral-3-8B-Instruct-2512-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_0.gguf"
+   ],
+   [
+    "mmproj-ministral-3-8b.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/mmproj-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-ministral-3-8b.gguf",
+  "vision": true,
+  "sessions": 4
+ },
+ {
+  "id": "gemma-4-e4b.npu.server.vfix",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ],
+   [
+    "mmproj-gemma-4-e4b.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B-it-mmproj.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-gemma-4-e4b.gguf",
+  "vision": true,
+  "sessions": 1
+ },
+ {
+  "id": "genie-qwen3-4b.server.fix2",
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-vl-8b.server.fix2",
+  "engine": "genie",
+  "model": "qwen3_vl_8b_instruct",
+  "kind": "server",
+  "vision": true,
+  "fresh": true
+ },
+ {
+  "id": "qwen3-vl-4b.npu.server.vfix2",
+  "engine": "llama",
+  "model": "qwen3-vl-4b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-4B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf",
+  "vision": true,
+  "sessions": 4
+ },
+ {
+  "id": "qwen3-vl-8b.npu.server.vfix2",
+  "engine": "llama",
+  "model": "qwen3-vl-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+  "vision": true,
+  "fresh": true,
+  "sessions": 4
+ },
+ {
+  "id": "ministral-3-8b.npu.server.vfix2",
+  "engine": "llama",
+  "model": "ministral-3-8b",
+  "files": [
+   [
+    "Ministral-3-8B-Instruct-2512-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_0.gguf"
+   ],
+   [
+    "mmproj-ministral-3-8b.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/mmproj-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-ministral-3-8b.gguf",
+  "vision": true,
+  "sessions": 4
+ },
+ {
+  "id": "gemma-4-e4b.npu.server.vfix2",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ],
+   [
+    "mmproj-gemma-4-e4b.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B-it-mmproj.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-gemma-4-e4b.gguf",
+  "vision": true,
+  "sessions": 4
+ },
+ {
+  "id": "genie-qwen3-4b.server.fix3",
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-vl-8b.server.fix3",
+  "engine": "genie",
+  "model": "qwen3_vl_8b_instruct",
+  "kind": "server",
+  "vision": true,
+  "fresh": true
+ },
+ {
+  "id": "qwen3-vl-8b.npu.server.vfix3",
+  "engine": "llama",
+  "model": "qwen3-vl-8b",
+  "files": [
+   [
+    "Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf"
+   ],
+   [
+    "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-VL-8B-Instruct-GGUF/resolve/main/mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "mmproj": "mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf",
+  "vision": true,
+  "fresh": true,
+  "sessions": 4
+ },
+ {
+  "id": "ministral-3-8b.npu.server.vfix3",
+  "engine": "llama",
+  "model": "ministral-3-8b",
+  "files": [
+   [
+    "Ministral-3-8B-Instruct-2512-Q4_0.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_0.gguf"
+   ],
+   [
+    "mmproj-ministral-3-8b.gguf",
+    "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/mmproj-F16.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-ministral-3-8b.gguf",
+  "vision": true,
+  "sessions": 4
+ },
+ {
+  "id": "gemma-4-e4b.npu.server.vfix3",
+  "engine": "llama",
+  "model": "gemma-4-e4b",
+  "files": [
+   [
+    "gemma-4-E4B_q4_0-it.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B_q4_0-it.gguf"
+   ],
+   [
+    "mmproj-gemma-4-e4b.gguf",
+    "https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf/resolve/main/gemma-4-E4B-it-mmproj.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "fresh": true,
+  "mmproj": "mmproj-gemma-4-e4b.gguf",
+  "vision": true,
+  "sessions": 4
+ },
+ {
+  "id": "genie-qwen3-4b.server.fix4",
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-vl-8b.server.fix4",
+  "engine": "genie",
+  "model": "qwen3_vl_8b_instruct",
+  "kind": "server",
+  "vision": true,
+  "fresh": true
+ },
+ {
+  "id": "genie-qwen3-4b.server.fix5",
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507",
+  "kind": "server"
+ },
+ {
+  "id": "genie-qwen3-vl-8b.server.fix5",
+  "engine": "genie",
+  "model": "qwen3_vl_8b_instruct",
+  "kind": "server",
+  "vision": true,
+  "fresh": true
+ }
+]

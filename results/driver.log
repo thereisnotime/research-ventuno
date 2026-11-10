@@ -1,0 +1,272 @@
+20:47:12 start qwen3-4b-2507.npu.bench (pinned 667 MB)
+20:47:12 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+20:50:08 end qwen3-4b-2507.npu.bench ok=True 
+20:50:08 start qwen3-4b-2507.npu.server (pinned 833 MB)
+20:52:39 end qwen3-4b-2507.npu.server ok=True 
+20:52:39 start qwen3-4b-2507.cpu.bench (pinned 1000 MB)
+20:58:29 end qwen3-4b-2507.cpu.bench ok=True 
+20:58:29 start qwen3-4b-2507.cpu.server (pinned 1000 MB)
+21:05:02 end qwen3-4b-2507.cpu.server ok=True 
+21:05:02 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+21:05:02 start qwen3-8b.npu.bench (pinned 1000 MB)
+21:05:17 end qwen3-8b.npu.bench ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+21:05:17 pinned 2478 MB > 1200, reboot 1/8
+21:05:34 start qwen3-8b.npu.server (pinned 0 MB)
+21:10:31 end qwen3-8b.npu.server ok=True 
+21:10:31 start lfm2-8b-a1b.npu.bench (pinned 167 MB)
+21:10:31 download LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+21:14:10 end lfm2-8b-a1b.npu.bench ok=True 
+21:14:10 start lfm2-8b-a1b.npu.server (pinned 334 MB)
+21:15:41 end lfm2-8b-a1b.npu.server ok=True 
+21:15:41 start lfm2-8b-a1b.cpu.bench (pinned 500 MB)
+21:27:08 end lfm2-8b-a1b.cpu.bench ok=True 
+21:27:08 start lfm2-8b-a1b.cpu.server (pinned 500 MB)
+21:30:07 end lfm2-8b-a1b.cpu.server ok=True 
+21:30:07 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+21:30:07 start granite-4-h-tiny.npu.bench (pinned 500 MB)
+21:30:07 download ibm-granite_granite-4.0-h-tiny-Q4_0.gguf
+21:32:41 end granite-4-h-tiny.npu.bench ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+21:32:41 pinned 2541 MB > 1200, reboot 2/8
+21:32:59 start granite-4-h-tiny.npu.server (pinned 0 MB)
+21:53:42 end granite-4-h-tiny.npu.server ok=False [Errno 104] Connection reset by peer
+21:53:42 delete ibm-granite_granite-4.0-h-tiny-Q4_0.gguf
+21:53:42 pinned 6554 MB > 1200, reboot 3/8
+21:53:59 start phi-4-mini.npu.bench (pinned 0 MB)
+21:53:59 download microsoft_Phi-4-mini-instruct-Q4_0.gguf
+21:57:18 end phi-4-mini.npu.bench ok=True 
+21:57:18 start phi-4-mini.npu.server (pinned 167 MB)
+21:59:35 end phi-4-mini.npu.server ok=True 
+21:59:35 delete microsoft_Phi-4-mini-instruct-Q4_0.gguf
+21:59:35 start gemma-3-4b.npu.bench (pinned 334 MB)
+21:59:35 download google_gemma-3-4b-it-Q4_0.gguf
+22:01:08 end gemma-3-4b.npu.bench ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+22:01:08 pinned 2776 MB > 1200, reboot 4/25
+22:01:26 start gemma-3-4b.npu.server (pinned 0 MB)
+22:01:26 download mmproj-google_gemma-3-4b-it-f16.gguf
+22:07:27 end gemma-3-4b.npu.server ok=True 
+22:07:27 delete google_gemma-3-4b-it-Q4_0.gguf
+22:07:28 delete mmproj-google_gemma-3-4b-it-f16.gguf
+22:07:28 start qwen3-vl-4b.npu.bench (pinned 167 MB)
+22:07:28 download Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+22:10:26 end qwen3-vl-4b.npu.bench ok=True 
+22:10:26 start qwen3-vl-4b.npu.server (pinned 334 MB)
+22:10:26 download mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+22:13:07 vision err HTTP Error 500: Internal Server Error
+22:13:07 vision err HTTP Error 500: Internal Server Error
+22:13:08 vision err HTTP Error 500: Internal Server Error
+22:13:08 vision err HTTP Error 500: Internal Server Error
+22:13:14 end qwen3-vl-4b.npu.server ok=True 
+22:13:14 delete Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+22:13:14 delete mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+22:13:14 start lfm2-vl-1.6b.npu.bench (pinned 500 MB)
+22:13:14 download LFM2-VL-1.6B-Q4_0.gguf
+22:14:19 end lfm2-vl-1.6b.npu.bench ok=True 
+22:14:19 start lfm2-vl-1.6b.npu.server (pinned 667 MB)
+22:14:19 download mmproj-LFM2-VL-1.6B-F16.gguf
+22:16:16 end lfm2-vl-1.6b.npu.server ok=True 
+22:16:16 delete LFM2-VL-1.6B-Q4_0.gguf
+22:16:16 delete mmproj-LFM2-VL-1.6B-F16.gguf
+22:16:16 pinned 833 MB > 1200, reboot 5/25
+22:16:33 start qwen3-vl-8b.npu.bench (pinned 0 MB)
+22:16:33 download Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+08:39:19 end qwen3-vl-8b.npu.bench ok=True 
+08:39:19 start qwen3-vl-8b.npu.server (pinned 167 MB)
+08:39:19 download mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+08:43:19 vision err HTTP Error 500: Internal Server Error
+08:43:19 vision err HTTP Error 500: Internal Server Error
+08:43:19 vision err HTTP Error 500: Internal Server Error
+08:43:20 vision err HTTP Error 500: Internal Server Error
+08:43:25 end qwen3-vl-8b.npu.server ok=True 
+08:43:25 delete Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+08:43:26 delete mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+08:43:26 pinned 334 MB > 1200, reboot 6/25
+08:43:44 start qwen3-8b.npu.bench.retry (pinned 0 MB)
+10:31:52 start qwen3.5-4b.npu.bench (pinned 0 MB)
+10:31:52 download Qwen3.5-4B-Q4_0.gguf
+10:35:35 end qwen3.5-4b.npu.bench ok=True 
+10:35:35 start qwen3.5-4b.npu.server (pinned 167 MB)
+10:35:35 download mmproj-qwen3.5-4b.gguf
+10:40:02 end qwen3.5-4b.npu.server ok=True 
+10:40:02 delete mmproj-qwen3.5-4b.gguf
+10:40:02 delete Qwen3.5-4B-Q4_0.gguf
+10:40:03 pinned 334 MB > 1200, reboot 7/25
+10:40:19 start qwen3.5-9b.npu.bench (pinned 0 MB)
+10:40:19 download Qwen3.5-9B-Q4_0.gguf
+10:44:15 end qwen3.5-9b.npu.bench ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+10:44:15 pinned 5681 MB > 1200, reboot 8/25
+10:44:33 start qwen3.5-9b.npu.server (pinned 0 MB)
+10:44:33 download mmproj-qwen3.5-9b.gguf
+10:51:54 end qwen3.5-9b.npu.server ok=True 
+10:51:54 delete mmproj-qwen3.5-9b.gguf
+10:51:54 start gemma-4-e4b.npu.bench (pinned 167 MB)
+10:51:54 download gemma-4-E4B_q4_0-it.gguf
+10:55:39 end gemma-4-e4b.npu.bench ok=False llama-bench rc=-6: ['warning: 360\t../csu/libc-start.c: No such file or directory']
+10:55:39 pinned 3673 MB > 1200, reboot 9/25
+10:55:57 start gemma-4-e4b.npu.server (pinned 0 MB)
+10:55:57 download mmproj-gemma-4-e4b.gguf
+10:59:18 vision err <urlopen error [Errno 111] Connection refused>
+10:59:18 vision err <urlopen error [Errno 111] Connection refused>
+10:59:18 vision err <urlopen error [Errno 111] Connection refused>
+10:59:18 vision err <urlopen error [Errno 111] Connection refused>
+10:59:23 end gemma-4-e4b.npu.server ok=True 
+10:59:23 delete mmproj-gemma-4-e4b.gguf
+10:59:23 pinned 2547 MB > 1200, reboot 10/25
+10:59:41 start granite-4.2-8b.npu.bench (pinned 0 MB)
+10:59:41 download granite-4.2-8b-Q4_0.gguf
+11:48:21 end granite-4.2-8b.npu.bench ok=False llama-bench rc=-9: ['ggml-hex: device 3: HTP3 (phys=0, virt=3, domain=cdsp:3)']
+11:48:21 pinned 5094 MB > 1200, reboot 11/25
+11:48:39 start granite-4.2-8b.npu.server (pinned 0 MB)
+12:43:10 start ministral-3-8b.npu.server (pinned 167 MB)
+12:43:10 download Ministral-3-8B-Instruct-2512-Q4_0.gguf
+12:45:46 download mmproj-ministral-3-8b.gguf
+12:50:08 vision err HTTP Error 500: Internal Server Error
+12:50:08 vision err HTTP Error 500: Internal Server Error
+12:50:08 vision err HTTP Error 500: Internal Server Error
+12:50:09 vision err HTTP Error 500: Internal Server Error
+12:50:15 end ministral-3-8b.npu.server ok=True 
+12:50:15 delete Ministral-3-8B-Instruct-2512-Q4_0.gguf
+12:50:15 delete mmproj-ministral-3-8b.gguf
+12:50:15 start llama-3.2-3b.npu.bench (pinned 334 MB)
+12:50:15 download Llama-3.2-3B-Instruct-Q4_0.gguf
+12:52:31 end llama-3.2-3b.npu.bench ok=True 
+12:52:31 start llama-3.2-3b.npu.server (pinned 500 MB)
+17:47:18 start lfm2.5-1.2b.npu.bench (pinned 0 MB)
+17:47:18 download LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+17:48:23 end lfm2.5-1.2b.npu.bench ok=True 
+17:48:23 delete Llama-3.2-3B-Instruct-Q4_0.gguf
+17:48:23 start lfm2.5-1.2b.npu.server (pinned 167 MB)
+17:49:26 end lfm2.5-1.2b.npu.server ok=True 
+17:49:26 delete LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+17:49:26 start phi-mini-moe.npu.bench (pinned 334 MB)
+17:49:26 download Phi-mini-MoE-instruct-Q4_0.gguf
+17:53:18 end phi-mini-moe.npu.bench ok=True 
+17:53:18 start phi-mini-moe.npu.server (pinned 500 MB)
+17:56:02 end phi-mini-moe.npu.server ok=True 
+17:56:02 delete Phi-mini-MoE-instruct-Q4_0.gguf
+17:56:03 start olmoe-1b-7b.npu.bench (pinned 667 MB)
+17:56:03 download OLMoE-1B-7B-0924-Instruct-Q4_0.gguf
+17:59:05 end olmoe-1b-7b.npu.bench ok=True 
+17:59:05 start olmoe-1b-7b.npu.server (pinned 833 MB)
+18:01:16 end olmoe-1b-7b.npu.server ok=True 
+18:01:16 delete OLMoE-1B-7B-0924-Instruct-Q4_0.gguf
+18:01:17 start genie-qwen3-4b.server (pinned 1000 MB)
+18:01:49 end genie-qwen3-4b.server ok=False HTTP Error 400: 
+18:01:49 pinned 1000 MB > 1200, reboot 12/25
+18:02:06 start genie-qwen3-vl-8b.server (pinned 0 MB)
+18:02:57 end genie-qwen3-vl-8b.server ok=False HTTP Error 400: 
+18:02:57 start qwen3-4b-2507.npu.server.rerun (pinned 0 MB)
+18:02:57 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+18:56:26 start qwen3-4b-2507.cpu.server.rerun (pinned 0 MB)
+19:08:34 end qwen3-4b-2507.cpu.server.rerun ok=True 
+19:08:34 start qwen3-8b.npu.server.rerun (pinned 0 MB)
+19:09:07 end qwen3-8b.npu.server.rerun ok=False server did not become healthy
+19:09:07 pinned 1732 MB > 1200, reboot 13/25
+19:08:31 start lfm2-8b-a1b.npu.server.rerun (pinned 0 MB)
+19:08:31 download LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+19:12:44 end lfm2-8b-a1b.npu.server.rerun ok=False server did not become healthy
+19:12:44 start lfm2-8b-a1b.cpu.server.rerun (pinned 1129 MB)
+19:22:30 end lfm2-8b-a1b.cpu.server.rerun ok=True 
+19:22:30 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+19:22:31 pinned 1129 MB > 1200, reboot 14/25
+19:22:32 start gemma-3-4b.npu.bench.d0 (pinned 0 MB)
+19:22:32 download google_gemma-3-4b-it-Q4_0.gguf
+19:24:48 end gemma-3-4b.npu.bench.d0 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+19:24:48 delete google_gemma-3-4b-it-Q4_0.gguf
+19:24:48 pinned 1649 MB > 1200, reboot 15/25
+19:24:24 start qwen3-4b-2507.npu.server.s1 (pinned 0 MB)
+19:25:57 end qwen3-4b-2507.npu.server.s1 ok=False server did not become healthy
+19:25:57 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+19:25:58 pinned 1718 MB > 1200, reboot 16/25
+19:26:07 start genie-qwen3-4b.server.fix (pinned 0 MB)
+19:30:20 end genie-qwen3-4b.server.fix ok=True 
+19:30:20 pinned 4980 MB > 1200, reboot 17/25
+19:29:59 start genie-qwen3-vl-8b.server.fix (pinned 0 MB)
+19:38:31 vision err HTTP Error 503: 
+19:38:35 vision err HTTP Error 503: 
+19:38:40 vision err HTTP Error 503: 
+19:38:44 vision err HTTP Error 503: 
+19:39:00 end genie-qwen3-vl-8b.server.fix ok=True 
+19:39:00 pinned 6215 MB > 1200, reboot 18/25
+19:38:43 start qwen3-vl-4b.npu.server.vfix (pinned 0 MB)
+19:38:43 download Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+19:41:02 download mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+19:41:43 end qwen3-vl-4b.npu.server.vfix ok=False server did not become healthy
+19:41:43 delete Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+19:41:43 delete mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+19:41:43 pinned 1730 MB > 1200, reboot 19/25
+19:41:54 start qwen3-vl-8b.npu.server.vfix (pinned 0 MB)
+19:41:54 download Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+19:45:00 download mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+19:45:45 end qwen3-vl-8b.npu.server.vfix ok=False server did not become healthy
+19:45:45 delete Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+19:45:46 delete mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+19:45:46 start ministral-3-8b.npu.server.vfix (pinned 0 MB)
+19:45:46 download Ministral-3-8B-Instruct-2512-Q4_0.gguf
+19:48:19 download mmproj-ministral-3-8b.gguf
+19:48:54 end ministral-3-8b.npu.server.vfix ok=False server did not become healthy
+19:48:54 delete Ministral-3-8B-Instruct-2512-Q4_0.gguf
+19:48:55 delete mmproj-ministral-3-8b.gguf
+19:48:55 start gemma-4-e4b.npu.server.vfix (pinned 0 MB)
+19:48:55 download gemma-4-E4B_q4_0-it.gguf
+19:51:41 download mmproj-gemma-4-e4b.gguf
+19:52:28 end gemma-4-e4b.npu.server.vfix ok=False server did not become healthy
+19:52:28 delete gemma-4-E4B_q4_0-it.gguf
+19:52:29 delete mmproj-gemma-4-e4b.gguf
+19:52:29 queue finished
+19:58:21 pinned 1349 MB > 1200, reboot 20/25
+19:58:35 start genie-qwen3-4b.server.fix2 (pinned 0 MB)
+20:02:49 end genie-qwen3-4b.server.fix2 ok=True 
+20:02:49 pinned 4980 MB > 1200, reboot 21/25
+20:02:24 start genie-qwen3-vl-8b.server.fix2 (pinned 0 MB)
+20:11:36 end genie-qwen3-vl-8b.server.fix2 ok=True 
+20:11:36 pinned 6215 MB > 1200, reboot 22/60
+20:11:16 start qwen3-vl-4b.npu.server.vfix2 (pinned 0 MB)
+20:11:16 download Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+20:13:40 download mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+20:17:07 end qwen3-vl-4b.npu.server.vfix2 ok=True 
+20:17:07 delete Qwen_Qwen3-VL-4B-Instruct-Q4_0.gguf
+20:17:07 delete mmproj-Qwen_Qwen3-VL-4B-Instruct-f16.gguf
+20:17:07 start qwen3-vl-8b.npu.server.vfix2 (pinned 167 MB)
+20:17:07 download Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+20:19:42 download mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+20:50:23 pinned 4939 MB > 1200, reboot 23/60
+20:49:56 start genie-qwen3-4b.server.fix3 (pinned 0 MB)
+20:55:01 end genie-qwen3-4b.server.fix3 ok=True 
+20:55:01 pinned 4982 MB > 1200, reboot 24/60
+20:54:23 start genie-qwen3-vl-8b.server.fix3 (pinned 0 MB)
+21:03:50 end genie-qwen3-vl-8b.server.fix3 ok=True 
+21:03:50 pinned 6215 MB > 1200, reboot 25/60
+21:03:30 start qwen3-vl-8b.npu.server.vfix3 (pinned 0 MB)
+21:35:10 vision err <urlopen error [Errno 111] Connection refused>
+21:35:10 vision err <urlopen error [Errno 111] Connection refused>
+21:35:10 vision err <urlopen error [Errno 111] Connection refused>
+21:35:10 vision err <urlopen error [Errno 111] Connection refused>
+21:35:15 end qwen3-vl-8b.npu.server.vfix3 ok=True 
+21:35:15 delete Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+21:35:16 delete mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+21:35:16 pinned 5578 MB > 1200, reboot 26/60
+21:35:17 start ministral-3-8b.npu.server.vfix3 (pinned 0 MB)
+21:35:17 download Ministral-3-8B-Instruct-2512-Q4_0.gguf
+21:38:47 download mmproj-ministral-3-8b.gguf
+21:44:10 end ministral-3-8b.npu.server.vfix3 ok=True 
+21:44:10 delete Ministral-3-8B-Instruct-2512-Q4_0.gguf
+21:44:11 delete mmproj-ministral-3-8b.gguf
+21:44:11 start gemma-4-e4b.npu.server.vfix3 (pinned 167 MB)
+21:44:11 download gemma-4-E4B_q4_0-it.gguf
+21:46:52 download mmproj-gemma-4-e4b.gguf
+21:47:42 end gemma-4-e4b.npu.server.vfix3 ok=False server did not become healthy
+21:47:42 delete gemma-4-E4B_q4_0-it.gguf
+21:47:43 delete mmproj-gemma-4-e4b.gguf
+21:47:43 pinned 3165 MB > 1200, reboot 27/60
+21:47:13 start genie-qwen3-4b.server.fix4 (pinned 0 MB)
+21:52:24 end genie-qwen3-4b.server.fix4 ok=True 
+21:52:24 pinned 4982 MB > 1200, reboot 28/60
+21:51:41 start genie-qwen3-vl-8b.server.fix4 (pinned 0 MB)
+22:01:14 end genie-qwen3-vl-8b.server.fix4 ok=True 
+22:01:14 pinned 6215 MB > 1200, reboot 29/60
+22:00:48 start genie-qwen3-4b.server.fix5 (pinned 0 MB)
+22:07:13 end genie-qwen3-4b.server.fix5 ok=True 
+22:07:13 pinned 4939 MB > 1200, reboot 30/60
+22:07:25 start genie-qwen3-vl-8b.server.fix5 (pinned 0 MB)
+22:15:57 end genie-qwen3-vl-8b.server.fix5 ok=True 
+22:15:57 queue finished
