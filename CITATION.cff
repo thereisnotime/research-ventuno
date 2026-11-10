@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use these results, please cite them as below."
+title: "Local LLM inference on the Arduino VENTUNO Q: an empirical evaluation of NPU and CPU backends"
+type: dataset
+authors:
+  - alias: thereisnotime
+repository-code: "https://github.com/thereisnotime/research-ventuno"
+date-released: 2026-11-10
+license: CC-BY-4.0
+keywords: [llm, edge-ai, qualcomm, qcs8300, hexagon-npu, llama.cpp, genie, benchmark]
