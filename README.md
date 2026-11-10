@@ -28,6 +28,8 @@ discrete GPU. Vendor material does not answer the practical questions this raise
 1. Which model and which engine (Genie or llama.cpp's Hexagon backend) give the best accuracy per unit of latency?
 2. How large is the NPU's advantage over the CPU, for prompt processing and for generation?
 3. Is the NPU stack stable enough for 24/7 operation, and if not, what are the failure modes and recovery options?
+4. How much of the advertised "up to 40 dense TOPS of NPU acceleration for vision models, LLMs, and multi-modal
+   AI inference" is usable for LLMs? (Vendor claims and archived sources: [docs/sources.md](docs/sources.md).)
 
 ## 2. Test environment
 
@@ -309,6 +311,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 | [`suite/genie-compose.yaml`](suite/genie-compose.yaml) | Working Genie configuration |
 | [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
 | [`reports/environments.md`](reports/environments.md) | Environment profiles (kernel, firmware, packages, engine build) and their runs |
+| [`docs/sources.md`](docs/sources.md) | Vendor claims under test, with Wayback Machine snapshots |
 | [`docs/stability-fixes.md`](docs/stability-fixes.md) | Every crash fix and workaround, with config and verification status |
 | [`docs/board-notes.md`](docs/board-notes.md) | Board setup, kernel and firmware notes, incident log |
 
