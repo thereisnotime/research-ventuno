@@ -15,7 +15,8 @@ where supported, image understanding (4 synthetic images). The best overall resu
 the NPU (7/7 tools, 12/12 quiz, 12.6 tokens/s); the fastest usable model was LFM2.5-1.2B (29 tokens/s generation,
 1264 tokens/s prompt processing). The NPU path was not stable: driver-level wedges occurred at random across model
 sizes and in two cases froze the whole board, which is documented together with the mitigations used to finish the
-run unattended. All raw requests, responses and per-test results are published so every figure can be traced to the
+run unattended. Against the advertised "up to 40 dense TOPS" for LLMs, prompt processing with llama.cpp reached about
+3.5 TOPS (9%) on two different models, with the NPU's matrix engine carrying all of it. All raw requests, responses and per-test results are published so every figure can be traced to the
 model output it came from.
 
 ## 1. Motivation
@@ -94,10 +95,12 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 
 | Model | Pick | Engine | Build | Device | Env | Gen t/s | Prefill t/s | Tools | JSON | Quiz | Needle | Vision | s/image | Peak RAM MB |
 |---|---|---|---|---|---|---:|---:|---|---|---|---|---|---:|---:|
-| [lfm2-vl-1.6b](reports/lfm2-vl-1.6b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 🥇 29.51 | 🥈 1233.42 | [2/7](reports/lfm2-vl-1.6b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-vl-1.6b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/lfm2-vl-1.6b.npu.server.md#vision) | 🥈 5.1 | 🥈 3976 |
-| [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.md) | ⚡ fastest useful | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 🥈 29.13 | 🥇 1263.86 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.md#quiz) | ✅ | — | — | 🥇 2504 |
-| [olmoe-1b-7b](reports/olmoe-1b-7b.npu.server.md) | ⚠️ bad at tools | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 🥉 28.76 | 🥉 567.83 | [1/7](reports/olmoe-1b-7b.npu.server.md#tools) | ✅ | [7/12](reports/olmoe-1b-7b.npu.server.md#quiz) | ❌ | — | — | 7371 |
+| [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 🥇 29.88 | 🥇 1317.85 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.b12244.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.b12244.md#quiz) | ✅ | — | — | 🥇 2382 |
+| [lfm2-vl-1.6b](reports/lfm2-vl-1.6b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 🥈 29.51 | 🥉 1233.42 | [2/7](reports/lfm2-vl-1.6b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2-vl-1.6b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/lfm2-vl-1.6b.npu.server.md#vision) | 🥈 5.1 | 🥉 3976 |
+| [lfm2.5-1.2b](reports/lfm2.5-1.2b.npu.server.md) | ⚡ fastest useful | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 🥉 29.13 | 🥈 1263.86 | [🥈 6/7](reports/lfm2.5-1.2b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/lfm2.5-1.2b.npu.server.md#quiz) | ✅ | — | — | 🥈 2504 |
+| [olmoe-1b-7b](reports/olmoe-1b-7b.npu.server.md) | ⚠️ bad at tools | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 28.76 | 567.83 | [1/7](reports/olmoe-1b-7b.npu.server.md#tools) | ✅ | [7/12](reports/olmoe-1b-7b.npu.server.md#quiz) | ❌ | — | — | 7371 |
 | [lfm2-8b-a1b](reports/lfm2-8b-a1b.cpu.server.tr.md) | 🛡️ safe 24/7 | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 24.7 | 49.0 | [🥈 6/7](reports/lfm2-8b-a1b.cpu.server.tr.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.cpu.server.tr.md#quiz) | ✅ | — | — | 5430 |
+| [lfm2-8b-a1b](reports/lfm2-8b-a1b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 24.23 | 550.86 | [🥉 5/7](reports/lfm2-8b-a1b.npu.server.b12244.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.npu.server.b12244.md#quiz) | ✅ | — | — | 6480 |
 | [lfm2-8b-a1b](reports/lfm2-8b-a1b.npu.server.tr.md) |  | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 23.97 | 511.4 | [🥈 6/7](reports/lfm2-8b-a1b.npu.server.tr.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.npu.server.tr.md#quiz) | ✅ | — | — | 6597 |
 | [phi-mini-moe](reports/phi-mini-moe.npu.server.md) | ⚠️ bad at tools | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 18.63 | 352.77 | [1/7](reports/phi-mini-moe.npu.server.md#tools) | ❌ | [8/12](reports/phi-mini-moe.npu.server.md#quiz) | ❌ | — | — | 7306 |
 | [qwen3_4b_instruct_2507](reports/genie-qwen3-4b.server.fix5.md) | 🚀 fastest 4B | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | 16.45 | — | [🥈 6/7](reports/genie-qwen3-4b.server.fix5.md#tools) | ❌ | [🥉 10/12](reports/genie-qwen3-4b.server.fix5.md#quiz) | ✅ | — | — | 7752 |
@@ -106,8 +109,10 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.tr.md) | 🏆 best all-round | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 12.79 | 395.46 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.tr.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.tr.md#quiz) | ✅ | — | — | 5405 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 12.71 | 402.2 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.b12244.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.b12244.md#quiz) | ✅ | — | — | 5287 |
 | [qwen3-vl-4b](reports/qwen3-vl-4b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 12.55 | 385.69 | [🥇 7/7](reports/qwen3-vl-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3-vl-4b.npu.server.vfix2.md#vision) | 🥉 9.8 | 6800 |
+| [qwen3.5-4b](reports/qwen3.5-4b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 10.6 | 372.61 | [🥇 7/7](reports/qwen3.5-4b.npu.server.b12244.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.b12244.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.b12244.md#vision) | 21.2 | 8890 |
 | [gemma-4-e4b](reports/gemma-4-e4b.npu.server.md) | ⛔ never loaded | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 10.47 | — | [0/7](reports/gemma-4-e4b.npu.server.md#tools) | ❌ | [0/12](reports/gemma-4-e4b.npu.server.md#quiz) | ❌ | — | — | 9007 |
-| [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.tr.md) |  | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 10.0 | 27.81 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.tr.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.tr.md#quiz) | ✅ | — | — | 🥉 4482 |
+| [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.tr.md) |  | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 10.0 | 27.81 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.tr.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.tr.md#quiz) | ✅ | — | — | 4482 |
+| [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.b12244.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 9.84 | 22.02 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.b12244.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.b12244.md#quiz) | ✅ | — | — | 4290 |
 | [qwen3.5-4b](reports/qwen3.5-4b.npu.server.md) | 👁️ fast vision | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 8.59 | 151.21 | [🥇 7/7](reports/qwen3.5-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.md#vision) | 🥇 3.9 | 9557 |
 | [qwen3-8b](reports/qwen3-8b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 7.64 | 250.26 | [🥇 7/7](reports/qwen3-8b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/qwen3-8b.npu.server.md#quiz) | ✅ | — | — | 7370 |
 | [qwen3-vl-8b](reports/qwen3-vl-8b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 7.57 | 246.36 | [🥇 7/7](reports/qwen3-vl-8b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-8b.npu.server.md#quiz) | ✅ | — | — | 9079 |
@@ -117,6 +122,9 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [qwen3_4b_instruct_2507-genie-w4a16-qualcomm_qcs8275](reports/genie-qwen3-4b.server.md) |  | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | — | — | — | — | — | — | — | — | 2032 |
 | [qwen3_vl_8b_instruct-genie-w4a16-qualcomm_qcs8275](reports/genie-qwen3-vl-8b.server.md) |  | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | — | — | — | — | — | — | — | — | 886 |
 | [qwen3_vl_8b_instruct](reports/genie-qwen3-vl-8b.server.fix.md) | ⛔ hangs | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | — | — | [0/7](reports/genie-qwen3-vl-8b.server.fix.md#tools) | ❌ | [0/12](reports/genie-qwen3-vl-8b.server.fix.md#quiz) | ❌ | — | — | 9561 |
+| [ministral-3-8b](reports/ministral-3-8b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | — | — | — | — | — | — | — | — | 7545 |
+| [gemma-4-e4b](reports/gemma-4-e4b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | — | — | — | — | — | — | — | — | 10370 |
+| [qwen3-vl-8b](reports/qwen3-vl-8b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | — | — | — | — | — | — | — | — | 8478 |
 
 ### 4.2 Recommendations
 
@@ -190,6 +198,16 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | [lfm2-8b-a1b.cpu.server.tr](reports/lfm2-8b-a1b.cpu.server.tr.md) | [E3](reports/environments.md#e3) | 0 | 24.7 | 49.0 | 10.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 5430 |  |
 | ❌ [qwen3-4b-2507.npu.server.b12244.s1](reports/qwen3-4b-2507.npu.server.b12244.s1.md) | [E5](reports/environments.md#e5) | 1 | — | — | — | — | — | — | — | — | — | 4355 | server did not become healthy |
 | [qwen3-4b-2507.npu.server.b12244](reports/qwen3-4b-2507.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | 12.71 | 402.2 | 4.1 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5287 |  |
+| [lfm2.5-1.2b.npu.server.b12244](reports/lfm2.5-1.2b.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | 29.88 | 1317.85 | 2.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 2382 |  |
+| [lfm2-8b-a1b.npu.server.b12244](reports/lfm2-8b-a1b.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | 24.23 | 550.86 | 6.0 | ✅ | 5/7 | ✅ | 10/12 | — | — | 6480 |  |
+| [qwen3.5-4b.npu.server.b12244](reports/qwen3.5-4b.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | 10.6 | 372.61 | 6.0 | ✅ | 7/7 | ✅ | 11/12 | 3/4 | 21.2 | 8890 |  |
+| ❌ [ministral-3-8b.npu.server.b12244](reports/ministral-3-8b.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | — | — | — | — | — | 7545 | server did not become healthy |
+| ❌ [gemma-4-e4b.npu.server.b12244](reports/gemma-4-e4b.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | — | — | — | — | — | 10370 | server did not become healthy |
+| ❌ [qwen3-vl-8b.npu.server.b12244](reports/qwen3-vl-8b.npu.server.b12244.md) | [E5](reports/environments.md#e5) | 4 | — | — | 6.0 | — | — | — | — | — | — | 8478 | [Errno 104] Connection reset by peer |
+| [qwen3-4b-2507.cpu.server.b12244](reports/qwen3-4b-2507.cpu.server.b12244.md) | [E5](reports/environments.md#e5) | 0 | 9.84 | 22.02 | 6.0 | ✅ | 7/7 | ✅ | 11/12 | — | — | 4290 |  |
+| ❌ [combo.c1.qwen3-8b.ngl28](reports/combo.c1.qwen3-8b.ngl28.md) | [E3](reports/environments.md#e3) | 4 | — | — | 32.2 | — | — | — | — | — | — | 6998 | [Errno 104] Connection reset by peer |
+| [combo.c2.qwen3-8b.ngl20](reports/combo.c2.qwen3-8b.ngl20.md) | [E3](reports/environments.md#e3) | 3 | 0.89 | 24.66 | 62.6 | ✅ | 7/7 | ✅ | 10/12 | — | — | 7255 |  |
+| [combo.c3.qwen3-4b.spec4](reports/combo.c3.qwen3-4b.spec4.md) | [E5](reports/environments.md#e5) | 4 | 12.53 | 401.19 | 14.0 | ✅ | 7/7 | ✅ | 12/12 | — | — | 5926 |  |
 
 ### 4.4 llama-bench
 
@@ -200,26 +218,40 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | [qwen3-4b-2507.npu.bench](reports/qwen3-4b-2507.npu.bench.md) | [E1](reports/environments.md#e1) | — | 441.41 | 12.99 | 330.31 | 9.19 |  |
 | [qwen3-4b-2507.cpu.bench](reports/qwen3-4b-2507.cpu.bench.md) | [E1](reports/environments.md#e1) | — | 33.59 | 10.2 | 20.77 | 5.1 |  |
 | ❌ [qwen3-8b.npu.bench](reports/qwen3-8b.npu.bench.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
-| [lfm2-8b-a1b.npu.bench](reports/lfm2-8b-a1b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 555.4 | 24.9 | 536.24 | 🥉 22.39 |  |
+| [lfm2-8b-a1b.npu.bench](reports/lfm2-8b-a1b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 555.4 | 24.9 | 536.24 | 22.39 |  |
 | [lfm2-8b-a1b.cpu.bench](reports/lfm2-8b-a1b.cpu.bench.md) | [E1](reports/environments.md#e1) | — | 50.52 | 25.09 | 46.72 | 7.82 |  |
 | ❌ [granite-4-h-tiny.npu.bench](reports/granite-4-h-tiny.npu.bench.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
 | [phi-4-mini.npu.bench](reports/phi-4-mini.npu.bench.md) | [E1](reports/environments.md#e1) | — | 502.45 | 13.73 | 398.25 | 10.51 |  |
 | ❌ [gemma-3-4b.npu.bench](reports/gemma-3-4b.npu.bench.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
 | [qwen3-vl-4b.npu.bench](reports/qwen3-vl-4b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 430.88 | 13.0 | 323.27 | 9.16 |  |
-| [lfm2-vl-1.6b.npu.bench](reports/lfm2-vl-1.6b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 🥇 1440.54 | 🥉 27.87 | 🥈 1254.22 | 🥇 26.59 |  |
+| [lfm2-vl-1.6b.npu.bench](reports/lfm2-vl-1.6b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 🥉 1440.54 | 27.87 | 🥉 1254.22 | 🥈 26.59 |  |
 | [qwen3-vl-8b.npu.bench](reports/qwen3-vl-8b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 263.45 | 7.79 | 218.88 | 6.25 |  |
 | [qwen3.5-4b.npu.bench](reports/qwen3.5-4b.npu.bench.md) | [E1](reports/environments.md#e1) | — | 159.97 | 8.79 | 153.63 | 8.51 |  |
 | ❌ [qwen3.5-9b.npu.bench](reports/qwen3.5-9b.npu.bench.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
 | ❌ [gemma-4-e4b.npu.bench](reports/gemma-4-e4b.npu.bench.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | llama-bench rc=-6: ['warning: 360\t../csu/libc-start.c: No s… |
 | ❌ [granite-4.2-8b.npu.bench](reports/granite-4.2-8b.npu.bench.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | llama-bench rc=-9: ['ggml-hex: device 3: HTP3 (phys=0, virt=… |
 | [llama-3.2-3b.npu.bench](reports/llama-3.2-3b.npu.bench.md) | [E2](reports/environments.md#e2) | — | 593.74 | 16.54 | 467.02 | 12.58 |  |
-| [lfm2.5-1.2b.npu.bench](reports/lfm2.5-1.2b.npu.bench.md) | [E3](reports/environments.md#e3) | — | 🥈 1438.99 | 🥈 29.47 | 🥇 1261.92 | 🥈 25.74 |  |
+| [lfm2.5-1.2b.npu.bench](reports/lfm2.5-1.2b.npu.bench.md) | [E3](reports/environments.md#e3) | — | 1438.99 | 🥉 29.47 | 🥈 1261.92 | 🥉 25.74 |  |
 | [phi-mini-moe.npu.bench](reports/phi-mini-moe.npu.bench.md) | [E3](reports/environments.md#e3) | — | 411.07 | 18.35 | 326.34 | 11.82 |  |
-| [olmoe-1b-7b.npu.bench](reports/olmoe-1b-7b.npu.bench.md) | [E3](reports/environments.md#e3) | — | 🥉 639.39 | 🥇 30.45 | 🥉 583.62 | 17.61 |  |
+| [olmoe-1b-7b.npu.bench](reports/olmoe-1b-7b.npu.bench.md) | [E3](reports/environments.md#e3) | — | 639.39 | 🥇 30.45 | 583.62 | 17.61 |  |
 | ❌ [gemma-3-4b.npu.bench.d0](reports/gemma-3-4b.npu.bench.d0.md) | [E3](reports/environments.md#e3) | 1 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
 | ❌ [qwen3-4b-2507.npu.bench.b12244.s1](reports/qwen3-4b-2507.npu.bench.b12244.s1.md) | [E5](reports/environments.md#e5) | 1 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
 | [qwen3-4b-2507.npu.bench.b12244](reports/qwen3-4b-2507.npu.bench.b12244.md) | [E5](reports/environments.md#e5) | 4 | 445.53 | 9.69 | 334.96 | 9.21 |  |
 | ❌ [qwen3-8b.npu.bench.b12244](reports/qwen3-8b.npu.bench.b12244.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
+| ❌ [qwen3-4b-2507.npu.bench.b12244.s1.d0](reports/qwen3-4b-2507.npu.bench.b12244.s1.d0.md) | [E5](reports/environments.md#e5) | 1 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
+| [lfm2.5-1.2b.npu.bench.b12244](reports/lfm2.5-1.2b.npu.bench.b12244.md) | [E5](reports/environments.md#e5) | 4 | 🥈 1461.56 | 🥈 30.31 | 🥇 1270.59 | 🥇 27.23 |  |
+| [lfm2-8b-a1b.npu.bench.b12244](reports/lfm2-8b-a1b.npu.bench.b12244.md) | [E5](reports/environments.md#e5) | 4 | 595.55 | 24.26 | 562.52 | 22.39 |  |
+| [qwen3.5-4b.npu.bench.b12244](reports/qwen3.5-4b.npu.bench.b12244.md) | [E5](reports/environments.md#e5) | 4 | 398.98 | 11.09 | 383.81 | 10.36 |  |
+| ❌ [gemma-4-e4b.npu.bench.b12244](reports/gemma-4-e4b.npu.bench.b12244.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
+| [qwen3-4b-2507.cpu.bench.b12244](reports/qwen3-4b-2507.cpu.bench.b12244.md) | [E5](reports/environments.md#e5) | 0 | 30.57 | 10.22 | 20.48 | 5.08 |  |
+| [qwen3-8b.npu.bench.b12244.d0](reports/qwen3-8b.npu.bench.b12244.d0.md) | [E5](reports/environments.md#e5) | 4 | 269.82 | 7.99 | — | — |  |
+| [tops.t1.qwen3-4b-q4.hmx](reports/tops.t1.qwen3-4b-q4.hmx.md) | [E5](reports/environments.md#e5) | 4 | 445.23 | 13.13 | — | — |  |
+| [tops.t2.qwen3-4b-q4.nohmx](reports/tops.t2.qwen3-4b-q4.nohmx.md) | [E5](reports/environments.md#e5) | 4 | 24.81 | 12.99 | — | — |  |
+| [tops.t3.qwen3-4b-q4.balanced](reports/tops.t3.qwen3-4b-q4.balanced.md) | [E5](reports/environments.md#e5) | 4 | 444.99 | 12.86 | — | — |  |
+| ❌ [tops.t4.qwen3-4b-q8.hmx](reports/tops.t4.qwen3-4b-q8.hmx.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
+| [tops.t5.lfm2.5-1.2b.hmx](reports/tops.t5.lfm2.5-1.2b.hmx.md) | [E5](reports/environments.md#e5) | 4 | 🥇 1463.7 | 20.73 | — | — |  |
+| [tops.t5b.lfm2.5-1.2b.nohmx](reports/tops.t5b.lfm2.5-1.2b.nohmx.md) | [E5](reports/environments.md#e5) | 4 | 104.24 | 28.91 | — | — |  |
+| ❌ [gemma-4-e4b.npu.bench.b12244.d0](reports/gemma-4-e4b.npu.bench.b12244.d0.md) | [E5](reports/environments.md#e5) | 4 | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mmap failed … |
 
 ### 4.5 Runs without a result
 
@@ -250,21 +282,104 @@ Table 4. Same model and device on the original build (`7fe450e`, 2026-10-02) and
 
 | Model | Device | Metric | `7fe450e` | `d5bbcd1` | Change |
 |---|---|---|---:|---:|---:|
-| qwen3-4b-2507 | npu | pp512_d0 | [441.41](reports/qwen3-4b-2507.npu.bench.md) | [445.53](reports/qwen3-4b-2507.npu.bench.b12244.md) | ⚪ +1% |
-| qwen3-4b-2507 | npu | tg128_d0 | [12.99](reports/qwen3-4b-2507.npu.bench.md) | [9.69](reports/qwen3-4b-2507.npu.bench.b12244.md) | 🔴 -25% |
-| qwen3-4b-2507 | npu | pp512_d2048 | [330.31](reports/qwen3-4b-2507.npu.bench.md) | [334.96](reports/qwen3-4b-2507.npu.bench.b12244.md) | ⚪ +1% |
-| qwen3-4b-2507 | npu | tg128_d2048 | [9.19](reports/qwen3-4b-2507.npu.bench.md) | [9.21](reports/qwen3-4b-2507.npu.bench.b12244.md) | ⚪ +0% |
+| gemma-4-e4b | npu | llamabench | ❌ | ❌ [gemma-4-e4b.npu.bench.b12244.d0](reports/gemma-4-e4b.npu.bench.b12244.d0.md) | |
+| gemma-4-e4b | npu | server | ok | ❌ [gemma-4-e4b.npu.server.b12244](reports/gemma-4-e4b.npu.server.b12244.md) | |
+| lfm2-8b-a1b | npu | pp512_d0 | [555.4](reports/lfm2-8b-a1b.npu.bench.md) | [595.55](reports/lfm2-8b-a1b.npu.bench.b12244.md) | 🟢 +7% |
+| lfm2-8b-a1b | npu | tg128_d0 | [24.9](reports/lfm2-8b-a1b.npu.bench.md) | [24.26](reports/lfm2-8b-a1b.npu.bench.b12244.md) | ⚪ -3% |
+| lfm2-8b-a1b | npu | pp512_d2048 | [536.24](reports/lfm2-8b-a1b.npu.bench.md) | [562.52](reports/lfm2-8b-a1b.npu.bench.b12244.md) | 🟢 +5% |
+| lfm2-8b-a1b | npu | tg128_d2048 | [22.39](reports/lfm2-8b-a1b.npu.bench.md) | [22.39](reports/lfm2-8b-a1b.npu.bench.b12244.md) | ⚪ +0% |
+| lfm2-8b-a1b | npu | Gen t/s | [23.97](reports/lfm2-8b-a1b.npu.server.tr.md) | [24.23](reports/lfm2-8b-a1b.npu.server.b12244.md) | ⚪ +1% |
+| lfm2-8b-a1b | npu | Prefill t/s | [511.4](reports/lfm2-8b-a1b.npu.server.tr.md) | [550.86](reports/lfm2-8b-a1b.npu.server.b12244.md) | 🟢 +8% |
+| lfm2-8b-a1b | npu | Tools | 6/7 | 5/7 | |
+| lfm2-8b-a1b | npu | Quiz | 10/12 | 10/12 | |
+| lfm2-8b-a1b | npu | Peak RAM MB | [6597](reports/lfm2-8b-a1b.npu.server.tr.md) | [6480](reports/lfm2-8b-a1b.npu.server.b12244.md) | ⚪ -2% |
+| lfm2.5-1.2b | npu | pp512_d0 | [1438.99](reports/lfm2.5-1.2b.npu.bench.md) | [1461.56](reports/lfm2.5-1.2b.npu.bench.b12244.md) | ⚪ +2% |
+| lfm2.5-1.2b | npu | tg128_d0 | [29.47](reports/lfm2.5-1.2b.npu.bench.md) | [30.31](reports/lfm2.5-1.2b.npu.bench.b12244.md) | ⚪ +3% |
+| lfm2.5-1.2b | npu | pp512_d2048 | [1261.92](reports/lfm2.5-1.2b.npu.bench.md) | [1270.59](reports/lfm2.5-1.2b.npu.bench.b12244.md) | ⚪ +1% |
+| lfm2.5-1.2b | npu | tg128_d2048 | [25.74](reports/lfm2.5-1.2b.npu.bench.md) | [27.23](reports/lfm2.5-1.2b.npu.bench.b12244.md) | 🟢 +6% |
+| lfm2.5-1.2b | npu | Gen t/s | [29.13](reports/lfm2.5-1.2b.npu.server.md) | [29.88](reports/lfm2.5-1.2b.npu.server.b12244.md) | ⚪ +3% |
+| lfm2.5-1.2b | npu | Prefill t/s | [1263.86](reports/lfm2.5-1.2b.npu.server.md) | [1317.85](reports/lfm2.5-1.2b.npu.server.b12244.md) | 🟢 +4% |
+| lfm2.5-1.2b | npu | Tools | 6/7 | 6/7 | |
+| lfm2.5-1.2b | npu | Quiz | 10/12 | 10/12 | |
+| lfm2.5-1.2b | npu | Peak RAM MB | [2504](reports/lfm2.5-1.2b.npu.server.md) | [2382](reports/lfm2.5-1.2b.npu.server.b12244.md) | 🟢 -5% |
+| ministral-3-8b | npu | server | ok | ❌ [ministral-3-8b.npu.server.b12244](reports/ministral-3-8b.npu.server.b12244.md) | |
+| qwen3-4b-2507 | cpu | pp512_d0 | [33.59](reports/qwen3-4b-2507.cpu.bench.md) | [30.57](reports/qwen3-4b-2507.cpu.bench.b12244.md) | 🔴 -9% |
+| qwen3-4b-2507 | cpu | tg128_d0 | [10.2](reports/qwen3-4b-2507.cpu.bench.md) | [10.22](reports/qwen3-4b-2507.cpu.bench.b12244.md) | ⚪ +0% |
+| qwen3-4b-2507 | cpu | pp512_d2048 | [20.77](reports/qwen3-4b-2507.cpu.bench.md) | [20.48](reports/qwen3-4b-2507.cpu.bench.b12244.md) | ⚪ -1% |
+| qwen3-4b-2507 | cpu | tg128_d2048 | [5.1](reports/qwen3-4b-2507.cpu.bench.md) | [5.08](reports/qwen3-4b-2507.cpu.bench.b12244.md) | ⚪ -0% |
+| qwen3-4b-2507 | cpu | Gen t/s | [10.0](reports/qwen3-4b-2507.cpu.server.tr.md) | [9.84](reports/qwen3-4b-2507.cpu.server.b12244.md) | ⚪ -2% |
+| qwen3-4b-2507 | cpu | Prefill t/s | [27.81](reports/qwen3-4b-2507.cpu.server.tr.md) | [22.02](reports/qwen3-4b-2507.cpu.server.b12244.md) | 🔴 -21% |
+| qwen3-4b-2507 | cpu | Tools | 7/7 | 7/7 | |
+| qwen3-4b-2507 | cpu | Quiz | 11/12 | 11/12 | |
+| qwen3-4b-2507 | cpu | Peak RAM MB | [4482](reports/qwen3-4b-2507.cpu.server.tr.md) | [4290](reports/qwen3-4b-2507.cpu.server.b12244.md) | 🟢 -4% |
+| qwen3-4b-2507 | npu | pp512_d0 | [441.41](reports/qwen3-4b-2507.npu.bench.md) | [445.23](reports/tops.t1.qwen3-4b-q4.hmx.md) | ⚪ +1% |
+| qwen3-4b-2507 | npu | tg128_d0 | [12.99](reports/qwen3-4b-2507.npu.bench.md) | [13.13](reports/tops.t1.qwen3-4b-q4.hmx.md) | ⚪ +1% |
+| qwen3-4b-2507 | npu | pp512_d2048 | [330.31](reports/qwen3-4b-2507.npu.bench.md) | ❌ |  |
+| qwen3-4b-2507 | npu | tg128_d2048 | [9.19](reports/qwen3-4b-2507.npu.bench.md) | ❌ |  |
 | qwen3-4b-2507 | npu | Gen t/s | [12.79](reports/qwen3-4b-2507.npu.server.tr.md) | [12.71](reports/qwen3-4b-2507.npu.server.b12244.md) | ⚪ -1% |
 | qwen3-4b-2507 | npu | Prefill t/s | [395.46](reports/qwen3-4b-2507.npu.server.tr.md) | [402.2](reports/qwen3-4b-2507.npu.server.b12244.md) | ⚪ +2% |
 | qwen3-4b-2507 | npu | Tools | 7/7 | 7/7 | |
 | qwen3-4b-2507 | npu | Quiz | 12/12 | 12/12 | |
 | qwen3-4b-2507 | npu | Peak RAM MB | [5405](reports/qwen3-4b-2507.npu.server.tr.md) | [5287](reports/qwen3-4b-2507.npu.server.b12244.md) | ⚪ -2% |
-| qwen3-8b | npu | llamabench | ❌ | ❌ [qwen3-8b.npu.bench.b12244](reports/qwen3-8b.npu.bench.b12244.md) | |
+| qwen3-4b-2507-q8 | npu | llamabench | ❌ | ❌ [tops.t4.qwen3-4b-q8.hmx](reports/tops.t4.qwen3-4b-q8.hmx.md) | |
+| qwen3-8b | npu | pp512_d0 | ❌ | [269.82](reports/qwen3-8b.npu.bench.b12244.d0.md) |  |
+| qwen3-8b | npu | tg128_d0 | ❌ | [7.99](reports/qwen3-8b.npu.bench.b12244.d0.md) |  |
 | qwen3-8b | npu | Gen t/s | [7.64](reports/qwen3-8b.npu.server.md) | ❌ |  |
 | qwen3-8b | npu | Prefill t/s | [250.26](reports/qwen3-8b.npu.server.md) | ❌ |  |
 | qwen3-8b | npu | Tools | 7/7 | — | |
 | qwen3-8b | npu | Quiz | 10/12 | — | |
 | qwen3-8b | npu | Peak RAM MB | [7370](reports/qwen3-8b.npu.server.md) | ❌ |  |
+| qwen3-vl-8b | npu | pp512_d0 | [263.45](reports/qwen3-vl-8b.npu.bench.md) | ❌ |  |
+| qwen3-vl-8b | npu | tg128_d0 | [7.79](reports/qwen3-vl-8b.npu.bench.md) | ❌ |  |
+| qwen3-vl-8b | npu | pp512_d2048 | [218.88](reports/qwen3-vl-8b.npu.bench.md) | ❌ |  |
+| qwen3-vl-8b | npu | tg128_d2048 | [6.25](reports/qwen3-vl-8b.npu.bench.md) | ❌ |  |
+| qwen3-vl-8b | npu | server | ok | ❌ [qwen3-vl-8b.npu.server.b12244](reports/qwen3-vl-8b.npu.server.b12244.md) | |
+| qwen3.5-4b | npu | pp512_d0 | [159.97](reports/qwen3.5-4b.npu.bench.md) | [398.98](reports/qwen3.5-4b.npu.bench.b12244.md) | 🟢 +149% |
+| qwen3.5-4b | npu | tg128_d0 | [8.79](reports/qwen3.5-4b.npu.bench.md) | [11.09](reports/qwen3.5-4b.npu.bench.b12244.md) | 🟢 +26% |
+| qwen3.5-4b | npu | pp512_d2048 | [153.63](reports/qwen3.5-4b.npu.bench.md) | [383.81](reports/qwen3.5-4b.npu.bench.b12244.md) | 🟢 +150% |
+| qwen3.5-4b | npu | tg128_d2048 | [8.51](reports/qwen3.5-4b.npu.bench.md) | [10.36](reports/qwen3.5-4b.npu.bench.b12244.md) | 🟢 +22% |
+| qwen3.5-4b | npu | Gen t/s | [8.59](reports/qwen3.5-4b.npu.server.md) | [10.6](reports/qwen3.5-4b.npu.server.b12244.md) | 🟢 +23% |
+| qwen3.5-4b | npu | Prefill t/s | [151.21](reports/qwen3.5-4b.npu.server.md) | [372.61](reports/qwen3.5-4b.npu.server.b12244.md) | 🟢 +146% |
+| qwen3.5-4b | npu | Tools | 7/7 | 7/7 | |
+| qwen3.5-4b | npu | Quiz | 11/12 | 11/12 | |
+| qwen3.5-4b | npu | Vision | 3/4 | 3/4 | |
+| qwen3.5-4b | npu | Peak RAM MB | [9557](reports/qwen3.5-4b.npu.server.md) | [8890](reports/qwen3.5-4b.npu.server.b12244.md) | 🟢 -7% |
+
+### 4.7 40 TOPS tests
+
+The vendor advertises "up to 40 dense TOPS of NPU acceleration for vision models, LLMs, and multi-modal AI
+inference" ([sources](docs/sources.md)). These llama-bench runs (llama.cpp `d5bbcd1`, 4 NPU sessions, Q4_0) measure
+how much of that an LLM workload reaches. Effective TOPS = prompt tokens/s × 2 × parameters, the usual estimate
+for a transformer's forward pass. Generation is memory-bound and does not use the TOPS; see §4.1 and §6.
+
+Table 5. Prompt throughput (t/s) by prompt size, with the matrix engine (HMX) on or off and two power modes.
+
+| Test | Model | Matrix engine (HMX) | Power mode | pp128 | pp512 | pp2048 | tg128 | Effective TOPS (pp512) | Share of 40 |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|
+| [tops.t1.qwen3-4b-q4.hmx](reports/tops.t1.qwen3-4b-q4.hmx.md) | qwen3-4b-2507 | on | burst (default) | 386.97 | 445.23 | 401.2 | 13.13 | 3.58 | 9% |
+| [tops.t2.qwen3-4b-q4.nohmx](reports/tops.t2.qwen3-4b-q4.nohmx.md) | qwen3-4b-2507 | off | burst (default) | 27.99 | 24.81 | 16.97 | 12.99 | 0.2 | 0% |
+| [tops.t3.qwen3-4b-q4.balanced](reports/tops.t3.qwen3-4b-q4.balanced.md) | qwen3-4b-2507 | on | balanced | 383.86 | 444.99 | 400.59 | 12.86 | 3.58 | 9% |
+| ❌ [tops.t4.qwen3-4b-q8.hmx](reports/tops.t4.qwen3-4b-q8.hmx.md) | qwen3-4b-2507-q8 | on | burst (default) | — | — | — | — | — | llama-bench rc=-6: [' what(): ggml-hex: fastrpc_mm… |
+| [tops.t5.lfm2.5-1.2b.hmx](reports/tops.t5.lfm2.5-1.2b.hmx.md) | lfm2.5-1.2b | on | burst (default) | 1191.64 | 1463.7 | 1383.25 | 20.73 | 3.43 | 9% |
+| [tops.t5b.lfm2.5-1.2b.nohmx](reports/tops.t5b.lfm2.5-1.2b.nohmx.md) | lfm2.5-1.2b | off | burst (default) | 106.49 | 104.24 | 89.84 | 28.91 | 0.24 | 1% |
+
+Findings:
+
+- **The matrix engine does all the prompt work.** Turning it off (`GGML_HEXAGON_NHMX=0`) drops Qwen3-4B prompt
+  reading from 445 to 25 t/s (18× slower, below the 4 CPU cores at 28 t/s) and LFM2.5-1.2B from 1464 to 104 t/s.
+- **Prompt throughput hits the same ceiling of about 3.5 TOPS on both models** (1.2B and 4B), and it does not
+  grow with prompt size. A fixed ceiling across models points at the execution path rather than the model: Q4_0
+  weights are unpacked on the vector units and fed to the matrix engine at 16-bit precision, while the 40 TOPS
+  figure is the matrix engine's dense 8-bit integer rate.
+- **Power mode makes no difference** (`burst` vs `balanced`: 445 vs 445 t/s), so clock and bus votes are not the
+  limit.
+- **The 8-bit model (Q8_0), the closest format to the 40 TOPS precision, cannot be tested**: at 4.3 GB it fails to
+  map on the NPU (`fastrpc_mmap failed`), the same limit as the 8B models.
+- **Generation is unaffected by the matrix engine** (Qwen3-4B 13.1 vs 13.0 t/s). For LFM2.5-1.2B this llama-bench
+  run measured lower generation with HMX on (20.7 vs 28.9 t/s), but the same build's earlier bench measured 30.3
+  t/s with HMX on, so that difference is not reliable from one run.
+- **Result: with llama.cpp, LLM prompt processing reaches about 9% of the advertised 40 TOPS.** Qualcomm's own
+  runtime (Genie, QNN) uses a different execution path and is measured separately.
 
 ## 5. Stability findings
 

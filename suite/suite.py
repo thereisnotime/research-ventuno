@@ -22,7 +22,7 @@ NPU = ["-dev", "HTP0", "-ngl", "99"]
 def htp(item):
     """Per-item NPU session count: 8B+ models can't map their weights on a single session."""
     n = int(item.get("sessions", 4))
-    return n, dict(LENV, GGML_HEXAGON_DEVICES=str(n)), ["-dev", ",".join(f"HTP{i}" for i in range(n)), "-ngl", "99"]
+    return n, dict(LENV, GGML_HEXAGON_DEVICES=str(n), **item.get("env", {})), ["-dev", ",".join(f"HTP{i}" for i in range(n)), "-ngl", str(item.get("ngl", 99))]
 CPU = ["-dev", "none", "-ngl", "0"]
 
 
@@ -135,6 +135,7 @@ def start_server(item, logf):
     if item.get("mmproj"):
         # Image encoder on CPU: on the NPU it fails to map its ~800 MB buffer (fastrpc_mmap)
         cmd += ["--mmproj", f"{MODELS}/{item['mmproj']}", "--no-mmproj-offload"]
+    cmd += [a.replace("{MODELS}", MODELS) for a in item.get("server_args", [])]
     proc = subprocess.Popen(cmd, env=htp(item)[1], stdout=logf, stderr=subprocess.STDOUT)
     return proc, wait_health("http://127.0.0.1:8080/health", proc)
 
@@ -457,9 +458,10 @@ def test_vision(item):
 
 def run_llamabench(item, logf):
     m = item["files"][0][0]
-    dev = ["-dev", "/".join(f"HTP{i}" for i in range(htp(item)[0])), "-ngl", "99"] if item["dev"] == "npu" else ["-dev", "none", "-ngl", "0"]
+    dev = ["-dev", "/".join(f"HTP{i}" for i in range(htp(item)[0])), "-ngl", str(item.get("ngl", 99))] if item["dev"] == "npu" else ["-dev", "none", "-ngl", "0"]
     cmd = ["taskset", "-c", "0-3", f"{LLAMA}/bin/llama-bench", "-m", f"{MODELS}/{m}", *dev, "-fa", "1", "-t", "4",
-           "-p", "512", "-n", "128", "-d", item.get("depths", "0,2048"), "-r", "3", "-o", "json"]
+           "-p", item.get("pp", "512"), "-n", item.get("tg", "128"), "-d", item.get("depths", "0,2048"),
+           "-r", str(item.get("reps", 3)), *item.get("bench_args", []), "-o", "json"]
     p = subprocess.Popen(cmd, env=htp(item)[1], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     try:
         so, se = p.communicate(timeout=900)
@@ -474,7 +476,7 @@ def run_llamabench(item, logf):
         raise RuntimeError(f"llama-bench rc={r.returncode}: {r.stderr.strip().splitlines()[-1:]}")
     out = {}
     for row in json.loads(r.stdout):
-        kind = "pp512" if row["n_prompt"] else "tg128"
+        kind = f"pp{row['n_prompt']}" if row["n_prompt"] else f"tg{row['n_gen']}"
         out[f"{kind}_d{row['n_depth']}"] = round(row["avg_ts"], 2)
     return out
 
@@ -510,7 +512,7 @@ def run_item(item):
     os.makedirs(f"{ROOT}/logs", exist_ok=True)
     ensure(item.get("files", []))
     res = {"id": item["id"], "engine": item["engine"], "model": item["model"], "dev": item.get("dev"),
-           "kind": item["kind"], "htp_sessions": htp(item)[0] if item.get("dev") == "npu" else 0, "started": time.strftime("%F %T"), "pinned_before_mb": pinned_mb(), "llama_build": os.path.basename(LLAMA), "env": env_snapshot(item)}
+           "kind": item["kind"], "htp_sessions": htp(item)[0] if item.get("dev") == "npu" else 0, "started": time.strftime("%F %T"), "pinned_before_mb": pinned_mb(), "extra_env": item.get("env", {}), "llama_build": os.path.basename(LLAMA), "env": env_snapshot(item)}
     s = Sampler()
     s.start()
     with open(f"{ROOT}/logs/{item['id']}.log", "a") as logf:

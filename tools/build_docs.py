@@ -291,8 +291,11 @@ def bench_page(r):
          f"Environment [{r['_env']}](environments.md#{r['_env'].lower()}): llama.cpp `{build_of(r)}`.", ""]
     if r.get("error"):
         L += [f"> ❌ **Error:** `{cell(r['error'], 600)}`", ""]
+    if r.get("extra_env"):
+        L += ["Extra environment: " + ", ".join(f"`{k}={v}`" for k, v in r["extra_env"].items()), ""]
+    keys = [k for k in r if re.match(r"(pp|tg)\d+_d\d+$", k)] or ["pp512_d0", "tg128_d0", "pp512_d2048", "tg128_d2048"]
     L += ["| Test | t/s |", "|---|---:|"]
-    for k in ("pp512_d0", "tg128_d0", "pp512_d2048", "tg128_d2048"):
+    for k in keys:
         L.append(f"| {k} | {r.get(k, '—')} |")
     L.append(f"\nPeak RAM {r.get('peak_used_mb', '—')} MB, peak pinned {r.get('peak_pinned_mb', '—')} MB.\n")
     return "\n".join(L)
@@ -487,6 +490,29 @@ def compare_table(R):
     return "\n".join(L)
 
 
+# Parameter counts for the effective-TOPS estimate (about 2 operations per parameter per prompt token)
+PARAMS_B = {"qwen3-4b-2507": 4.02, "qwen3-4b-2507-q8": 4.02, "lfm2.5-1.2b": 1.17}
+
+
+def tops_table(R):
+    """40 TOPS tests: prompt throughput by prompt size, converted to effective TOPS."""
+    L = ["| Test | Model | Matrix engine (HMX) | Power mode | pp128 | pp512 | pp2048 | tg128 | Effective TOPS (pp512) | Share of 40 |",
+         "|---|---|---|---|---:|---:|---:|---:|---:|---:|"]
+    for r in R.values():
+        if not r["id"].startswith("tops."):
+            continue
+        env = r.get("extra_env", {})
+        hmx = "off" if env.get("GGML_HEXAGON_NHMX") == "0" else "on"
+        power = env.get("GGML_HEXAGON_POWER_MODE", "burst (default)")
+        pp = r.get("pp512_d0")
+        tops = round(pp * 2 * PARAMS_B[r["model"]] / 1000, 2) if pp else None
+        st = "" if pp else "❌ "
+        L.append(f"| {st}{runlink(r['id'])} | {r['model']} | {hmx} | {power} | "
+                 + " | ".join(str(r.get(k, "—")) for k in ("pp128_d0", "pp512_d0", "pp2048_d0", "tg128_d0"))
+                 + f" | {tops if tops is not None else '—'} | {f'{tops / 40 * 100:.0f}%' if tops else (cell(r.get('error', ''), 50) or '—')} |")
+    return "\n".join(L)
+
+
 def replace_table(text, heading, table):
     """Swap the first table in the section under `heading`; never reach into the next section."""
     i = text.index(heading)
@@ -516,6 +542,8 @@ def main():
     s = replace_table(s, "### 4.1 Summary: best run per model", summary_table(R))
     s = replace_table(s, "### 4.3 Server tests, every run", server_table(R))
     s = replace_table(s, "### 4.4 llama-bench", bench_table(R))
+    if "### 4.7 40 TOPS tests" in s:
+        s = replace_table(s, "### 4.7 40 TOPS tests", tops_table(R))
     if "### 4.6 llama.cpp build comparison" in s:
         s = replace_table(s, "### 4.6 llama.cpp build comparison", compare_table(R))
     open("README.md", "w").write(s)

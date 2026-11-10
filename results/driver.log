@@ -303,3 +303,81 @@
 11:14:33 end qwen3-8b.npu.bench.b12244 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
 11:14:33 pinned 4142 MB > 1200, reboot 34/60
 11:14:09 start qwen3-8b.npu.server.b12244 (pinned 0 MB)
+11:25:50 wedge watcher: no progress 8 min, sysrq reset
+11:52:55 start qwen3-4b-2507.npu.bench.b12244.s1.d0 (pinned 0 MB)
+11:53:46 end qwen3-4b-2507.npu.bench.b12244.s1.d0 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+11:53:46 pinned 1728 MB > 1200, reboot 35/60
+11:53:59 start lfm2.5-1.2b.npu.bench.b12244 (pinned 0 MB)
+11:53:59 download LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+11:55:33 end lfm2.5-1.2b.npu.bench.b12244 ok=True 
+11:55:33 start lfm2.5-1.2b.npu.server.b12244 (pinned 32 MB)
+11:56:35 end lfm2.5-1.2b.npu.server.b12244 ok=True 
+11:56:35 start lfm2-8b-a1b.npu.bench.b12244 (pinned 64 MB)
+11:56:35 download LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+12:00:01 end lfm2-8b-a1b.npu.bench.b12244 ok=True 
+12:00:01 start lfm2-8b-a1b.npu.server.b12244 (pinned 96 MB)
+12:01:29 end lfm2-8b-a1b.npu.server.b12244 ok=True 
+12:01:29 delete LiquidAI_LFM2-8B-A1B-Q4_0.gguf
+12:01:30 start qwen3.5-4b.npu.bench.b12244 (pinned 128 MB)
+12:01:30 download Qwen3.5-4B-Q4_0.gguf
+12:04:27 end qwen3.5-4b.npu.bench.b12244 ok=True 
+12:04:27 start qwen3.5-4b.npu.server.b12244 (pinned 160 MB)
+12:04:27 download mmproj-qwen3.5-4b.gguf
+12:09:17 end qwen3.5-4b.npu.server.b12244 ok=True 
+12:09:17 delete mmproj-qwen3.5-4b.gguf
+12:09:18 delete Qwen3.5-4B-Q4_0.gguf
+12:09:18 start ministral-3-8b.npu.server.b12244 (pinned 192 MB)
+12:09:18 download Ministral-3-8B-Instruct-2512-Q4_0.gguf
+12:11:52 download mmproj-ministral-3-8b.gguf
+12:12:32 end ministral-3-8b.npu.server.b12244 ok=False server did not become healthy
+12:12:32 delete Ministral-3-8B-Instruct-2512-Q4_0.gguf
+12:12:32 delete mmproj-ministral-3-8b.gguf
+12:12:32 pinned 700 MB > 1200, reboot 36/60
+12:11:51 start gemma-4-e4b.npu.bench.b12244 (pinned 0 MB)
+12:11:51 download gemma-4-E4B_q4_0-it.gguf
+12:16:19 end gemma-4-e4b.npu.bench.b12244 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+12:16:19 start gemma-4-e4b.npu.server.b12244 (pinned 32 MB)
+12:16:19 download mmproj-gemma-4-e4b.gguf
+12:17:06 end gemma-4-e4b.npu.server.b12244 ok=False server did not become healthy
+12:17:06 delete mmproj-gemma-4-e4b.gguf
+12:17:06 start qwen3-vl-8b.npu.server.b12244 (pinned 64 MB)
+12:17:06 download Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+12:19:37 download mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+12:50:26 end qwen3-vl-8b.npu.server.b12244 ok=False [Errno 104] Connection reset by peer
+12:50:26 delete Qwen_Qwen3-VL-8B-Instruct-Q4_0.gguf
+12:50:26 delete mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
+12:50:27 pinned 6105 MB > 1200, reboot 37/60
+12:49:45 start qwen3-4b-2507.cpu.bench.b12244 (pinned 0 MB)
+12:57:50 end qwen3-4b-2507.cpu.bench.b12244 ok=True 
+12:57:50 start qwen3-4b-2507.cpu.server.b12244 (pinned 0 MB)
+13:04:59 end qwen3-4b-2507.cpu.server.b12244 ok=True 
+13:04:59 start qwen3-8b.npu.bench.b12244.d0 (pinned 0 MB)
+13:06:20 end qwen3-8b.npu.bench.b12244.d0 ok=True 
+13:06:20 start tops.t1.qwen3-4b-q4.hmx (pinned 32 MB)
+13:07:24 end tops.t1.qwen3-4b-q4.hmx ok=True 
+13:07:24 start tops.t2.qwen3-4b-q4.nohmx (pinned 64 MB)
+13:17:46 end tops.t2.qwen3-4b-q4.nohmx ok=True 
+13:17:46 start tops.t3.qwen3-4b-q4.balanced (pinned 96 MB)
+13:18:51 end tops.t3.qwen3-4b-q4.balanced ok=True 
+13:18:51 start tops.t4.qwen3-4b-q8.hmx (pinned 128 MB)
+13:18:51 download Qwen_Qwen3-4B-Instruct-2507-Q8_0.gguf
+13:21:17 end tops.t4.qwen3-4b-q8.hmx ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+13:21:17 delete Qwen_Qwen3-4B-Instruct-2507-Q8_0.gguf
+13:21:17 pinned 3603 MB > 1200, reboot 38/60
+13:21:01 start tops.t5.lfm2.5-1.2b.hmx (pinned 0 MB)
+13:22:35 end tops.t5.lfm2.5-1.2b.hmx ok=True 
+13:22:35 start tops.t5b.lfm2.5-1.2b.nohmx (pinned 32 MB)
+13:24:51 end tops.t5b.lfm2.5-1.2b.nohmx ok=True 
+13:24:51 delete LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+13:24:51 start gemma-4-e4b.npu.bench.b12244.d0 (pinned 64 MB)
+13:25:20 end gemma-4-e4b.npu.bench.b12244.d0 ok=False llama-bench rc=-6: ['  what():  ggml-hex: fastrpc_mmap failed (see log for details)']
+13:25:20 delete gemma-4-E4B_q4_0-it.gguf
+13:25:21 start combo.c1.qwen3-8b.ngl28 (pinned 96 MB)
+13:55:59 end combo.c1.qwen3-8b.ngl28 ok=False [Errno 104] Connection reset by peer
+13:55:59 pinned 4378 MB > 1200, reboot 39/60
+13:56:12 start combo.c2.qwen3-8b.ngl20 (pinned 0 MB)
+14:26:36 end combo.c2.qwen3-8b.ngl20 ok=True 
+14:26:36 start combo.c3.qwen3-4b.spec4 (pinned 125 MB)
+14:26:36 download Qwen_Qwen3-0.6B-Q4_0.gguf
+14:29:32 end combo.c3.qwen3-4b.spec4 ok=True 
+14:29:32 start combo.c4.qwen3-4b.spec8 (pinned 157 MB)
