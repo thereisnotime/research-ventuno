@@ -97,6 +97,10 @@ to a page with the exact prompts and replies; see also the [quiz matrix](reports
 
 ### 4.1 Summary: best run per model
 
+![Speed vs accuracy](docs/figures/speed-vs-quality.svg)
+
+*Figure 1. Speed vs accuracy, best run per model and engine. Upper right is better.*
+
 Table 1. Each model's run with the highest tools+quiz score (wedged or crashed runs lose automatically). Medals only count runs that produced numbers. Vision = best run with the image encoder working. `—` = never produced a valid result.
 
 | Model | Pick | Engine | Build | Device | Env | Gen t/s | Prefill t/s | Tools | JSON | Quiz | Needle | Vision | s/image | Peak RAM MB |
@@ -157,6 +161,10 @@ Not recommended on this board: dense 8-9B models (slower without accuracy gains 
 ~1.7k-token prompt).
 
 ### 4.3 Server tests, every run
+
+![NPU vs CPU](docs/figures/npu-vs-cpu.svg)
+
+*Figure 2. Same model on NPU and CPU: generation speed is close, prompt reading is 10× faster on the NPU.*
 
 Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Prefill = t/s on the ~1.7k-token prompt;
 `htp` = number of NPU sessions.
@@ -381,6 +389,10 @@ Table 4. Same model and device on the original build (`7fe450e`, 2026-10-02) and
 
 ### 4.7 40 TOPS tests
 
+![Measured TOPS vs advertised](docs/figures/tops.svg)
+
+*Figure 3. Effective TOPS during prompt reading vs the advertised 40 TOPS.*
+
 The vendor advertises "up to 40 dense TOPS of NPU acceleration for vision models, LLMs, and multi-modal AI
 inference" ([sources](docs/sources.md)). These llama-bench runs (llama.cpp `d5bbcd1`, 4 NPU sessions, Q4_0) measure
 how much of that an LLM workload reaches. Effective TOPS = prompt tokens/s × 2 × parameters, the usual estimate
@@ -422,6 +434,10 @@ Findings:
   Genie about 26%.** Neither comes close to 40 TOPS for an LLM.
 
 ### 4.8 Memory bandwidth
+
+![Memory bandwidth](docs/figures/memory-bandwidth.svg)
+
+*Figure 4. Measured memory bandwidth. Token generation is bounded by this ceiling.*
 
 Table 6. CPU memory bandwidth measured on the board with a STREAM-style test
 ([source](suite/probes/bw.c), [raw](results/probes/memory_bandwidth.txt)), 256 MB per thread.
@@ -518,6 +534,10 @@ Findings:
   an NPU call. Both needed a sysrq reset. MBUF 256 fixes load failures, not this freeze.
 - The smaller (1–4B and A1B) models passed every run in this batch without a freeze.
 
+![Soak timeline](docs/figures/soak.svg)
+
+*Figure 5. Soak timeline by request number (the board has no real-time clock, so wall time jumps at reboots).*
+
 **12-hour soak** ([`suite/soak/`](suite/soak/), [raw log](results/soak/soak.jsonl)). Qwen3-4B on the NPU with
 MBUF 256 answered requests nonstop from 21:45 to 09:43 (2026-11-10/11). It rotated five prompts (384-token cap,
 temperature 0.7), with a tool call every 7th request. A request stuck for 5 minutes triggered a sysrq reset, and the
@@ -593,6 +613,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 | [`suite/suite.py`](suite/suite.py) | Test runner |
 | [`suite/genie-compose.yaml`](suite/genie-compose.yaml) | Working Genie configuration |
 | [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
+| [`tools/plots.py`](tools/plots.py) | Draws the figures in [`docs/figures/`](docs/figures/) from `results/` (needs matplotlib) |
 | [`reports/environments.md`](reports/environments.md) | Environment profiles (kernel, firmware, packages, engine build) and their runs |
 | [`results/probes/`](results/probes/), [`suite/probes/`](suite/probes/) | Memory bandwidth, Genie prompt speed and two-model results, with their scripts and the stall watcher |
 | [`suite/applab-llamacpp-service_compose.yaml`](suite/applab-llamacpp-service_compose.yaml) | Arduino App Lab's llama.cpp service (runner 0.13.2) exactly as tested; the suite starts it with `docker compose -p veni-applab -f … up -d` (engine `applab`). Models installed with `arduino-app-cli model install` |
