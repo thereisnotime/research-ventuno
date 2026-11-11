@@ -518,8 +518,26 @@ Findings:
   an NPU call. Both needed a sysrq reset. MBUF 256 fixes load failures, not this freeze.
 - The smaller (1–4B and A1B) models passed every run in this batch without a freeze.
 
-A 12-hour soak of Qwen3-4B with MBUF 256 ([`suite/soak/`](suite/soak/)) is running to measure how often the freeze happens on a 4B model
-under continuous use. Its results will be added here.
+**12-hour soak** ([`suite/soak/`](suite/soak/), [raw log](results/soak/soak.jsonl)). Qwen3-4B on the NPU with
+MBUF 256 answered requests nonstop from 21:45 to 09:43 (2026-11-10/11). It rotated five prompts (384-token cap,
+temperature 0.7), with a tool call every 7th request. A request stuck for 5 minutes triggered a sysrq reset, and the
+run resumed after boot.
+
+Table 7. Soak results.
+
+| Metric | Result |
+|---|---|
+| Requests completed | 1766, none failed |
+| Freezes | **2** (after 2 h 7 min, then 8 min after that reset); none in the remaining 9 h 42 min |
+| Freeze rate | 2 in 12 h, both mid-generation, both recovered by sysrq within about 30 s |
+| Generation, answers over 200 tokens | 11.1 t/s average (10.1–12.7), no downward trend |
+| Tool calls | 252/252 |
+| Temperature (max sensor) | 36–40 °C, no throttling |
+| Pinned NPU memory | 3475 MB on every request across all three boots, no leak |
+| Latency | 22 s average, 112 s worst (384-token answers) |
+
+So a 4B model with MBUF 256 does not degrade over time, but it is not freeze-free: the NPU froze twice in 12 hours,
+close together, and then ran clean for almost 10 hours. Unattended use needs the freeze detection and reset loop.
 
 ## 5. Stability findings
 
@@ -539,7 +557,8 @@ configuration in [docs/stability-fixes.md](docs/stability-fixes.md).
 Not every NPU load failure was the driver: the random `fastrpc_mmap failed` errors at load time came from
 llama.cpp mapping memory in 512 MiB / 1 GiB chunks, and disappear with `GGML_HEXAGON_MBUF=256,256` (§4.10). The hard
 limit is about 3.1 GiB of address space per NPU session (four sessions per process). Wedges during inference are a
-separate problem: MBUF 256 did not stop Ministral 3 8B or Qwen3-VL-8B freezing mid-generation (§4.11). The NPU wedges are consistent with open fastrpc driver bugs (context leak and hang on a signal-interrupted invoke)
+separate problem: MBUF 256 did not stop Ministral 3 8B or Qwen3-VL-8B freezing mid-generation, and Qwen3-4B froze
+twice in a 12-hour soak (§4.11). The NPU wedges are consistent with open fastrpc driver bugs (context leak and hang on a signal-interrupted invoke)
 that were not fixed in the newest kernel available for the board at the time (6.8.0-1089-qcom). The full incident
 log, watchdog configuration and recovery procedure are in [docs/board-notes.md](docs/board-notes.md).
 

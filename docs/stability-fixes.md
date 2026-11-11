@@ -176,7 +176,8 @@ computes the session count per model instead and keeps each session under 85% of
   [§4.10](../README.md#410-arduino-app-lab-path-gemma-4-e4b). The main result tables predate this fix.
 - **Not fixed by it:** one session for a 4B model (§11), Gemma 4 E4B on plain llama.cpp, Qwen3-8B as a server,
   and freezes during generation: Ministral 3 8B and Qwen3-VL-8B both froze mid-answer with MBUF 256
-  ([§4.11](../README.md#411-mbuf-rerun-of-the-main-picks)).
+  ([§4.11](../README.md#411-mbuf-rerun-of-the-main-picks)). Qwen3-4B froze twice in a 12-hour soak with MBUF 256
+  (1766 requests, no leak, no throttling), so a freeze detector with a sysrq reset is still required.
 - **Side effect:** Qwen3-VL-4B's image tests passed (3/4) on the first run with MBUF 256; with the defaults they
   needed a separate fix run.
 
