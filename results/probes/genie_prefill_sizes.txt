@@ -1,0 +1,5 @@
+tokens=128 words=99 ttft_s=0.207 (runs 0.204, 0.207, 0.214) pp_tps_incl_overhead=618
+tokens=512 words=406 ttft_s=0.495 (runs 0.489, 0.495, 0.514) pp_tps_incl_overhead=1034
+tokens=2048 words=1634 ttft_s=1.909 (runs 1.905, 1.909, 1.916) pp_tps_incl_overhead=1073
+prefill 128->512 tokens: 1334 t/s
+prefill 512->2048 tokens: 1086 t/s

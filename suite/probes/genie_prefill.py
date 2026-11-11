@@ -31,12 +31,16 @@ def ttft(words):
                     first = time.time() - t0
     return first, (usage or {}).get("prompt_tokens")
 
+# Word counts that give 128, 512 and 2048 prompt tokens with the Qwen3 tokenizer (message text only)
+SIZES = {128: 99, 512: 406, 2048: 1634}
 ttft(50)   # warm-up, includes the model load
 rows = []
-for words in (100, 600, 1300, 2200):
-    t, n = ttft(words)
-    rows.append((words, n, t))
-    print(f"words={words} prompt_tokens={n} ttft_s={t:.3f}", flush=True)
+for tokens, words in SIZES.items():
+    ts = sorted(ttft(words)[0] for _ in range(3))
+    t = ts[1]                                     # median of 3
+    rows.append((words, tokens, t))
+    print(f"tokens={tokens} words={words} ttft_s={t:.3f} (runs {', '.join(f'{x:.3f}' for x in ts)}) "
+          f"pp_tps_incl_overhead={tokens / t:.0f}", flush=True)
 for (w0, n0, t0), (w1, n1, t1) in zip(rows, rows[1:]):
     if n0 and n1 and t1 > t0:
         print(f"prefill {n0}->{n1} tokens: {(n1 - n0) / (t1 - t0):.0f} t/s")

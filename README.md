@@ -17,7 +17,7 @@ the NPU (7/7 tools, 12/12 quiz, 12.6 tokens/s); the fastest usable model was LFM
 sizes and in two cases froze the whole board, which is documented together with the mitigations used to finish the
 run unattended. Against the advertised "up to 40 dense TOPS" for LLMs, prompt processing with llama.cpp reached about
 3.5 TOPS (9%) on two different models, with the NPU's matrix engine carrying all of it; Qualcomm's own runtime
-reached about 10.4 TOPS (26%). Generation is limited by memory: the board delivers about 28-30 GB/s, and the NPU
+reached about 8.3 TOPS (21%) at the same 512-token prompt, and about 10-11 TOPS on longer prompts once its fixed per-request cost is excluded. Generation is limited by memory: the board delivers about 28-30 GB/s, and the NPU
 already generates at that limit, so the CPU nearly matches it. Many "out of NPU memory" failures turned out to be llama.cpp's default buffer
 chunk size: with `GGML_HEXAGON_MBUF=256,256`, as Arduino's App Lab runner uses, 8-bit and 8B models load. Gemma 4
 E4B runs only through Arduino's App Lab runner (7/7 tools), which in turn could not load user-installed Qwen3 models. All raw requests, responses and per-test results are published so every figure can be traced to the
@@ -425,13 +425,23 @@ Findings:
 - **Generation is unaffected by the matrix engine** (Qwen3-4B 13.1 vs 13.0 t/s). For LFM2.5-1.2B this llama-bench
   run measured lower generation with HMX on (20.7 vs 28.9 t/s), but the same build's earlier bench measured 30.3
   t/s with HMX on, so that difference is not reliable from one run.
-- **Qualcomm's own runtime gets about 3× further.** Genie (QNN) read Qwen3-4B prompts at about 1290 t/s
-  (~2770 tokens in 2.15 s to first token), which is **~10.4 TOPS, 26% of 40**
-  ([raw](results/probes/genie_prefill_qwen3-4b.txt), [script](suite/probes/genie_prefill.py)). Token counts are
-  from the Qwen3 tokenizer, since Genie's stream does not report them. The test prompts repeat one filler
-  paragraph; each request used a fresh Genie session, so prefix reuse is unlikely but not ruled out.
+- **Qualcomm's own runtime gets 2-3× further.** A like-for-like run at llama-bench's prompt sizes (fresh prompt of
+  N tokens, time to first token, median of 3, [raw](results/probes/genie_prefill_sizes.txt),
+  [script](suite/probes/genie_prefill.py)):
+
+  | Prompt tokens | Genie TTFT | Genie t/s (incl. overhead) | llama.cpp NPU t/s |
+  |---|---|---|---|
+  | 128 | 0.207 s | 618 | 387 |
+  | 512 | 0.495 s | 1034 | 445 |
+  | 2048 | 1.909 s | 1073 | 401 |
+
+  At 512 tokens that is **~8.3 TOPS, 21% of 40**, 2.3× llama.cpp. The difference between sizes (128→512: 1334 t/s,
+  512→2048: 1086 t/s) removes Genie's fixed per-request cost and gives about 9-11 TOPS; the earlier single
+  long-prompt probe (~2770 tokens in 2.15 s, ~1290 t/s, ~10.4 TOPS,
+  [raw](results/probes/genie_prefill_qwen3-4b.txt)) agrees with that. Token counts are from the Qwen3 tokenizer,
+  since Genie's stream does not report them. Each request used a fresh Genie session.
 - **Result: with llama.cpp, LLM prompt processing reaches about 9% of the advertised 40 TOPS; with Qualcomm's
-  Genie about 26%.** Neither comes close to 40 TOPS for an LLM.
+  Genie about 21-26%.** Neither comes close to 40 TOPS for an LLM.
 
 ### 4.8 Memory bandwidth
 
