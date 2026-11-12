@@ -614,13 +614,17 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 
 ## 7. Reproducibility
 
+Step-by-step instructions for running the same tests on your own board, with the exact settings and
+commands: **[docs/reproduce.md](docs/reproduce.md)**.
+
 | Path | Content |
 |---|---|
 | [`results/results.jsonl`](results/results.jsonl) | One JSON object per test run (all metrics) |
 | [`results/transcripts/`](results/transcripts/) | Every request and response, per run |
 | [`results/queue.json`](results/queue.json), [`results/state.json`](results/state.json), [`results/driver.log`](results/driver.log) | Test queue, run status, runner log |
 | [`reports/`](reports/index.md) | Generated per-run pages and cross-model matrices |
-| [`suite/suite.py`](suite/suite.py) | Test runner |
+| [`suite/suite.py`](suite/suite.py), [`suite/veni-bench.service`](suite/veni-bench.service) | Test runner and its systemd unit |
+| [`suite/soak/`](suite/soak/) | Soak and coding tests: `soak.py`, `code_bench.py`, `plan.json`, `veni-soak.service` |
 | [`suite/genie-compose.yaml`](suite/genie-compose.yaml) | Working Genie configuration |
 | [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
 | [`tools/plots.py`](tools/plots.py) | Draws the figures in [`docs/figures/`](docs/figures/) from `results/` (needs matplotlib) |

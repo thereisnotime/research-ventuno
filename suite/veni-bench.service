@@ -1,0 +1,12 @@
+[Unit]
+Description=VENI overnight LLM suite (resumes after its own reboots, disables itself when done)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/arduino/llm-bench/suite/suite.py
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
