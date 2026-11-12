@@ -151,6 +151,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 👁️ Vision, speed | Qwen3.5-4B, NPU + CPU image encoder | 3/4 images, 3.9 s/image, 7/7 tools |
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
 | 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
+| 💻 Coding | Qwen3-4B-Instruct-2507, llama.cpp, NPU | 35/41 HumanEval subset (85%); Genie 33/41; §4.12 |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
 
 **Setting for any llama.cpp deployment here:** `GGML_HEXAGON_MBUF=256,256` (no speed cost, removes random
@@ -568,6 +569,72 @@ Table 7. Soak results.
 
 So a 4B model with MBUF 256 does not degrade over time, but it is not freeze-free: the NPU froze twice in 12 hours,
 close together, and then ran clean for almost 10 hours. Unattended use needs the freeze detection and reset loop.
+
+**Soak variants** (2026-11-11/12, [raw logs](results/soak/)). Three 4-hour runs of the same Qwen3-4B NPU soak with
+MBUF 256, each changing one thing, to find what affects the freeze. Same prompts and freeze rule as above.
+
+Table 8. Soak variants, 4 hours each.
+
+| Variant | Requests | Freezes while serving | Gen t/s (avg, range) | Tools | Max °C | Pinned MB |
+|---|---|---|---|---|---|---|
+| `-np 1` (one server slot instead of the default 4) | 599 | **0** | 11.2 (10.6–12.6) | 85/85 | 41 | 3474 |
+| `GGML_HEXAGON_POWER_MODE=balanced` | 217 | 1, after 1 h 27 min | 11.2 (10.3–12.6) | 31/31 | 40 | 3474 |
+| Newer build `d5bbcd1` | 588 | 1, after 57 min | 11.3 (10.7–12.3) | 84/84 | 41 | 3664 |
+
+- `-np 1` is the only configuration so far with a clean 4 hours. One run is not proof, and Qwen2.5-Coder-3B froze
+  repeatedly with `-np 1` in the coding test (§4.12), so the slot count is not the whole story.
+- Neither the power mode nor the newer llama.cpp build stopped the freeze.
+- The `balanced` freeze was not caught: the soak's 5-minute limit was a socket read timeout, and the stuck
+  request kept the socket open, so the board sat idle for about 15 hours until it was reset by hand. Its log has no
+  wedge row for that reason. The soak now uses a wall-clock watchdog per request, which caught the `d5bbcd1` freeze
+  after 5 minutes. During that freeze the server logged
+  `dspqueue_cpu.c:1864::error: 0xc: wait_signal_locked(...DSPQUEUE_SIGNAL_RESP_PACKET...)` once per second.
+- The `-np 1` log has one wedge row at load: Genie still held NPU memory from the prompt-size probe, so the first
+  load failed and the script rebooted. That is not a freeze during serving.
+
+### 4.12 Coding test
+
+Two variants on the same 41 HumanEval tasks (every 4th of the 164), temperature 0, script
+[`suite/soak/code_bench.py`](suite/soak/code_bench.py), [raw results](results/code/) with every reply:
+
+- **Hidden tests:** the model gets the signature and docstring and writes the function. HumanEval's own tests,
+  which the model never sees, decide pass or fail.
+- **Self-test:** the model writes the function and at least 5 asserts of its own. The asserts are run against its
+  code (does it think its code works?) and against HumanEval's reference solution (are its expected values right?),
+  and the code is also checked with the hidden tests.
+
+Every llama.cpp run used `-np 1` and MBUF 256, each model from a fresh boot. A task that froze the board counts as
+a fail and was skipped after the reset.
+
+![Coding](docs/figures/coding.svg)
+
+*Figure 6. Hidden-test passes vs fully correct self-written asserts, per model.*
+
+Table 9. Coding results, 41 tasks per variant.
+
+| Model | Engine | Hidden tests pass | Self-test: code passes hidden | Own asserts all pass on own code | Asserts all correct on reference | Confident and wrong | Avg asserts | Freezes | Median s/task |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-4B-2507 | llama.cpp NPU | **35 (85%)** | **35** | 18 | 17 | 0 | 6.8 | 1 | 27 |
+| Qwen3-4B-2507 | Genie | 33 (80%) | 31 | **21** | **18** | 1 | 5.9 | 0 | 18 |
+| Qwen2.5-Coder-3B | llama.cpp NPU | 30 (73%) | 33 | 15 | 13 | 0 | 6.6 | **10** | 18 |
+| LFM2-8B-A1B | llama.cpp CPU | 29 (71%) | 31 | 17 | 15 | 1 | 4.7 | 0 | 13 |
+| LFM2.5-1.2B | llama.cpp NPU | 17 (41%) | 19 | 10 | 15 | 0 | 5.4 | 0 | 11 |
+
+"Confident and wrong" = its own asserts all pass but the hidden tests fail. Median time per task covers both
+variants (up to 768 / 1280 tokens).
+
+- **Qwen3-4B is the best coder here**, ahead of the coding-specific Qwen2.5-Coder-3B, and the same model on Genie
+  is close behind (Genie's quantisation costs 2 tasks).
+- **Every model writes code better than it writes tests.** Even Qwen3-4B, whose code passed 35 of 41, wrote a
+  fully correct set of asserts for only 17: it gets expected values wrong when it has to work them out by hand.
+  Some replies argue with themselves inside the test block ("wait, need to recheck") and break the syntax.
+- **Own tests are a weak signal, but rarely a false one.** "Confident and wrong" happened at most once per model:
+  when a model's own tests pass, its code is almost always right. When they fail, the test is as likely to be
+  wrong as the code.
+- **Qwen2.5-Coder-3B froze the NPU 10 times** in about 2 hours, every 8-10 minutes after each reboot, far more
+  often than any other model on the same settings.
+- The first grading pass missed asserts that models put in the same code block as the function; the results
+  were regraded from the stored replies with the fixed grader (`code_bench.py --regrade`).
 
 ## 5. Stability findings
 

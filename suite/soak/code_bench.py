@@ -39,7 +39,13 @@ src, tests = open(sys.argv[1]).read(), open(sys.argv[2]).read()
 g = {}
 exec(compile(src, "solution", "exec"), g)
 res = {"asserts": 0, "passed": 0, "errors": []}
+nodes = []
 for node in ast.parse(tests).body:
+    if isinstance(node, ast.If) and "__name__" in ast.unparse(node.test):
+        nodes.extend(node.body)
+    else:
+        nodes.append(node)
+for node in nodes:
     code = compile(ast.Module([node], []), "tests", "exec")
     if isinstance(node, ast.Assert):
         res["asserts"] += 1
@@ -92,6 +98,15 @@ def blocks(text):
     return [b.strip() + "\n" for b in re.findall(r"```(?:python|py)?\s*\n(.*?)```", text, re.S)]
 
 
+def split_tests(code):
+    """Models often put the asserts in the same block as the function: split at the first top-level test line."""
+    lines = code.splitlines(keepends=True)
+    for i, l in enumerate(lines):
+        if re.match(r"(assert\b|if __name__|#\s*test|print\()", l, re.I):
+            return "".join(lines[:i]), "".join(lines[i:])
+    return code, ""
+
+
 def chat(port, model, engine, prompt, max_tokens):
     body = {"model": model, "messages": [{"role": "user", "content": prompt}], "max_tokens": max_tokens,
             "temperature": 0, "stream": True, "user": f"code-{time.time_ns()}"}
@@ -112,38 +127,61 @@ def chat(port, model, engine, prompt, max_tokens):
     return "".join(out), n
 
 
+def grade(t, variant, text):
+    """Score one reply. Returns the result fields of a row."""
+    b = blocks(text)
+    sol, tests = b[0] if b else text, ""
+    if variant == "selftest":
+        sol, tests = split_tests(sol)
+        if len(b) > 1:
+            tests = (tests + "\n" + "\n".join(b[1:])).strip() + "\n"
+    if t["entry_point"] not in sol:            # model returned only the body: put the signature back
+        sol = t["prompt"] + sol
+    row = {}
+    row["hidden"], row["hidden_err"] = hidden_pass(t, sol)
+    if variant == "selftest":
+        own = own_tests(sol, tests)
+        ref = own_tests(t["prompt"] + t["canonical_solution"], tests)
+        row.update(asserts=own["asserts"], own_passed=own["passed"],
+                   own_pass=own["asserts"] > 0 and own["passed"] == own["asserts"],
+                   ref_passed=ref["passed"],
+                   asserts_correct=ref["asserts"] > 0 and ref["passed"] == ref["asserts"],
+                   own_errors=own["errors"][:3], ref_errors=ref["errors"][:3])
+    return row
+
+
 def run(port, model, engine, log, done=()):
     """Log one row per (variant, task) via log(); tasks already in `done` are skipped (resume after a reset)."""
+    global CURRENT
     for variant in ("hidden", "selftest"):
         for t in TASKS:
             if (variant, t["task_id"]) in done:
                 continue
             p = (HIDDEN_PROMPT if variant == "hidden" else SELFTEST_PROMPT).format(prompt=t["prompt"],
                                                                                  entry=t["entry_point"])
-            global CURRENT
             CURRENT = (variant, t["task_id"])
             s = time.time()
             text, chunks = chat(port, model, engine, p, 768 if variant == "hidden" else 1280)
-            row = {"variant": variant, "task": t["task_id"], "lat_s": round(time.time() - s, 1), "chunks": chunks}
-            b = blocks(text)
-            sol = b[0] if b else text
-            if t["entry_point"] not in sol:            # model returned only the body: put the signature back
-                sol = t["prompt"] + sol
-            row["hidden"], row["hidden_err"] = hidden_pass(t, sol)
-            if variant == "selftest":
-                tests = b[1] if len(b) > 1 else ""
-                own = own_tests(sol, tests)
-                ref = own_tests(t["prompt"] + t["canonical_solution"], tests)
-                row.update(asserts=own["asserts"], own_passed=own["passed"],
-                           own_pass=own["asserts"] > 0 and own["passed"] == own["asserts"],
-                           ref_passed=ref["passed"],
-                           asserts_correct=ref["asserts"] > 0 and ref["passed"] == ref["asserts"],
-                           own_errors=own["errors"][:3], ref_errors=ref["errors"][:3])
-            row["reply"] = text[:4000]
+            row = {"variant": variant, "task": t["task_id"], "lat_s": round(time.time() - s, 1), "chunks": chunks,
+                   **grade(t, variant, text), "reply": text[:6000]}
             log(row)
 
 
+def regrade(path):
+    """Regrade a results file in place from the stored replies (after a grader fix)."""
+    tasks = {t["task_id"]: t for t in TASKS}
+    rows = [json.loads(l) for l in open(path)]
+    for r in rows:
+        if "variant" in r and not r.get("wedge"):
+            r.update(grade(tasks[r["task"]], r["variant"], r["reply"]))
+    open(path, "w").write("".join(json.dumps(r) + "\n" for r in rows))
+
+
 if __name__ == "__main__":
-    # Standalone: code_bench.py <port> <model> <engine> <out.jsonl>
+    # Standalone: code_bench.py <port> <model> <engine> <out.jsonl>, or code_bench.py --regrade <file.jsonl>...
+    if sys.argv[1] == "--regrade":
+        for f in sys.argv[2:]:
+            regrade(f)
+        raise SystemExit(0)
     port, model, engine, out = sys.argv[1:5]
     run(int(port), model, engine, lambda r: print(json.dumps(r), file=open(out, "a")))
