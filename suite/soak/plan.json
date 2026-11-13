@@ -1,13 +1,220 @@
 [
- {"name": "qwen3-4b.npu.np1", "hours": 4, "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "server_args": ["-np", "1"]},
- {"name": "qwen3-4b.npu.balanced", "hours": 4, "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "env": {"GGML_HEXAGON_POWER_MODE": "balanced"}},
- {"name": "qwen3-4b.npu.b12244", "hours": 4, "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "llama": "/home/arduino/llama-npu-b12244"},
- {"name": "code.qwen3-4b.npu", "kind": "code", "hours": 8, "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf", "server_args": ["-np", "1"]},
- {"name": "code.qwen2.5-coder-3b.npu", "kind": "code", "hours": 8, "file": "Qwen2.5-Coder-3B-Instruct-Q4_0.gguf", "url": "https://huggingface.co/bartowski/Qwen2.5-Coder-3B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-3B-Instruct-Q4_0.gguf", "server_args": ["-np", "1"]},
- {"name": "code.lfm2.5-1.2b.npu", "kind": "code", "hours": 8, "file": "LFM2.5-1.2B-Instruct-Q4_0.gguf", "url": "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF/resolve/main/LFM2.5-1.2B-Instruct-Q4_0.gguf", "server_args": ["-np", "1"]},
- {"name": "code.lfm2-8b-a1b.cpu", "kind": "code", "hours": 8, "dev": "cpu", "file": "LiquidAI_LFM2-8B-A1B-Q4_0.gguf", "url": "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf", "server_args": ["-np", "1"]},
- {"name": "code.genie.qwen3-4b", "kind": "code", "hours": 8, "engine": "genie", "model": "qwen3_4b_instruct_2507"},
- {"name": "lfm2-8b-a1b.cpu", "hours": 12, "dev": "cpu", "file": "LiquidAI_LFM2-8B-A1B-Q4_0.gguf", "url": "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"},
- {"name": "genie.qwen3-4b", "hours": 12, "engine": "genie", "model": "qwen3_4b_instruct_2507"},
- {"name": "applab.gemma-4-e4b", "hours": 12, "engine": "applab", "model": "gemma-4-E4B_q4_0-it"}
+ {
+  "name": "qwen3-4b.npu.np1",
+  "hours": 4,
+  "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "qwen3-4b.npu.balanced",
+  "hours": 4,
+  "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "env": {
+   "GGML_HEXAGON_POWER_MODE": "balanced"
+  }
+ },
+ {
+  "name": "qwen3-4b.npu.b12244",
+  "hours": 4,
+  "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244"
+ },
+ {
+  "name": "code.qwen3-4b.npu",
+  "kind": "code",
+  "hours": 8,
+  "file": "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "code.qwen2.5-coder-3b.npu",
+  "kind": "code",
+  "hours": 8,
+  "file": "Qwen2.5-Coder-3B-Instruct-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen2.5-Coder-3B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-3B-Instruct-Q4_0.gguf",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "code.lfm2.5-1.2b.npu",
+  "kind": "code",
+  "hours": 8,
+  "file": "LFM2.5-1.2B-Instruct-Q4_0.gguf",
+  "url": "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF/resolve/main/LFM2.5-1.2B-Instruct-Q4_0.gguf",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "code.lfm2-8b-a1b.cpu",
+  "kind": "code",
+  "hours": 8,
+  "dev": "cpu",
+  "file": "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "code.genie.qwen3-4b",
+  "kind": "code",
+  "hours": 8,
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507"
+ },
+ {
+  "name": "lfm2-8b-a1b.cpu",
+  "hours": 12,
+  "dev": "cpu",
+  "file": "LiquidAI_LFM2-8B-A1B-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/LiquidAI_LFM2-8B-A1B-GGUF/resolve/main/LiquidAI_LFM2-8B-A1B-Q4_0.gguf"
+ },
+ {
+  "name": "code.qwen3-4b-thinking.cpu",
+  "kind": "code",
+  "hours": 24,
+  "file": "Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Thinking-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ],
+  "dev": "cpu",
+  "thinking": true,
+  "ctx": 8192,
+  "watchdog": 1800
+ },
+ {
+  "name": "code.qwen3-4b-thinking.cpu.long",
+  "kind": "code",
+  "hours": 48,
+  "file": "Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Thinking-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ],
+  "dev": "cpu",
+  "thinking": true,
+  "ctx": 12288,
+  "watchdog": 3600,
+  "budget": [
+   8192,
+   8192
+  ]
+ },
+ {
+  "name": "code.granite-4.2-3b.cpu",
+  "kind": "code",
+  "hours": 24,
+  "file": "granite-4.2-3b-Q4_0.gguf",
+  "url": "https://huggingface.co/ibm-granite/granite-4.2-3b-GGUF/resolve/main/granite-4.2-3b-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ],
+  "dev": "cpu",
+  "thinking": true,
+  "ctx": 8192,
+  "watchdog": 1800
+ },
+ {
+  "name": "code.granite-4.2-3b.cpu.long",
+  "kind": "code",
+  "hours": 48,
+  "file": "granite-4.2-3b-Q4_0.gguf",
+  "url": "https://huggingface.co/ibm-granite/granite-4.2-3b-GGUF/resolve/main/granite-4.2-3b-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ],
+  "dev": "cpu",
+  "thinking": true,
+  "ctx": 12288,
+  "watchdog": 3600,
+  "budget": [
+   8192,
+   8192
+  ]
+ },
+ {
+  "name": "code.frognano-4b.npu",
+  "kind": "code",
+  "hours": 24,
+  "file": "FrogNano-4B-2609-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/FrogNano-4B-2609-GGUF/resolve/main/FrogNano-4B-2609-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "code.qwen2.5-coder-7b.npu",
+  "kind": "code",
+  "hours": 24,
+  "file": "Qwen2.5-Coder-7B-Instruct-Q4_0.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-7B-Instruct-Q4_0.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ]
+ },
+ {
+  "name": "code.deepseek-coder-v2-lite.cpu",
+  "kind": "code",
+  "hours": 24,
+  "file": "DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf",
+  "url": "https://huggingface.co/bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF/resolve/main/DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1"
+  ],
+  "dev": "cpu"
+ },
+ {
+  "name": "code.applab.gemma-4-e4b",
+  "kind": "code",
+  "hours": 24,
+  "engine": "applab",
+  "model": "gemma-4-E4B_q4_0-it"
+ },
+ {
+  "name": "suite.new-models",
+  "kind": "suite",
+  "hours": 48
+ },
+ {
+  "name": "genie.qwen3-4b",
+  "hours": 12,
+  "engine": "genie",
+  "model": "qwen3_4b_instruct_2507"
+ },
+ {
+  "name": "applab.gemma-4-e4b",
+  "hours": 12,
+  "engine": "applab",
+  "model": "gemma-4-E4B_q4_0-it"
+ }
 ]

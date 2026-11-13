@@ -87,6 +87,37 @@ if time.time() > state["deadline"]:
         raise SystemExit(0)
     reboot()
 
+if P.get("kind") == "suite":
+    # Hand the board to the main suite (veni-bench) and watch it: if neither its log nor its newest transcript
+    # changes for 15 min, pause the runner (never kill the NPU process) and reset. When the suite has disabled
+    # itself the queue is done: move on to the next phase.
+    SUITE = "/home/arduino/llm-bench/suite"
+    if not state.get("handed"):
+        state["handed"] = True; save_state()
+        subprocess.run(["systemctl", "enable", "veni-bench"])
+        log({"event": "handed to suite"})
+        reboot()
+    last, still = None, 0
+    while True:
+        time.sleep(30)
+        if subprocess.run(["systemctl", "is-enabled", "-q", "veni-bench"]).returncode != 0:
+            log({"event": "suite finished"})
+            state = {"phase": state["phase"] + 1}; save_state()
+            reboot()
+        tr = sorted(glob.glob(f"{SUITE}/logs/*.transcript.jsonl"), key=os.path.getmtime)
+        sig = (os.path.getsize(f"{SUITE}/driver.log"), tr and (tr[-1], os.path.getsize(tr[-1])))
+        still = still + 1 if sig == last else 0
+        last = sig
+        if still >= 30:
+            tail = open(f"{SUITE}/driver.log").read().splitlines()[-1:]
+            pid = subprocess.run(["systemctl", "show", "-p", "MainPID", "--value", "veni-bench"],
+                                 capture_output=True, text=True).stdout.strip()
+            if pid and pid != "0":
+                os.kill(int(pid), 19)          # SIGSTOP
+            open(f"{SUITE}/driver.log", "a").write(time.strftime("%H:%M:%S ") +
+                                                   "soak watcher: no progress 15 min, sysrq reset\n")
+            reset(f"suite stalled: {tail}")
+
 engine = P.get("engine", "llama")
 port = {"llama": 8080, "genie": 9001, "applab": 9999}[engine]
 log({"event": "boot", "phase": P, **temps(), "pinned_mb": pinned_mb()})
@@ -99,6 +130,11 @@ srv = None
 if engine == "llama":
     model = f"{MODELS}/{P['file']}"
     if not os.path.exists(model):
+        # Disk is small: drop models no remaining phase needs before downloading
+        keep = {q.get("file") for q in PLAN[state["phase"]:]}
+        for f in os.listdir(MODELS):
+            if f.endswith(".gguf") and f not in keep:
+                os.remove(f"{MODELS}/{f}")
         subprocess.run(["curl", "-sSfL", "-o", model + ".part", P["url"]], check=True)
         os.rename(model + ".part", model)
     llama = P.get("llama", "/home/arduino/llama-npu")
@@ -106,7 +142,7 @@ if engine == "llama":
                GGML_HEXAGON_DEVICES="4", GGML_HEXAGON_MBUF="256,256", **P.get("env", {}))
     dev = ["-dev", "HTP0,HTP1,HTP2,HTP3", "-ngl", "99"] if P.get("dev", "npu") == "npu" else ["-dev", "none", "-ngl", "0"]
     srv = subprocess.Popen([f"{llama}/bin/llama-server", "-m", model, "--alias", "m", *dev, "-fa", "on", "-t", "4",
-                            "-c", "4096", "--jinja", "--host", "0.0.0.0", "--port", str(port), "--no-webui",
+                            "-c", str(P.get("ctx", 4096)), "--jinja", "--host", "0.0.0.0", "--port", str(port), "--no-webui",
                             *P.get("server_args", [])],
                            env=env, stdout=open(f"{HOME}/server-{P['name']}.log", "a"), stderr=subprocess.STDOUT)
 elif engine == "genie":
@@ -122,10 +158,14 @@ while True:
             break
     except Exception:
         pass
-    if srv is not None and srv.poll() is not None:
-        log({"event": "server exited", "rc": srv.returncode}); time.sleep(60); reset("server exit at load")
-    if time.time() - t0 > 300:
-        reset("load timeout")
+    if (srv is not None and srv.poll() is not None) or time.time() - t0 > 300:
+        why = f"server exit at load (rc {srv.returncode})" if srv is not None and srv.poll() is not None else "load timeout"
+        state["load_fails"] = state.get("load_fails", 0) + 1
+        if state["load_fails"] >= 2:
+            # Same failure twice from a fresh boot: this model does not load here, skip the phase
+            log({"event": "skipped", "reason": why})
+            state = {"phase": state["phase"] + 1}
+        save_state(); time.sleep(30); reset(why)
     time.sleep(2)
 log({"event": "up", "load_s": round(time.time() - t0, 1), "pinned_mb": pinned_mb()})
 
@@ -140,14 +180,14 @@ if P.get("kind") == "code":
         def fire():
             v, t = code_bench.CURRENT or ("?", "?")
             log({"variant": v, "task": t, "wedge": True, "hidden": False})
-            reset(f"code {v} {t}: watchdog, no reply in 420 s")
-        dog[0] = threading.Timer(420, fire); dog[0].daemon = True; dog[0].start()
+            reset(f"code {v} {t}: watchdog, no reply in {P.get('watchdog', 420)} s")
+        dog[0] = threading.Timer(P.get("watchdog", 420), fire); dog[0].daemon = True; dog[0].start()
 
     def row(r):
         dog[0].cancel(); log(r); arm()
 
     arm()
-    code_bench.run(port, P.get("model", "m"), engine, row, done)
+    code_bench.run(port, P.get("model", "m"), engine, row, done, P.get("thinking", False), P.get("budget"))
     dog[0].cancel()
     state["deadline"] = 0; save_state()
     os.execv("/usr/bin/python3", ["python3", __file__])

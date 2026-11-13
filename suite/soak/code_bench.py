@@ -107,10 +107,10 @@ def split_tests(code):
     return code, ""
 
 
-def chat(port, model, engine, prompt, max_tokens):
+def chat(port, model, engine, prompt, max_tokens, thinking=False):
     body = {"model": model, "messages": [{"role": "user", "content": prompt}], "max_tokens": max_tokens,
             "temperature": 0, "stream": True, "user": f"code-{time.time_ns()}"}
-    if engine != "genie":
+    if engine != "genie" and not thinking:
         body["chat_template_kwargs"] = {"enable_thinking": False}
     req = urllib.request.Request(f"http://127.0.0.1:{port}/v1/chat/completions", json.dumps(body).encode(),
                                  {"Content-Type": "application/json"})
@@ -129,6 +129,7 @@ def chat(port, model, engine, prompt, max_tokens):
 
 def grade(t, variant, text):
     """Score one reply. Returns the result fields of a row."""
+    text = text.split("</think>")[-1]          # reasoning that came back inside the content
     b = blocks(text)
     sol, tests = b[0] if b else text, ""
     if variant == "selftest":
@@ -150,7 +151,7 @@ def grade(t, variant, text):
     return row
 
 
-def run(port, model, engine, log, done=()):
+def run(port, model, engine, log, done=(), thinking=False, budget=None):
     """Log one row per (variant, task) via log(); tasks already in `done` are skipped (resume after a reset)."""
     global CURRENT
     for variant in ("hidden", "selftest"):
@@ -161,7 +162,8 @@ def run(port, model, engine, log, done=()):
                                                                                  entry=t["entry_point"])
             CURRENT = (variant, t["task_id"])
             s = time.time()
-            text, chunks = chat(port, model, engine, p, 768 if variant == "hidden" else 1280)
+            b = budget or ((3072, 4096) if thinking else (768, 1280))
+            text, chunks = chat(port, model, engine, p, b[variant != "hidden"], thinking)
             row = {"variant": variant, "task": t["task_id"], "lat_s": round(time.time() - s, 1), "chunks": chunks,
                    **grade(t, variant, text), "reply": text[:6000]}
             log(row)
