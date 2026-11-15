@@ -16,6 +16,43 @@ CURRENT = None                         # (variant, task) being asked, for the ca
 HERE = os.path.dirname(os.path.abspath(__file__))
 TASKS = [json.loads(l) for l in open(os.path.join(HERE, "HumanEval.jsonl"))][::4]      # 41 tasks, fixed
 
+# Go, Rust and TypeScript: the same HumanEval tasks as translated by MultiPL-E (MultiPL-<lang>.jsonl, filtered to the
+# same every-4th subset; MultiPL-E could not translate a few, so 38-39 per language). The board only collects the
+# replies; they are compiled and graded afterwards off the board by grade_multi.py, which needs the toolchains
+LANGS = {
+    "go": {"name": "Go", "fence": "go",
+           "tests": "a `func main()` with at least 5 checks of the form "
+                    "`if got := {entry}(...); !reflect.DeepEqual(got, want) {{ panic(...) }}`"},
+    "rs": {"name": "Rust", "fence": "rust",
+           "tests": "a `fn main()` with at least 5 `assert_eq!` calls on `{entry}`"},
+    "ts": {"name": "TypeScript", "fence": "typescript",
+           "tests": "at least 5 top-level `assert.deepEqual({entry}(...), expected)` statements, after "
+                    "`const assert = require('node:assert');`"},
+}
+
+HIDDEN_PROMPT_L = """Complete this {lang} function. Reply with the full function, including the signature and any imports,
+in a single ```{fence} code block. Do not include tests, example usage or a main function.
+
+```{fence}
+{prompt}```"""
+
+SELFTEST_PROMPT_L = """Implement this {lang} function, then test it.
+
+```{fence}
+{prompt}```
+
+Reply with exactly two ```{fence} code blocks:
+1. The full function, including the signature and any imports.
+2. Your tests: {tests}, with concrete inputs and expected outputs, including edge cases. Work out each expected
+   value from the specification, not by running the code."""
+
+
+def lang_tasks(lang):
+    rows = [json.loads(l) for l in open(os.path.join(HERE, f"MultiPL-{lang}.jsonl"))]
+    for r in rows:
+        r["entry_point"] = re.findall(r"(?:func|fn|function)\s+(\w+)\s*[(<]", r["prompt"])[-1]
+    return rows
+
 HIDDEN_PROMPT = """Complete this Python function. Reply with the full function, including the signature and any imports,
 in a single ```python code block. Do not include tests or example usage.
 
@@ -151,9 +188,31 @@ def grade(t, variant, text):
     return row
 
 
-def run(port, model, engine, log, done=(), thinking=False, budget=None):
+def run_langs(port, model, engine, log, done, thinking, budget, langs):
+    """Go/Rust/TypeScript: collect replies only (graded later off the board). Same budgets as Python, plus 256
+    tokens for the more verbose languages."""
+    global CURRENT
+    for lang in langs:
+        L = LANGS[lang]
+        for variant in ("hidden", "selftest"):
+            for t in lang_tasks(lang):
+                if (lang, variant, t["task_id"]) in done:
+                    continue
+                p = (HIDDEN_PROMPT_L if variant == "hidden" else SELFTEST_PROMPT_L).format(
+                    lang=L["name"], fence=L["fence"], prompt=t["prompt"], tests=L["tests"].format(entry=t["entry_point"]))
+                CURRENT = (f"{lang}/{variant}", t["task_id"])
+                s = time.time()
+                b = budget or ((3072, 4096) if thinking else (1024, 1536))
+                text, chunks = chat(port, model, engine, p, b[variant != "hidden"], thinking)
+                log({"lang": lang, "variant": variant, "task": t["task_id"], "lat_s": round(time.time() - s, 1),
+                     "chunks": chunks, "hidden": None, "reply": text[:8000]})
+
+
+def run(port, model, engine, log, done=(), thinking=False, budget=None, langs=None):
     """Log one row per (variant, task) via log(); tasks already in `done` are skipped (resume after a reset)."""
     global CURRENT
+    if langs:
+        return run_langs(port, model, engine, log, done, thinking, budget, langs)
     for variant in ("hidden", "selftest"):
         for t in TASKS:
             if (variant, t["task_id"]) in done:

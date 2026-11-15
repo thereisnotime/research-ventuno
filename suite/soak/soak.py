@@ -6,7 +6,7 @@ request (latency, t/s, ok, pinned DMA-buf, temperatures) to soak-<name>.jsonl an
 A request stuck for 5 min, or a server that dies, counts as a freeze: it is logged and the board is reset via sysrq
 (never a kill of the NPU process). The unit restarts after boot and carries on with the same phase. When a phase's
 time is up the next phase is selected and the board rebooted; after the last phase the unit disables itself."""
-import glob, json, os, re, subprocess, threading, time, urllib.request
+import glob, json, os, re, subprocess, threading, time, urllib.error, urllib.request
 
 HOME = "/home/arduino/llm-bench/soak"
 MODELS = "/home/arduino/llm-models"
@@ -150,6 +150,17 @@ elif engine == "genie":
 else:
     subprocess.run(["docker", "compose", "-p", "veni-applab", "-f", APPLAB_COMPOSE, "up", "-d"], capture_output=True)
 
+
+def load_failed(why):
+    """The model did not come up. Retry once from a fresh boot; the same failure twice skips the phase."""
+    global state
+    state["load_fails"] = state.get("load_fails", 0) + 1
+    if state["load_fails"] >= 2:
+        log({"event": "skipped", "reason": why})
+        state = {"phase": state["phase"] + 1}
+    save_state(); time.sleep(30); reset(why)
+
+
 t0 = time.time()
 while True:
     try:
@@ -159,13 +170,8 @@ while True:
     except Exception:
         pass
     if (srv is not None and srv.poll() is not None) or time.time() - t0 > 300:
-        why = f"server exit at load (rc {srv.returncode})" if srv is not None and srv.poll() is not None else "load timeout"
-        state["load_fails"] = state.get("load_fails", 0) + 1
-        if state["load_fails"] >= 2:
-            # Same failure twice from a fresh boot: this model does not load here, skip the phase
-            log({"event": "skipped", "reason": why})
-            state = {"phase": state["phase"] + 1}
-        save_state(); time.sleep(30); reset(why)
+        load_failed(f"server exit at load (rc {srv.returncode})" if srv is not None and srv.poll() is not None
+                    else "load timeout")
     time.sleep(2)
 log({"event": "up", "load_s": round(time.time() - t0, 1), "pinned_mb": pinned_mb()})
 
@@ -173,13 +179,15 @@ if P.get("kind") == "code":
     # Coding test instead of a soak: every task once, then on to the next phase. A task that hangs the board is
     # logged as a wedge row, so the resumed run after the reset skips it
     import code_bench
-    done = {(r["variant"], r["task"]) for r in map(json.loads, open(OUT)) if "variant" in r}
+    rows = [r for r in map(json.loads, open(OUT)) if "variant" in r]
+    done = {(r["lang"], r["variant"], r["task"]) if P.get("langs") else (r["variant"], r["task"]) for r in rows}
     dog = [None]
 
     def arm():
         def fire():
             v, t = code_bench.CURRENT or ("?", "?")
-            log({"variant": v, "task": t, "wedge": True, "hidden": False})
+            lang, _, v = v.rpartition("/")
+            log({"variant": v, "task": t, "wedge": True, "hidden": False, **({"lang": lang} if lang else {})})
             reset(f"code {v} {t}: watchdog, no reply in {P.get('watchdog', 420)} s")
         dog[0] = threading.Timer(P.get("watchdog", 420), fire); dog[0].daemon = True; dog[0].start()
 
@@ -187,7 +195,13 @@ if P.get("kind") == "code":
         dog[0].cancel(); log(r); arm()
 
     arm()
-    code_bench.run(port, P.get("model", "m"), engine, row, done, P.get("thinking", False), P.get("budget"))
+    try:
+        code_bench.run(port, P.get("model", "m"), engine, row, done, P.get("thinking", False), P.get("budget"),
+                       P.get("langs"))
+    except urllib.error.HTTPError as e:
+        # App Lab answers /health before its model has loaded, and reports a failed load as HTTP 500 on the first request
+        dog[0].cancel()
+        load_failed(f"HTTP {e.code} from the server: {e.read()[:200].decode(errors='replace')}")
     dog[0].cancel()
     state["deadline"] = 0; save_state()
     os.execv("/usr/bin/python3", ["python3", __file__])

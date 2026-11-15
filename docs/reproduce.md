@@ -201,6 +201,38 @@ tests, which it never sees, decide) and `selftest` (the model also writes its ow
 code and against the reference solution). Model code runs in a separate `python3 -I` process with a 10 s limit and
 memory caps, but it is still untrusted code: run it on a test board, not a machine with anything you care about.
 
+**Go, Rust and TypeScript.** The same tasks as translated by [MultiPL-E](https://github.com/nuprl/MultiPL-E)
+(38 Go, 39 Rust, 39 TypeScript of the 41; MultiPL-E could not translate the rest). A phase with
+`"langs": ["go", "rs", "ts"]` only collects the replies, because the board has no compilers. Fetch the task files
+once (needs `pyarrow`):
+
+```bash
+python3 - <<'PY'
+import json, re, urllib.request, pyarrow.parquet as pq, io
+base = "https://huggingface.co/datasets/nuprl/MultiPL-E/resolve/refs%2Fconvert%2Fparquet/humaneval-{}/test/0000.parquet"
+for lang in ("go", "rs", "ts"):
+    rows = pq.read_table(io.BytesIO(urllib.request.urlopen(base.format(lang)).read())).to_pylist()
+    keep = sorted((int(re.match(r"HumanEval_(\d+)_", r["name"]).group(1)), r) for r in rows
+                  if int(re.match(r"HumanEval_(\d+)_", r["name"]).group(1)) % 4 == 0)
+    with open(f"MultiPL-{lang}.jsonl", "w") as f:
+        for n, r in keep:
+            f.write(json.dumps({"task_id": f"HumanEval/{n}", "name": r["name"], "prompt": r["prompt"],
+                                "tests": r["tests"], "stop": r["stop_tokens"]}) + "\n")
+PY
+cp MultiPL-*.jsonl ~/llm-bench/soak/
+```
+
+Then grade the collected files on any machine with Docker. Each program is compiled and run in a throwaway
+container with no network and a 10 s limit:
+
+```bash
+python3 suite/soak/grade_multi.py results/code/multi/*.jsonl    # MultiPL-*.jsonl must sit next to code_bench.py
+```
+
+Go goes through `goimports` first, so a missing or unused import (a compile error in Go) is not held against the
+model. MultiPL-E has no reference solutions, so these languages report hidden-test passes and whether the model's
+own tests pass, but not whether its tests are correct.
+
 ## 7. Probes
 
 | Script | Measures | Run |
