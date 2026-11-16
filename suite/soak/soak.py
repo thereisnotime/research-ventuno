@@ -130,12 +130,17 @@ srv = None
 if engine == "llama":
     model = f"{MODELS}/{P['file']}"
     if not os.path.exists(model):
-        # Disk is small: drop models no remaining phase needs before downloading
-        keep = {q.get("file") for q in PLAN[state["phase"]:]}
+        # Disk is small: keep only the model of the next phase (if it is the same), re-download the rest later
+        nxt = PLAN[state["phase"] + 1].get("file") if state["phase"] + 1 < len(PLAN) else None
         for f in os.listdir(MODELS):
-            if f.endswith(".gguf") and f not in keep:
+            if (f.endswith(".gguf") and f != nxt) or f.endswith(".part"):
                 os.remove(f"{MODELS}/{f}")
-        subprocess.run(["curl", "-sSfL", "-o", model + ".part", P["url"]], check=True)
+        if subprocess.run(["curl", "-sSfL", "--retry", "3", "-o", model + ".part", P["url"]]).returncode != 0:
+            if os.path.exists(model + ".part"):
+                os.remove(model + ".part")
+            log({"event": "skipped", "reason": "download failed"})
+            state = {"phase": state["phase"] + 1}
+            save_state(); os.execv("/usr/bin/python3", ["python3", __file__])
         os.rename(model + ".part", model)
     llama = P.get("llama", "/home/arduino/llama-npu")
     env = dict(os.environ, LD_LIBRARY_PATH=f"{llama}/lib", ADSP_LIBRARY_PATH=f"{llama}/lib",
