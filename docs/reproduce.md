@@ -101,7 +101,7 @@ Settings worth knowing:
 | `-t`, `taskset` | 4 threads on cores 0-3 | The A78 cores |
 | CPU runs | `-dev none -ngl 0` | Same binary, no NPU |
 
-Models are Q4_0 GGUFs; the exact URLs are in [`results/queue.json`](../results/queue.json) (`files` of each item).
+Models are Q4_0 GGUFs; the exact URLs are in [`results/performance/queue.json`](../results/performance/queue.json) (`files` of each item).
 
 ## 4. Genie (Qualcomm's runtime) and Arduino App Lab
 
@@ -109,7 +109,7 @@ Genie bundles come with `arduino-app-cli`, or download one with Arduino's downlo
 ([board-notes.md](board-notes.md#genie-llm-api-on-the-lan-2026-11-08)). Start the service with the tested settings:
 
 ```bash
-sudo docker compose -f suite/genie-compose.yaml up -d
+sudo docker compose -f engines/genie-compose.yaml up -d
 curl -s localhost:9001/v1/models            # ready when this answers; /health does not exist
 ```
 
@@ -117,7 +117,7 @@ Genie needs streamed requests and a fresh `user` value per request (see the comm
 Starting Genie leaves NPU memory pinned, so reboot before going back to llama.cpp.
 
 App Lab's own llama.cpp service (Gemma 4 E4B) is started from its shipped compose file, copied as tested in
-[`suite/applab-llamacpp-service_compose.yaml`](../suite/applab-llamacpp-service_compose.yaml):
+[`engines/applab-llamacpp-service_compose.yaml`](../engines/applab-llamacpp-service_compose.yaml):
 
 ```bash
 arduino-app-cli model install gemma-4-E4B_q4_0-it
@@ -127,7 +127,7 @@ curl -s localhost:9999/health
 
 ## 5. Main suite (tables in §4.1-4.5)
 
-`suite/suite.py` runs a queue one item at a time as root, reboots itself when leaked NPU memory passes a limit, and
+`bench/performance/suite.py` runs a queue one item at a time as root, reboots itself when leaked NPU memory passes a limit, and
 resumes after boot. A queue item:
 
 ```json
@@ -138,12 +138,12 @@ resumes after boot. A queue item:
 
 `kind` is `server` (speed, tools, JSON, quiz, needle, optional `vision`) or `llamabench`; `engine` is `llama`,
 `genie` or `applab`. Optional keys: `env`, `server_args`, `sessions`, `ctx`, `llama` (another build directory),
-`mmproj`. Copy items from [`results/queue.json`](../results/queue.json) to rerun ours.
+`mmproj`. Copy items from [`results/performance/queue.json`](../results/performance/queue.json) to rerun ours.
 
 ```bash
 mkdir -p ~/llm-bench/suite ~/llm-models
-cp suite/suite.py ~/llm-bench/suite/ && cp my-queue.json ~/llm-bench/suite/queue.json
-sudo cp suite/veni-bench.service /etc/systemd/system/ && sudo systemctl daemon-reload
+cp bench/performance/suite.py ~/llm-bench/suite/ && cp my-queue.json ~/llm-bench/suite/queue.json
+sudo cp bench/performance/veni-bench.service /etc/systemd/system/ && sudo systemctl daemon-reload
 sudo systemctl enable --now veni-bench      # disables itself when the queue is done
 tail -f ~/llm-bench/suite/driver.log
 ```
@@ -156,7 +156,7 @@ python3 tools/build_docs.py && python3 tools/plots.py
 
 ## 6. Soak and coding tests (§4.11 and the coding section)
 
-`suite/soak/soak.py` runs the phases in `plan.json` in order, each from a fresh boot. A soak phase sends requests
+`bench/stability/soak.py` runs the phases in `plan.json` in order, each from a fresh boot. A soak phase sends requests
 nonstop for `hours`; a `"kind": "code"` phase runs the coding test once per model and moves on. A request with no
 reply for 5 minutes (7 for coding) is logged as a freeze and the board is reset by sysrq; the run then resumes.
 
@@ -174,15 +174,15 @@ reply for 5 minutes (7 for coding) is logged as a freeze and the board is reset 
 
 Phase keys: `dev` (`npu` default, or `cpu`), `env`, `server_args`, `llama` (build directory), `engine`
 (`llama`, `genie`, `applab`), `model` (name sent to Genie or App Lab). Our full plan is
-[`suite/soak/plan.json`](../suite/soak/plan.json).
+[`bench/stability/plan.json`](../bench/stability/plan.json).
 
 ```bash
 mkdir -p ~/llm-bench/soak
-cp suite/soak/soak.py suite/soak/code_bench.py my-plan.json ~/llm-bench/soak/
+cp bench/stability/soak.py bench/coding/code_bench.py my-plan.json ~/llm-bench/soak/
 mv ~/llm-bench/soak/my-plan.json ~/llm-bench/soak/plan.json
 curl -sSfL https://raw.githubusercontent.com/openai/human-eval/master/data/HumanEval.jsonl.gz \
   | gunzip > ~/llm-bench/soak/HumanEval.jsonl
-sudo cp suite/soak/veni-soak.service /etc/systemd/system/ && sudo systemctl daemon-reload
+sudo cp bench/stability/veni-soak.service /etc/systemd/system/ && sudo systemctl daemon-reload
 sudo systemctl enable --now veni-soak      # disables itself after the last phase
 tail -f ~/llm-bench/soak/soak-*.jsonl
 ```
@@ -222,11 +222,11 @@ PY
 cp MultiPL-*.jsonl ~/llm-bench/soak/
 ```
 
-Then grade the collected files on any machine with Docker. Each program is compiled and run in a throwaway
+Then grade the collected files on any machine with podman (or docker). Each program is compiled and run in a throwaway
 container with no network and a 10 s limit:
 
 ```bash
-python3 suite/soak/grade_multi.py results/code/multi/*.jsonl    # MultiPL-*.jsonl must sit next to code_bench.py
+python3 bench/coding/grade_multi.py results/coding/multi/*.jsonl    # MultiPL-*.jsonl must sit in bench/coding/
 ```
 
 Go goes through `goimports` first, so a missing or unused import (a compile error in Go) is not held against the
@@ -237,9 +237,9 @@ own tests pass, but not whether its tests are correct.
 
 | Script | Measures | Run |
 |---|---|---|
-| [`suite/probes/bw.c`](../suite/probes/bw.c) | Memory bandwidth per thread count (§4.8) | `gcc -O3 -pthread bw.c -o bw && ./bw 4 256 5` (threads, MB per thread, reps) |
-| [`suite/probes/genie_prefill.py`](../suite/probes/genie_prefill.py) | Genie prompt reading at 128/512/2048 tokens (§4.7) | `python3 genie_prefill.py` with Genie running |
-| [`suite/probes/combo_parallel.py`](../suite/probes/combo_parallel.py) | Two models at once, NPU + CPU (§4.9) | see the script header |
+| [`bench/probes/bw.c`](../bench/probes/bw.c) | Memory bandwidth per thread count (§4.8) | `gcc -O3 -pthread bw.c -o bw && ./bw 4 256 5` (threads, MB per thread, reps) |
+| [`bench/probes/genie_prefill.py`](../bench/probes/genie_prefill.py) | Genie prompt reading at 128/512/2048 tokens (§4.7) | `python3 genie_prefill.py` with Genie running |
+| [`bench/probes/combo_parallel.py`](../bench/probes/combo_parallel.py) | Two models at once, NPU + CPU (§4.9) | see the script header |
 
 ## 8. Sharing your results
 

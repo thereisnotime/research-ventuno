@@ -70,7 +70,7 @@ boot history and are marked as such.
 ## 3. Method
 
 Each configuration ran as one queued item on an otherwise idle board, one at a time, driven by
-[`suite/suite.py`](suite/suite.py). Server tests talk to an OpenAI-compatible endpoint (llama-server or Genie) at
+[`bench/performance/suite.py`](bench/performance/suite.py). Server tests talk to an OpenAI-compatible endpoint (llama-server or Genie) at
 temperature 0 with model "thinking" disabled. Context 4096, flash attention on, 4 threads pinned to cores 0-3.
 
 | Test | What is measured | Pass condition |
@@ -319,7 +319,7 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | ministral-3-8b.npu.server.vfix2 | skipped-hung |
 | gemma-4-e4b.npu.server.vfix2 | skipped-hung |
 | qwen3-8b.npu.server.tr | hung (NPU wedged on the first request, board reset by hand) |
-| qwen3-8b.npu.server.tr2 | hung after tool case 5 of 7 (NPU wedged, sysrq reset); [partial transcript](results/transcripts/qwen3-8b.npu.server.tr2.transcript.jsonl) |
+| qwen3-8b.npu.server.tr2 | hung after tool case 5 of 7 (NPU wedged, sysrq reset); [partial transcript](results/performance/transcripts/qwen3-8b.npu.server.tr2.transcript.jsonl) |
 
 ### 4.6 llama.cpp build comparison
 
@@ -428,7 +428,7 @@ Findings:
   t/s with HMX on, so that difference is not reliable from one run.
 - **Qualcomm's own runtime gets 2-3× further.** A like-for-like run at llama-bench's prompt sizes (fresh prompt of
   N tokens, time to first token, median of 3, [raw](results/probes/genie_prefill_sizes.txt),
-  [script](suite/probes/genie_prefill.py)):
+  [script](bench/probes/genie_prefill.py)):
 
   | Prompt tokens | Genie TTFT | Genie t/s (incl. overhead) | llama.cpp NPU t/s |
   |---|---|---|---|
@@ -451,7 +451,7 @@ Findings:
 *Figure 4. Measured memory bandwidth. Token generation is bounded by this ceiling.*
 
 Table 6. CPU memory bandwidth measured on the board with a STREAM-style test
-([source](suite/probes/bw.c), [raw](results/probes/memory_bandwidth.txt)), 256 MB per thread.
+([source](bench/probes/bw.c), [raw](results/probes/memory_bandwidth.txt)), 256 MB per thread.
 
 | Cores | Read GB/s | Copy GB/s |
 |---|---:|---:|
@@ -478,7 +478,7 @@ Table 7. Using the NPU and CPU together (llama.cpp; C1, C2 on `7fe450e`, the res
 | [C2](reports/combo.c2.qwen3-8b.ngl20.md) | Qwen3-8B, 20 layers on NPU (3 sessions), rest on CPU | ✅ 7/7 tools, 10/12 quiz, but **0.89 t/s** generation, 25 t/s prefill |
 | [C3](reports/combo.c3.qwen3-4b.spec4.md) | Qwen3-4B on NPU + Qwen3-0.6B draft on CPU, 4-token drafts | ✅ 7/7, 12/12, **12.5 t/s** (no gain over 12.7 without a draft) |
 | [C4](reports/combo.c4.qwen3-4b.spec8.md) | Same, 8-token drafts | ❌ answered 7 quiz questions correctly, then hung and crashed (timeouts, connection refused) |
-| [Parallel](results/probes/combo_parallel.jsonl) | Qwen3-4B on NPU (host threads on A55) + LFM2-8B-A1B on CPU (A78), both generating at once ([script](suite/probes/combo_parallel.py)) | NPU 10.9 → 10.3 t/s, CPU 26.4 → **15.4 t/s**, total **25.7 t/s**, 9.4 GB RAM |
+| [Parallel](results/probes/combo_parallel.jsonl) | Qwen3-4B on NPU (host threads on A55) + LFM2-8B-A1B on CPU (A78), both generating at once ([script](bench/probes/combo_parallel.py)) | NPU 10.9 → 10.3 t/s, CPU 26.4 → **15.4 t/s**, total **25.7 t/s**, 9.4 GB RAM |
 
 Findings:
 
@@ -532,7 +532,7 @@ Table 6. Same model and test, default buffer chunks vs `MBUF=256,256`.
 | Qwen3.5-4B | 7/7, 11/12, 3/4 | [7/7, 11/12, 3/4](reports/qwen3.5-4b.npu.server.mbuf256.md) | 8.6 → 8.1 | 151 → 151 | ✅ same, 11.0 s/image (3.9 before) |
 | Qwen3-VL-4B | 7/7, 11/12, 0/4 | [7/7, 11/12, **3/4**](reports/qwen3-vl-4b.npu.server.mbuf256.md) | 12.6 → 12.3 | 386 → 386 | 🟢 vision works on the first run, 7.9 s/image |
 | Ministral 3 8B | 7/7, 11/12, 0/4 | [❌ froze](reports/ministral-3-8b.npu.server.mbuf256.md) | 6.8 → 7.0 | — | 🔴 froze mid-generation |
-| Qwen3-VL-8B | 7/7, 11/12, 0/4 | ❌ froze, no result row ([transcript](results/transcripts/qwen3-vl-8b.npu.server.mbuf256.transcript.jsonl)) | 7.6 → 7.9 | — | 🔴 froze mid-generation |
+| Qwen3-VL-8B | 7/7, 11/12, 0/4 | ❌ froze, no result row ([transcript](results/performance/transcripts/qwen3-vl-8b.npu.server.mbuf256.transcript.jsonl)) | 7.6 → 7.9 | — | 🔴 froze mid-generation |
 
 Findings:
 
@@ -549,7 +549,7 @@ Findings:
 
 *Figure 5. Soak timeline by request number (the board has no real-time clock, so wall time jumps at reboots).*
 
-**12-hour soak** ([`suite/soak/`](suite/soak/), [raw log](results/soak/soak.jsonl)). Qwen3-4B on the NPU with
+**12-hour soak** ([`bench/stability/`](bench/stability/), [raw log](results/stability/soak.jsonl)). Qwen3-4B on the NPU with
 MBUF 256 answered requests nonstop from 21:45 to 09:43 (2026-11-10/11). It rotated five prompts (384-token cap,
 temperature 0.7), with a tool call every 7th request. A request stuck for 5 minutes triggered a sysrq reset, and the
 run resumed after boot.
@@ -570,7 +570,7 @@ Table 7. Soak results.
 So a 4B model with MBUF 256 does not degrade over time, but it is not freeze-free: the NPU froze twice in 12 hours,
 close together, and then ran clean for almost 10 hours. Unattended use needs the freeze detection and reset loop.
 
-**Soak variants** (2026-11-11/12, [raw logs](results/soak/)). Three 4-hour runs of the same Qwen3-4B NPU soak with
+**Soak variants** (2026-11-11/12, [raw logs](results/stability/)). Three 4-hour runs of the same Qwen3-4B NPU soak with
 MBUF 256, each changing one thing, to find what affects the freeze. Same prompts and freeze rule as above.
 
 Table 8. Soak variants, 4 hours each.
@@ -595,7 +595,7 @@ Table 8. Soak variants, 4 hours each.
 ### 4.12 Coding test
 
 Two variants on the same 41 HumanEval tasks (every 4th of the 164), temperature 0, script
-[`suite/soak/code_bench.py`](suite/soak/code_bench.py), [raw results](results/code/) with every reply:
+[`bench/coding/code_bench.py`](bench/coding/code_bench.py), [raw results](results/coding/) with every reply:
 
 - **Hidden tests:** the model gets the signature and docstring and writes the function. HumanEval's own tests,
   which the model never sees, decide pass or fail.
@@ -647,7 +647,7 @@ configuration in [docs/stability-fixes.md](docs/stability-fixes.md).
 - One NPU session can't map a 4B model on this llama.cpp build (`fastrpc_mmap`), so all NPU runs use 4 sessions.
 - Vision image encoders run on CPU (`--no-mmproj-offload`); on the NPU they fail to map.
 - Genie needs: streaming only (non-streaming kills its LLM process), one session per request, and
-  `HISTORY_EVICTION_THRESHOLD=100` (history eviction's facts pass crashes it). See [`suite/genie-compose.yaml`](suite/genie-compose.yaml).
+  `HISTORY_EVICTION_THRESHOLD=100` (history eviction's facts pass crashes it). See [`engines/genie-compose.yaml`](engines/genie-compose.yaml).
 - The two late CPU reruns (Qwen3-4B 3.3 t/s, LFM2-8B 7.8 t/s) were slowed by something else on the CPU; the
   original CPU numbers stand.
 
@@ -684,25 +684,30 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 Step-by-step instructions for running the same tests on your own board, with the exact settings and
 commands: **[docs/reproduce.md](docs/reproduce.md)**.
 
-| Path | Content |
+The repo is split by test type. Code is under `bench/`, raw data under `results/` with the same names:
+
+| Test type | Code | Raw results |
+|---|---|---|
+| ⚡ Performance and server tests (speed, tools, JSON, quiz, long context) | [`bench/performance/`](bench/performance/): `suite.py`, `veni-bench.service` | [`results/performance/`](results/performance/): `results.jsonl` (one object per run), `transcripts/` (every request and reply), `queue.json`, `state.json`, `driver.log` |
+| 💻 Coding (Python, Go, Rust, TypeScript) | [`bench/coding/`](bench/coding/): `code_bench.py`, `grade_multi.py`, [how it works](bench/coding/README.md) | [`results/coding/`](results/coding/): one `.jsonl` per model with every reply |
+| 🔁 Stability (soaks; also schedules the coding runs) | [`bench/stability/`](bench/stability/): `soak.py`, `plan.json`, `veni-soak.service` | [`results/stability/`](results/stability/) |
+| 🔬 Probes (memory bandwidth, Genie prompt speed, two models at once, stall watcher) | [`bench/probes/`](bench/probes/) | [`results/probes/`](results/probes/) |
+
+| Other | Content |
 |---|---|
-| [`results/results.jsonl`](results/results.jsonl) | One JSON object per test run (all metrics) |
-| [`results/transcripts/`](results/transcripts/) | Every request and response, per run |
-| [`results/queue.json`](results/queue.json), [`results/state.json`](results/state.json), [`results/driver.log`](results/driver.log) | Test queue, run status, runner log |
-| [`reports/`](reports/index.md) | Generated per-run pages and cross-model matrices |
-| [`suite/suite.py`](suite/suite.py), [`suite/veni-bench.service`](suite/veni-bench.service) | Test runner and its systemd unit |
-| [`suite/soak/`](suite/soak/) | Soak and coding tests: `soak.py`, `code_bench.py`, `plan.json`, `veni-soak.service` |
-| [`suite/genie-compose.yaml`](suite/genie-compose.yaml) | Working Genie configuration |
-| [`tools/build_docs.py`](tools/build_docs.py) | Regenerates `reports/` and the tables in this README |
-| [`tools/plots.py`](tools/plots.py) | Draws the figures in [`docs/figures/`](docs/figures/) from `results/` (needs matplotlib) |
-| [`reports/environments.md`](reports/environments.md) | Environment profiles (kernel, firmware, packages, engine build) and their runs |
-| [`results/probes/`](results/probes/), [`suite/probes/`](suite/probes/) | Memory bandwidth, Genie prompt speed and two-model results, with their scripts and the stall watcher |
-| [`suite/applab-llamacpp-service_compose.yaml`](suite/applab-llamacpp-service_compose.yaml) | Arduino App Lab's llama.cpp service (runner 0.13.2) exactly as tested; the suite starts it with `docker compose -p veni-applab -f … up -d` (engine `applab`). Models installed with `arduino-app-cli model install` |
+| [`engines/genie-compose.yaml`](engines/genie-compose.yaml) | Working Genie configuration |
+| [`engines/applab-llamacpp-service_compose.yaml`](engines/applab-llamacpp-service_compose.yaml) | Arduino App Lab's llama.cpp service (runner 0.13.2) exactly as tested; the suite starts it with `docker compose -p veni-applab -f … up -d` (engine `applab`). Models installed with `arduino-app-cli model install` |
+| [`reports/`](reports/index.md) | Generated per-run pages and cross-model matrices; [`reports/environments.md`](reports/environments.md) has the environment profiles |
+| [`tools/build_docs.py`](tools/build_docs.py), [`tools/plots.py`](tools/plots.py) | Regenerate `reports/`, the tables in this README and the figures in [`docs/figures/`](docs/figures/) (plots need matplotlib) |
+| [`docs/reproduce.md`](docs/reproduce.md) | Step-by-step guide to rerun everything on your own board |
 | [`docs/sources.md`](docs/sources.md) | Vendor claims under test, with Wayback Machine snapshots |
 | [`docs/stability-fixes.md`](docs/stability-fixes.md) | Every crash fix and workaround, with config and verification status |
 | [`docs/board-notes.md`](docs/board-notes.md) | Board setup, kernel and firmware notes, incident log |
 
+On the board everything still runs from two flat folders, `~/llm-bench/suite/` and `~/llm-bench/soak/`
+([setup](docs/reproduce.md)).
+
 ## License and citation
 
-Code (`suite/`, `tools/`) is under the MIT license; results, transcripts and documentation are under CC BY 4.0.
+Code (`bench/`, `engines/`, `tools/`) is under the MIT license; results, transcripts and documentation are under CC BY 4.0.
 See [LICENSE](LICENSE). Citation metadata is in [CITATION.cff](CITATION.cff).

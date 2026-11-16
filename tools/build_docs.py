@@ -8,13 +8,13 @@ import json
 import os
 import re
 
-RES = "results/results.jsonl"
-TR = "results/transcripts"
+RES = "results/performance/results.jsonl"
+TR = "results/performance/transcripts"
 REP = "reports"
 
-# Prompts as sent by suite/suite.py (quiz gets " Answer briefly." appended)
+# Prompts as sent by bench/performance/suite.py (quiz gets " Answer briefly." appended)
 QUIZ = None
-for node in ast.parse(open("suite/suite.py").read()).body:
+for node in ast.parse(open("bench/performance/suite.py").read()).body:
     if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "QUIZ":
         QUIZ = ast.literal_eval(node.value)
 TOOLS = [
@@ -432,7 +432,7 @@ def bench_table(R):
 def env_page():
     L = ["# Test environments", "", "[← README](../README.md) · [all runs](index.md)", "",
          "Each run is tagged with the environment it ran in. Runs from 2026-11-10 on record it themselves "
-         "(`env` in `results/results.jsonl`: kernel, full cmdline, package versions, NPU firmware hash, engine "
+         "(`env` in `results/performance/results.jsonl`: kernel, full cmdline, package versions, NPU firmware hash, engine "
          "commit or image). Earlier runs are *inferred* from `/var/log/dpkg.log`, the kernel cmdline history and "
          "the llama.cpp/Genie versions installed at the time.", "",
          "Constant for every run: Arduino VENTUNO Q (QCS8300, 16 GB), Ubuntu 24.04.5, Arduino image "

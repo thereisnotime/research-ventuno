@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Grade the Go, Rust and TypeScript coding replies collected on the board (code_bench.py, phases with "langs").
 
-The board has no toolchains, so this runs on any machine with Docker. Every program is compiled and run inside a
+The board has no toolchains, so this runs on any machine with podman (or docker). Every program is compiled and run inside a
 throwaway container with no network, a 10 s timeout per program and memory and process limits. Results are written
 back into the same .jsonl rows:
 
@@ -13,9 +13,11 @@ MultiPL-E has no reference solutions in these languages, so unlike Python there 
 Go is run through goimports first, so missing or unused imports (a compile error in Go) are not counted against the
 model; the other two languages are compiled as written.
 
-Usage: grade_multi.py results/code/multi/<model>.jsonl ...      (needs MultiPL-<lang>.jsonl next to code_bench.py)
+Usage: grade_multi.py results/coding/multi/<model>.jsonl ...      (needs MultiPL-<lang>.jsonl next to this script)
 """
 import json, os, re, shutil, subprocess, sys, tempfile
+
+ENGINE = shutil.which("podman") or shutil.which("docker")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TASKS = {l: {t["task_id"]: t for t in map(json.loads, open(os.path.join(HERE, f"MultiPL-{l}.jsonl")))}
@@ -24,9 +26,9 @@ FENCES = {"go": "go|golang", "rs": "rust|rs", "ts": "typescript|ts|javascript|js
 
 # Images are built once, with the tools baked in, so the grading containers can run with --network none
 IMAGES = {
-    "go": ("veni-grade-go", "FROM golang:1.23\nRUN go install golang.org/x/tools/cmd/goimports@v0.24.0\n"),
-    "rs": ("veni-grade-rs", "FROM rust:1.82-slim\n"),
-    "ts": ("veni-grade-ts", "FROM node:22-slim\nRUN npm install -g typescript@5.6.3\n"),
+    "go": ("veni-grade-go", "FROM docker.io/golang:1.23\nRUN go install golang.org/x/tools/cmd/goimports@v0.24.0\n"),
+    "rs": ("veni-grade-rs", "FROM docker.io/rust:1.82-slim\n"),
+    "ts": ("veni-grade-ts", "FROM docker.io/node:22-slim\nRUN npm install -g typescript@5.6.3\n"),
 }
 
 # Runs every job directory in /w inside the container; each writes its own result file
@@ -107,8 +109,8 @@ def programs(t, lang, variant, reply):
 
 def build(lang):
     name, dockerfile = IMAGES[lang]
-    if subprocess.run(["docker", "image", "inspect", name], capture_output=True).returncode != 0:
-        subprocess.run(["docker", "build", "-q", "-t", name, "-"], input=dockerfile.encode(), check=True)
+    if subprocess.run([ENGINE, "image", "inspect", name], capture_output=True).returncode != 0:
+        subprocess.run([ENGINE, "build", "-q", "-t", name, "-"], input=dockerfile.encode(), check=True)
     return name
 
 
@@ -119,7 +121,7 @@ def run_jobs(lang, jobs):
         for i, (fname, src) in jobs.items():
             os.makedirs(f"{d}/{i}")
             open(f"{d}/{i}/{fname}", "w").write(src)
-        subprocess.run(["docker", "run", "--rm", "--name", f"veni-grade-{lang}-{os.getpid()}", "--network", "none", "--user", f"{os.getuid()}:{os.getgid()}",
+        subprocess.run([ENGINE, "run", "--rm", "--name", f"veni-grade-{lang}-{os.getpid()}", "--network", "none", *(["--userns", "keep-id"] if "podman" in ENGINE else ["--user", f"{os.getuid()}:{os.getgid()}"]),
                         "--memory", "4g", "--pids-limit", "512", "-v", f"{d}:/w", build(lang), "sh", "-c", RUNNER[lang]],
                        check=True, capture_output=True)
         for i in jobs:
@@ -161,7 +163,7 @@ def grade_file(path):
 
 
 if __name__ == "__main__":
-    if not shutil.which("docker"):
-        raise SystemExit("needs docker")
+    if not ENGINE:
+        raise SystemExit("needs podman or docker")
     for p in sys.argv[1:]:
         grade_file(p)

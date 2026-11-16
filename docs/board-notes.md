@@ -200,7 +200,7 @@ The pre-pulled runner `0.11.2` cannot open an NPU session (`error 0x80000406`); 
 ## Overnight LLM suite (2026-11-08/09, stopped, 31 results)
 
 Full results, raw JSON, request/reply transcripts and the runner live in
-[](RESULTS.md). The tables below are the early partial snapshot.
+[README](../README.md). The tables below are the early partial snapshot.
 
 Exact kernel, modules, firmware and llama.cpp/Genie versions are in the results file's
 "Test environment" section. No newer kernel exists; 1089 already has the known fastrpc fixes.

@@ -2,7 +2,7 @@
 
 [← README](../README.md) · [all runs](index.md)
 
-Each run is tagged with the environment it ran in. Runs from 2026-11-10 on record it themselves (`env` in `results/results.jsonl`: kernel, full cmdline, package versions, NPU firmware hash, engine commit or image). Earlier runs are *inferred* from `/var/log/dpkg.log`, the kernel cmdline history and the llama.cpp/Genie versions installed at the time.
+Each run is tagged with the environment it ran in. Runs from 2026-11-10 on record it themselves (`env` in `results/performance/results.jsonl`: kernel, full cmdline, package versions, NPU firmware hash, engine commit or image). Earlier runs are *inferred* from `/var/log/dpkg.log`, the kernel cmdline history and the llama.cpp/Genie versions installed at the time.
 
 Constant for every run: Arduino VENTUNO Q (QCS8300, 16 GB), Ubuntu 24.04.5, Arduino image `20260710-235`, NPU firmware `cdsp0.mbn` from `linux-firmware-dragonwing` 20260612. dpkg records 20260825 for that package, but its firmware broke NPU memory mapping, so the 20260612 files were restored into `/lib/firmware/updates` before any run (sha256 `9ef6c8dc39d866a1…`).
 

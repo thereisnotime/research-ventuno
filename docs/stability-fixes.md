@@ -56,7 +56,7 @@ without someone pressing the power button. See [§5 of the README](../README.md#
   ```
 
 - **Fix, runner side:** before each test the suite checks pinned memory and reboots if it is above 1200 MB
-  (`REBOOT_MB` in [`suite.py`](../suite/suite.py)). Items marked `fresh` need less than 200 MB. If the board is
+  (`REBOOT_MB` in [`suite.py`](../bench/performance/suite.py)). Items marked `fresh` need less than 200 MB. If the board is
   still over the limit right after a reboot, the item is skipped instead of looping. Reboots are capped at 60.
 
 ## 3. Crash-looping NPU service
@@ -135,7 +135,7 @@ A wedged server request otherwise blocks until the client timeout (600 s per req
 An external watcher polls the board every 30 s. If neither the current transcript nor the driver log grows for
 8 minutes during a server test, it applies the procedure from §7 and lets the queue continue. It gives up after
 3 wedges in one batch. A planned reboot (runner briefly inactive) is not a stall; only a disabled runner stops the
-watcher. Script: [`suite/probes/watch.sh`](../suite/probes/watch.sh).
+watcher. Script: [`bench/probes/watch.sh`](../bench/probes/watch.sh).
 
 Three bugs in earlier versions, all fixed:
 
@@ -193,7 +193,7 @@ the NPU.
 |---|---|---|
 | Non-streaming request kills the LLM process; re-init then fails with SDK error 14003 until a reboot | Genie service bug | Send every request with `stream: true`; the runner rebuilds the OpenAI response from the stream |
 | Replies empty or mixed up between tests | Genie groups sessions by user plus messages | Unique `user` per request |
-| Process crashes after a few requests | History eviction runs a "facts" extraction pass that crashes | `HISTORY_EVICTION_THRESHOLD=100` in [`genie-compose.yaml`](../suite/genie-compose.yaml) |
+| Process crashes after a few requests | History eviction runs a "facts" extraction pass that crashes | `HISTORY_EVICTION_THRESHOLD=100` in [`genie-compose.yaml`](../engines/genie-compose.yaml) |
 | Tool result request times out (408) | Genie tracks pending tool calls server-side | Answer with the model's own call id, never a made-up one |
 | HTTP 400 on every request | Wrong model name | Use the short names (`qwen3_4b_instruct_2507`, `qwen3_vl_8b_instruct`) |
 

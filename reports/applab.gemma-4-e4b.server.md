@@ -6,7 +6,7 @@ Model `gemma-4-E4B_q4_0-it`, engine `applab`, device `npu`, NPU sessions `4`, st
 
 **Environment [E6](environments.md#e6)**: Kernel `6.8.0-1089-qcom`, Extra kernel args `watchdog.stop_on_reboot=0`, NPU firmware (cdsp0.mbn) `dragonwing 20260612 (restored)`, linux-firmware `20240318.git3b128b60.0ubuntu3.1`, qcom-fastrpc1 (libcdsprpc) `1.0.15+repack2`, Engine `Arduino App Lab (llamacpp-npu-runner)`, Engine build `f4d8af608 (runner 0.13.2)`
 
-Raw transcript: [applab.gemma-4-e4b.server.transcript.jsonl](../results/transcripts/applab.gemma-4-e4b.server.transcript.jsonl)
+Raw transcript: [applab.gemma-4-e4b.server.transcript.jsonl](../results/performance/transcripts/applab.gemma-4-e4b.server.transcript.jsonl)
 
 ## Numbers
 

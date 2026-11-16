@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "docs", "figures")
-R = [json.loads(l) for l in open(os.path.join(ROOT, "results", "results.jsonl"))]
+R = [json.loads(l) for l in open(os.path.join(ROOT, "results", "performance", "results.jsonl"))]
 PARAMS_B = {"qwen3-4b-2507": 4.02, "lfm2.5-1.2b": 1.17}
 GENIE_TOPS = 1034 * 2 * 4.02 / 1000   # README §4.7, pp512 from results/probes/genie_prefill_sizes.txt
 DEV_COLOR = {"npu": "#d9480f", "cpu": "#1c7ed6", "genie": "#7048e8", "applab": "#2b8a3e"}
@@ -147,7 +147,7 @@ def bandwidth():
 
 
 def soak():
-    rows = [json.loads(l) for l in open(os.path.join(ROOT, "results", "soak", "soak.jsonl"))]
+    rows = [json.loads(l) for l in open(os.path.join(ROOT, "results", "stability", "soak.jsonl"))]
     # The board has no RTC, so wall-clock time jumps at each reboot: plot by cumulative request number instead
     x, gen, temp, freezes, i = [], [], [], [], 0
     for r in rows:
@@ -176,8 +176,8 @@ def soak():
 
 def coding():
     rows = []
-    for f in sorted(os.listdir(os.path.join(ROOT, "results", "code"))):
-        R = [json.loads(l) for l in open(os.path.join(ROOT, "results", "code", f))]
+    for f in sorted(os.listdir(os.path.join(ROOT, "results", "coding"))):
+        R = [json.loads(l) for l in open(os.path.join(ROOT, "results", "coding", f))]
         c = [r for r in R if "variant" in r]
         s = [r for r in c if r["variant"] == "selftest"]
         rows.append((f[:-6], sum(r["hidden"] for r in c if r["variant"] == "hidden"),
