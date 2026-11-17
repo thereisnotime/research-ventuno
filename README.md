@@ -114,25 +114,30 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [lfm2-8b-a1b](reports/lfm2-8b-a1b.npu.server.tr.md) |  | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 23.97 | 511.4 | [🥈 6/7](reports/lfm2-8b-a1b.npu.server.tr.md#tools) | ✅ | [🥉 10/12](reports/lfm2-8b-a1b.npu.server.tr.md#quiz) | ✅ | — | — | 6597 |
 | [phi-mini-moe](reports/phi-mini-moe.npu.server.md) | ⚠️ bad at tools | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 18.63 | 352.77 | [1/7](reports/phi-mini-moe.npu.server.md#tools) | ❌ | [8/12](reports/phi-mini-moe.npu.server.md#quiz) | ❌ | — | — | 7306 |
 | [qwen3_4b_instruct_2507](reports/genie-qwen3-4b.server.fix5.md) | 🚀 fastest 4B | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | 16.45 | — | [🥈 6/7](reports/genie-qwen3-4b.server.fix5.md#tools) | ❌ | [🥉 10/12](reports/genie-qwen3-4b.server.fix5.md#quiz) | ✅ | — | — | 7752 |
+| [deepseek-coder-v2-lite](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 14.35 | 25.03 | [1/7](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md#tools) | ✅ | [🥉 10/12](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md#quiz) | ✅ | — | — | 9051 |
 | [phi-4-mini](reports/phi-4-mini.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 14.04 | 456.92 | [2/7](reports/phi-4-mini.npu.server.md#tools) | ✅ | [9/12](reports/phi-4-mini.npu.server.md#quiz) | ✅ | — | — | 5429 |
 | [gemma-3-4b](reports/gemma-3-4b.npu.server.md) | 🎯 most accurate vision | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 13.26 | 445.78 | [1/7](reports/gemma-3-4b.npu.server.md#tools) | ✅ | [🥇 12/12](reports/gemma-3-4b.npu.server.md#quiz) | ✅ | [🥇 4/4](reports/gemma-3-4b.npu.server.md#vision) | 27.7 | 7048 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.mbuf256.md) | 🏆 best all-round | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 12.91 | 394.34 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.mbuf256.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.mbuf256.md#quiz) | ✅ | — | — | 5566 |
 | [qwen3-4b-2507](reports/mbuf.m3.qwen3-4b.server.s4.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 12.84 | 400.96 | [🥇 7/7](reports/mbuf.m3.qwen3-4b.server.s4.md#tools) | ✅ | [🥇 12/12](reports/mbuf.m3.qwen3-4b.server.s4.md#quiz) | ✅ | — | — | 5171 |
 | [qwen3-vl-4b](reports/qwen3-vl-4b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 12.55 | 385.69 | [🥇 7/7](reports/qwen3-vl-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3-vl-4b.npu.server.mbuf256.md#vision) | 🥉 7.9 | 6800 |
+| [qwen3-4b-thinking-2507](reports/qwen3-4b-thinking-2507.npu.server.new.retry.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 12.42 | 401.01 | [🥉 5/7](reports/qwen3-4b-thinking-2507.npu.server.new.retry.md#tools) | ❌ | [2/12](reports/qwen3-4b-thinking-2507.npu.server.new.retry.md#quiz) | ❌ | — | — | 5461 |
 | [granite-4.2-3b](reports/granite-4.2-3b.cpu.server.new.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 11.88 | 36.29 | [🥈 6/7](reports/granite-4.2-3b.cpu.server.new.md#tools) | ✅ | [9/12](reports/granite-4.2-3b.cpu.server.new.md#quiz) | ✅ | — | — | 🥉 3457 |
 | [qwen3.5-4b](reports/qwen3.5-4b.npu.server.b12244.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 10.6 | 372.61 | [🥇 7/7](reports/qwen3.5-4b.npu.server.b12244.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.b12244.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.b12244.md#vision) | 21.2 | 8890 |
 | [frognano-4b](reports/frognano-4b.npu.server.new.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 10.54 | 367.36 | [🥇 7/7](reports/frognano-4b.npu.server.new.md#tools) | ✅ | [🥈 11/12](reports/frognano-4b.npu.server.new.md#quiz) | ✅ | — | — | 7555 |
 | [gemma-4-e4b](reports/gemma-4-e4b.npu.server.md) | ⛔ never loaded | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 10.47 | — | [0/7](reports/gemma-4-e4b.npu.server.md#tools) | ❌ | [0/12](reports/gemma-4-e4b.npu.server.md#quiz) | ❌ | — | — | 9007 |
+| [qwen3-30b-a3b-2507](reports/qwen3-30b-a3b-2507.cpu.server.new.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 10.01 | 13.27 | [🥇 7/7](reports/qwen3-30b-a3b-2507.cpu.server.new.md#tools) | ✅ | [🥇 12/12](reports/qwen3-30b-a3b-2507.cpu.server.new.md#quiz) | ✅ | — | — | 12129 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.tr.md) |  | llama | `7fe450e` | cpu | [E3](reports/environments.md#e3) | 10.0 | 27.81 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.tr.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.tr.md#quiz) | ✅ | — | — | 4482 |
 | [qwen3-4b-thinking-2507](reports/qwen3-4b-thinking-2507.cpu.server.new.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 9.85 | 19.17 | [🥉 5/7](reports/qwen3-4b-thinking-2507.cpu.server.new.md#tools) | ❌ | [1/12](reports/qwen3-4b-thinking-2507.cpu.server.new.md#quiz) | ❌ | — | — | 4607 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.cpu.server.b12244.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 9.84 | 22.02 | [🥇 7/7](reports/qwen3-4b-2507.cpu.server.b12244.md#tools) | ✅ | [🥈 11/12](reports/qwen3-4b-2507.cpu.server.b12244.md#quiz) | ✅ | — | — | 4290 |
 | [gemma-4-E4B_q4_0-it](reports/applab.gemma-4-e4b.server.md) | 🏅 runs via App Lab | applab | `f4d8af608 (runner 0.13.2)` | npu (App Lab) | [E6](reports/environments.md#e6) | 9.78 | 358.64 | [🥇 7/7](reports/applab.gemma-4-e4b.server.md#tools) | ✅ | [🥈 11/12](reports/applab.gemma-4-e4b.server.md#quiz) | ✅ | — | — | 7581 |
+| [gpt-oss-20b](reports/gpt-oss-20b.cpu.bench.new.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 9.24 | 13.25 | [🥈 6/7](reports/gpt-oss-20b.cpu.bench.new.md#tools) | ✅ | [🥇 12/12](reports/gpt-oss-20b.cpu.bench.new.md#quiz) | ❌ | — | — | 12478 |
 | [qwen3.5-4b](reports/qwen3.5-4b.npu.server.md) | 👁️ fast vision | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 8.59 | 151.21 | [🥇 7/7](reports/qwen3.5-4b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3.5-4b.npu.server.md#quiz) | ✅ | [🥈 3/4](reports/qwen3.5-4b.npu.server.md#vision) | 🥇 3.9 | 9557 |
 | [qwen2.5-coder-7b](reports/qwen2.5-coder-7b.npu.server.new.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 8.21 | 285.89 | [1/7](reports/qwen2.5-coder-7b.npu.server.new.md#tools) | ✅ | [🥇 12/12](reports/qwen2.5-coder-7b.npu.server.new.md#quiz) | ✅ | — | — | 6636 |
 | [frognano-4b](reports/frognano-4b.cpu.server.new.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 8.13 | 29.92 | [🥇 7/7](reports/frognano-4b.cpu.server.new.md#tools) | ✅ | [🥈 11/12](reports/frognano-4b.cpu.server.new.md#quiz) | ✅ | — | — | 5953 |
 | [qwen3-8b](reports/qwen3-8b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 7.64 | 250.26 | [🥇 7/7](reports/qwen3-8b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/qwen3-8b.npu.server.md#quiz) | ✅ | — | — | 7370 |
 | [qwen3-vl-8b](reports/qwen3-vl-8b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 7.57 | 246.36 | [🥇 7/7](reports/qwen3-vl-8b.npu.server.md#tools) | ✅ | [🥈 11/12](reports/qwen3-vl-8b.npu.server.md#quiz) | ✅ | — | — | 9079 |
 | [ministral-3-8b](reports/ministral-3-8b.npu.server.vfix3.md) | 👁️ quality vision | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 7.07 | 216.55 | [🥇 7/7](reports/ministral-3-8b.npu.server.vfix3.md#tools) | ✅ | [🥈 11/12](reports/ministral-3-8b.npu.server.vfix3.md#quiz) | ✅ | [🥈 3/4](reports/ministral-3-8b.npu.server.vfix3.md#vision) | 14.3 | 8531 |
+| [qwen2.5-coder-7b](reports/qwen2.5-coder-7b.cpu.server.new.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 5.95 | 18.62 | [1/7](reports/qwen2.5-coder-7b.cpu.server.new.md#tools) | ✅ | [🥇 12/12](reports/qwen2.5-coder-7b.cpu.server.new.md#quiz) | ✅ | — | — | 5364 |
 | [qwen3.5-9b](reports/qwen3.5-9b.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 5.83 | 99.5 | [🥇 7/7](reports/qwen3.5-9b.npu.server.md#tools) | ✅ | [🥉 10/12](reports/qwen3.5-9b.npu.server.md#quiz) | ✅ | [🥉 2/4](reports/qwen3.5-9b.npu.server.md#vision) | 10.1 | 12188 |
 | [granite-4-h-tiny](reports/granite-4-h-tiny.npu.server.md) | ⛔ froze the board | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | — | — | — | — | — | — | — | — | 8582 |
 | [qwen3_4b_instruct_2507-genie-w4a16-qualcomm_qcs8275](reports/genie-qwen3-4b.server.md) |  | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | — | — | — | — | — | — | — | — | 2032 |
@@ -157,14 +162,32 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
 | 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
 | 💻 Coding | gpt-oss-20b (MXFP4), llama.cpp, CPU | 39/41 HumanEval subset (95%), 91 s/task, needs 12 GB; close second: Qwen3-30B-A3B CPU 37/41 at 36 s/task; fastest good: Qwen3-4B-2507 NPU 35/41 at 27 s/task; §4.12 |
+| 🧠 Best answers, no NPU | Qwen3-30B-A3B-Instruct-2507 (Q2_K), llama.cpp, CPU | 7/7 tools, 12/12 quiz, 10 t/s, but 13 t/s prefill (a 1.7k-token prompt takes 2 min) and 12 GB |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
 
 **Setting for any llama.cpp deployment here:** `GGML_HEXAGON_MBUF=256,256` (no speed cost, removes random
 `fastrpc_mmap` failures; §4.10). The main result tables predate this finding and ran with the defaults.
 
 Not recommended on this board: dense 8-9B models (slower without accuracy gains over the 4B models), Granite 4
-(froze the board), OLMoE-1B-7B and Phi-mini-MoE (fast but 1/7 tool calls), Genie Qwen3-VL-8B (hangs on a
+H Tiny (froze the board), OLMoE-1B-7B and Phi-mini-MoE (fast but 1/7 tool calls), Genie Qwen3-VL-8B (hangs on a
 ~1.7k-token prompt).
+
+**Models added in November** (build `d5bbcd1`, all with `GGML_HEXAGON_MBUF=256,256`):
+
+- **FrogNano-4B** is a drop-in alternative to Qwen3-4B-2507 on the NPU: 7/7 tools, 11/12 quiz, 10.5 t/s and
+  367 t/s prefill, about 20% slower than Qwen3-4B.
+- **Qwen3-30B-A3B-Instruct-2507** at Q2_K is the only model that runs 7/7 and 12/12 on the CPU alone, at 10 t/s.
+  Prompt reading is its weak spot: 13 t/s, so the 1.7k-token prompt took 132 s before the first token.
+- **gpt-oss-20b** on the CPU: 9.2 t/s, 6/7 tools, 12/12 quiz, but it missed the needle and read prompts at
+  13 t/s. It needs 12.5 GB at peak, so nothing else fits beside it.
+- **Granite-4.2-3B** behaves, unlike Granite 4 H Tiny: 15 t/s and 471 t/s prefill in llama-bench on the NPU,
+  6/7 tools and 9/12 quiz on the CPU. Its NPU server run stalled once and is queued again.
+- **DeepSeek-Coder-V2-Lite** (CPU, 16B MoE) is the fastest of the big models at 14.4 t/s, but 1/7 tools.
+  **Qwen2.5-Coder-7B** is also 1/7 on tools and 12/12 on the quiz, at 8.2 t/s on the NPU and 6 t/s on the CPU.
+  Both coding models ignore the tool schema and answer in plain text.
+- **Qwen3-4B-Thinking-2507** scores 5/7 tools and 1-2/12 on the quiz, no JSON and no needle on both devices. The
+  suite caps replies at 200-300 tokens and asks for no thinking; this model reasons anyway and most replies hit the
+  cap with an empty answer. That measures the cap more than the model: with room to think it codes well (§4.12).
 
 ### 4.3 Server tests, every run
 
@@ -259,6 +282,12 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | [frognano-4b.npu.server.new](reports/frognano-4b.npu.server.new.md) | [E5](reports/environments.md#e5) | 4 | 10.54 | 367.36 | 4.0 | ✅ | 7/7 | ✅ | 11/12 | — | — | 7555 |  |
 | [frognano-4b.cpu.server.new](reports/frognano-4b.cpu.server.new.md) | [E5](reports/environments.md#e5) | 0 | 8.13 | 29.92 | 8.0 | ✅ | 7/7 | ✅ | 11/12 | — | — | 5953 |  |
 | [qwen2.5-coder-7b.npu.server.new](reports/qwen2.5-coder-7b.npu.server.new.md) | [E5](reports/environments.md#e5) | 4 | 8.21 | 285.89 | 6.0 | ✅ | 1/7 | ✅ | 12/12 | — | — | 6636 |  |
+| [qwen2.5-coder-7b.cpu.server.new](reports/qwen2.5-coder-7b.cpu.server.new.md) | [E5](reports/environments.md#e5) | 0 | 5.95 | 18.62 | 8.1 | ✅ | 1/7 | ✅ | 12/12 | — | — | 5364 |  |
+| ❌ [deepseek-coder-v2-lite.cpu.server.new](reports/deepseek-coder-v2-lite.cpu.server.new.md) | [E5](reports/environments.md#e5) | 0 | — | — | 115.3 | — | — | — | — | — | — | 7778 | [Errno 28] No space left on device |
+| [gpt-oss-20b.cpu.bench.new](reports/gpt-oss-20b.cpu.bench.new.md) | [E5](reports/environments.md#e5) | 0 | 9.24 | 13.25 | 112.3 | ❌ | 6/7 | ✅ | 12/12 | — | — | 12478 |  |
+| [qwen3-30b-a3b-2507.cpu.server.new](reports/qwen3-30b-a3b-2507.cpu.server.new.md) | [E5](reports/environments.md#e5) | 0 | 10.01 | 13.27 | 4.1 | ✅ | 7/7 | ✅ | 12/12 | — | — | 12129 |  |
+| [qwen3-4b-thinking-2507.npu.server.new.retry](reports/qwen3-4b-thinking-2507.npu.server.new.retry.md) | [E5](reports/environments.md#e5) | 4 | 12.42 | 401.01 | 4.0 | ❌ | 5/7 | ❌ | 2/12 | — | — | 5461 |  |
+| [deepseek-coder-v2-lite.cpu.server.new.retry](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md) | [E5](reports/environments.md#e5) | 0 | 14.35 | 25.03 | 52.1 | ✅ | 1/7 | ✅ | 10/12 | — | — | 9051 |  |
 
 ### 4.4 llama-bench
 
@@ -315,6 +344,9 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | [frognano-4b.npu.bench.new](reports/frognano-4b.npu.bench.new.md) | [E5](reports/environments.md#e5) | 4 | 396.99 | 11.16 | 383.45 | 10.52 |  |
 | [frognano-4b.cpu.bench.new](reports/frognano-4b.cpu.bench.new.md) | [E5](reports/environments.md#e5) | 0 | 31.83 | 8.25 | 26.72 | 7.06 |  |
 | [qwen2.5-coder-7b.npu.bench.new](reports/qwen2.5-coder-7b.npu.bench.new.md) | [E5](reports/environments.md#e5) | 4 | 301.37 | 8.42 | 262.54 | 7.52 |  |
+| [qwen2.5-coder-7b.cpu.bench.new](reports/qwen2.5-coder-7b.cpu.bench.new.md) | [E5](reports/environments.md#e5) | 0 | 20.17 | 6.1 | 16.06 | 5.02 |  |
+| [qwen3-4b-thinking-2507.npu.bench.new.retry](reports/qwen3-4b-thinking-2507.npu.bench.new.retry.md) | [E5](reports/environments.md#e5) | 4 | 443.73 | 12.6 | 333.89 | 9.0 |  |
+| [deepseek-coder-v2-lite.cpu.bench.new.retry](reports/deepseek-coder-v2-lite.cpu.bench.new.retry.md) | [E5](reports/environments.md#e5) | 0 | 27.37 | 10.16 | 18.47 | 7.8 |  |
 
 ### 4.5 Runs without a result
 
@@ -336,6 +368,11 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | gemma-4-e4b.npu.server.vfix2 | skipped-hung |
 | qwen3-8b.npu.server.tr | hung (NPU wedged on the first request, board reset by hand) |
 | qwen3-8b.npu.server.tr2 | hung after tool case 5 of 7 (NPU wedged, sysrq reset); [partial transcript](results/performance/transcripts/qwen3-8b.npu.server.tr2.transcript.jsonl) |
+| qwen3-4b-thinking-2507.npu.bench.new, .server.new | no progress for 15 min, soak watcher reset; both passed on the retry |
+| granite-4.2-3b.npu.server.new | no progress for 15 min (NPU stall), soak watcher reset; retry queued |
+| deepseek-coder-v2-lite.cpu.bench.new | download stalled on a full disk, soak watcher reset; passed on the retry |
+| gpt-oss-20b.cpu.server.new | silent for 15 min while loading with `--load-mode mmap+mlock`, soak watcher reset. The same model's `.bench.new` item ran the server tests with plain mmap, so the server numbers above come from that run |
+| qwen3-30b-a3b-2507.cpu.bench.new | refused: gpt-oss's 12 GB file was still on disk after the reset. llama-bench for both big MoE models is queued again |
 
 ### 4.6 llama.cpp build comparison
 
@@ -345,6 +382,7 @@ Table 4. Same model and device on the original build (`7fe450e`, 2026-10-02) and
 
 | Model | Device | Metric | `7fe450e` | `d5bbcd1` | Change |
 |---|---|---|---:|---:|---:|
+| deepseek-coder-v2-lite | cpu | server | ❌ | ❌ [deepseek-coder-v2-lite.cpu.server.new](reports/deepseek-coder-v2-lite.cpu.server.new.md) | |
 | gemma-4-e4b | npu | llamabench | ❌ | ❌ [mbuf.m5.gemma-4-e4b.bench.d0](reports/mbuf.m5.gemma-4-e4b.bench.d0.md) | |
 | gemma-4-e4b | npu | server | ok | ❌ [mbuf.m6.gemma-4-e4b.server](reports/mbuf.m6.gemma-4-e4b.server.md) | |
 | lfm2-8b-a1b | npu | pp512_d0 | [555.4](reports/lfm2-8b-a1b.npu.bench.md) | [595.55](reports/lfm2-8b-a1b.npu.bench.b12244.md) | 🟢 +7% |

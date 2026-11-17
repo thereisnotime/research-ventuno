@@ -299,6 +299,14 @@ way (it needs 2). Moving the Qwen3-4B copy out of `/var/lib/arduino-app-cli/mode
 `restart: on-failure`, so after a hard reset Docker brought it back and it could hold NPU memory during
 another phase. It is `restart: "no"` now; the soak starts it for Genie phases.
 
+Second suite pass (2026-11-17, night): two more resets. gpt-oss's server item went silent for 15 min while
+loading with `--load-mode mmap+mlock` and the watcher reset the board. After the reset its 12 GB file was still
+on disk, so Qwen3-30B's next item failed the free-space check. `suite.py` now deletes unneeded models before
+each item, not only after it. The two big MoE models' `.bench.new` items had been queued with kind `bench`
+instead of `llamabench`, which `suite.py` runs as a server test, so both have server numbers (plain mmap) but
+no llama-bench yet. Those, and Granite-4.2-3B's NPU server run, are queued for a `suite.retry` phase before the
+Genie and App Lab soaks.
+
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)
 and a server pass through the OpenAI API. Server pass: load time, generation speed, prefill on a 1.7k-token prompt with a

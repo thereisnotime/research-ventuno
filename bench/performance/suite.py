@@ -625,6 +625,8 @@ def main():
                 time.sleep(2)
             time.sleep(600)
             return
+        # Free the disk before this item downloads: after a reset the previous model can still be there
+        cleanup(queue, state)
         # Mark as started first: an item that hangs the board is never retried after the reboot
         state["done"][item["id"]] = "started"
         jsave(f"{ROOT}/state.json", state)

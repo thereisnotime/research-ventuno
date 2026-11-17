@@ -151,7 +151,19 @@
   "frognano-4b.cpu.bench.new": "ok",
   "frognano-4b.cpu.server.new": "ok",
   "qwen2.5-coder-7b.npu.bench.new": "ok",
-  "qwen2.5-coder-7b.npu.server.new": "ok"
+  "qwen2.5-coder-7b.npu.server.new": "ok",
+  "qwen2.5-coder-7b.cpu.bench.new": "ok",
+  "qwen2.5-coder-7b.cpu.server.new": "ok",
+  "deepseek-coder-v2-lite.cpu.bench.new": "started",
+  "deepseek-coder-v2-lite.cpu.server.new": "failed",
+  "gpt-oss-20b.cpu.bench.new": "ok",
+  "gpt-oss-20b.cpu.server.new": "started",
+  "qwen3-30b-a3b-2507.cpu.bench.new": "failed",
+  "qwen3-30b-a3b-2507.cpu.server.new": "ok",
+  "qwen3-4b-thinking-2507.npu.bench.new.retry": "ok",
+  "qwen3-4b-thinking-2507.npu.server.new.retry": "ok",
+  "deepseek-coder-v2-lite.cpu.bench.new.retry": "ok",
+  "deepseek-coder-v2-lite.cpu.server.new.retry": "ok"
  },
  "reboots": 0
 }

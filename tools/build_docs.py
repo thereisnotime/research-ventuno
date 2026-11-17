@@ -129,7 +129,13 @@ def tr_path(rid):
 
 def transcript(rid):
     p = tr_path(rid)
-    return [json.loads(l) for l in open(p)] if p else []
+    out = []
+    for l in open(p) if p else []:
+        try:
+            out.append(json.loads(l))
+        except ValueError:
+            pass  # last line cut off by a board reset
+    return out
 
 
 def last_user(entry):
@@ -180,7 +186,8 @@ def score_num(s):
 
 
 def is_server(r):
-    return r.get("kind") == "server"
+    # gpt-oss and Qwen3-30B ".bench.new" were queued as kind "bench", which suite.py runs as a server test
+    return r.get("kind") == "server" or "tools_score" in r
 
 
 def rank(values, higher=True):

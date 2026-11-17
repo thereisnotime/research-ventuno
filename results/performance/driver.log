@@ -518,3 +518,41 @@
 12:52:59 end qwen2.5-coder-7b.npu.server.new ok=True 
 12:52:59 start qwen2.5-coder-7b.cpu.bench.new (pinned 128 MB)
 13:07:59 qwen2.5-coder-7b.cpu.bench.new over 15 min, NPU likely wedged; not killing, stopping suite
+14:30:13 start qwen2.5-coder-7b.cpu.bench.new (pinned 0 MB)
+14:30:13 download Qwen2.5-Coder-7B-Instruct-Q4_0.gguf
+14:48:51 end qwen2.5-coder-7b.cpu.bench.new ok=True 
+14:48:51 start qwen2.5-coder-7b.cpu.server.new (pinned 0 MB)
+14:56:59 end qwen2.5-coder-7b.cpu.server.new ok=True 
+14:56:59 delete Qwen2.5-Coder-7B-Instruct-Q4_0.gguf
+14:57:00 start deepseek-coder-v2-lite.cpu.bench.new (pinned 0 MB)
+14:57:00 download DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf
+17:57:14 soak watcher: no progress 15 min, sysrq reset
+17:57:05 start deepseek-coder-v2-lite.cpu.server.new (pinned 0 MB)
+18:00:46 end deepseek-coder-v2-lite.cpu.server.new ok=False [Errno 28] No space left on device
+18:00:46 delete DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf
+18:00:47 start gpt-oss-20b.cpu.bench.new (pinned 0 MB)
+18:00:47 download gpt-oss-20b-MXFP4.gguf
+20:50:28 end gpt-oss-20b.cpu.bench.new ok=True 
+20:50:28 start gpt-oss-20b.cpu.server.new (pinned 40 MB)
+21:05:57 soak watcher: no progress 15 min, sysrq reset
+21:06:02 start qwen3-30b-a3b-2507.cpu.bench.new (pinned 0 MB)
+21:06:02 qwen3-30b-a3b-2507.cpu.bench.new: not enough disk for Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf: needs 10403 MB, 5501 MB free
+21:06:02 end qwen3-30b-a3b-2507.cpu.bench.new ok=False not enough disk for Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf: needs 10403 MB, 5501 MB free
+21:06:02 delete gpt-oss-20b-MXFP4.gguf
+21:06:02 start qwen3-30b-a3b-2507.cpu.server.new (pinned 0 MB)
+21:06:03 download Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf
+21:27:52 end qwen3-30b-a3b-2507.cpu.server.new ok=True 
+21:27:52 delete Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf
+21:27:53 start qwen3-4b-thinking-2507.npu.bench.new.retry (pinned 0 MB)
+21:27:54 download Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf
+21:32:39 end qwen3-4b-thinking-2507.npu.bench.new.retry ok=True 
+21:32:39 start qwen3-4b-thinking-2507.npu.server.new.retry (pinned 32 MB)
+21:40:56 end qwen3-4b-thinking-2507.npu.server.new.retry ok=True 
+21:40:56 delete Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf
+21:40:56 start deepseek-coder-v2-lite.cpu.bench.new.retry (pinned 64 MB)
+21:40:56 download DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf
+22:01:57 end deepseek-coder-v2-lite.cpu.bench.new.retry ok=True 
+22:01:57 start deepseek-coder-v2-lite.cpu.server.new.retry (pinned 64 MB)
+22:08:46 end deepseek-coder-v2-lite.cpu.server.new.retry ok=True 
+22:08:46 delete DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf
+22:08:47 queue finished

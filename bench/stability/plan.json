@@ -572,6 +572,11 @@
   ]
  },
  {
+  "name": "suite.retry",
+  "kind": "suite",
+  "hours": 12
+ },
+ {
   "name": "genie.qwen3-4b",
   "hours": 12,
   "engine": "genie",

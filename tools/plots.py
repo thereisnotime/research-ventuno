@@ -39,7 +39,8 @@ def best_servers():
     """Best finished server run per (model, group), by tools+quiz then generation speed."""
     best = {}
     for r in R:
-        if r.get("kind") != "server" or not r.get("ok") or not r.get("short_gen_tps"):
+        # "tools_score": gpt-oss and Qwen3-30B ran their server tests under a kind "bench" queue item
+        if (r.get("kind") != "server" and "tools_score" not in r) or not r.get("ok") or not r.get("short_gen_tps"):
             continue
         t, q = score(r.get("tools_score")), score(r.get("quiz_score"))
         if t is None or q is None:
@@ -58,27 +59,53 @@ def save(fig, name):
     print("wrote", f"docs/figures/{name}")
 
 
+def place_labels(ax, pts):
+    """Label each point at the first nearby spot whose text box overlaps no other label or point."""
+    fig = ax.figure
+    fig.canvas.draw()
+    rend = fig.canvas.get_renderer()
+    taken = [ax.transData.transform((x, y)) for x, y, _ in pts]
+    taken = [(px - 5, py - 5, px + 5, py + 5) for px, py in taken]
+    cands = [(6, 3, "left"), (6, -10, "left"), (-6, 3, "right"), (-6, -10, "right"), (0, 10, "center"),
+             (0, -16, "center")]
+    cands += [(dx * k, dy * k, ha) for k in (2, 3) for dx, dy, ha in cands[:4]]
+    # crowded clusters: further out, with a leader line
+    cands += [(dx, dy, "center") for dy in (22, -26, 34, -38, 46, -50, 58, -62) for dx in (0, -35, 35, -70, 70)]
+    for x, y, name in pts:
+        for dx, dy, ha in cands:
+            t = ax.annotate(name, (x, y), xytext=(dx, dy), textcoords="offset points", fontsize=7.5, ha=ha,
+                            arrowprops=dict(arrowstyle="-", lw=0.4, color="grey") if abs(dx) > 6 or abs(dy) > 10 else None)
+            t.update_positions(rend)
+            b = matplotlib.text.Text.get_window_extent(t, rend)  # text only, not the leader line
+            box = (b.x0 - 1, b.y0 - 1, b.x1 + 1, b.y1 + 1)
+            ab = ax.get_window_extent(rend)
+            inside = ab.x0 <= box[0] and box[2] <= ab.x1 and ab.y0 <= box[1] and box[3] <= ab.y1
+            if inside and not any(box[0] < o[2] and o[0] < box[2] and box[1] < o[3] and o[1] < box[3] for o in taken):
+                taken.append(box)
+                break
+            t.remove()
+        else:
+            ax.annotate(name, (x, y), xytext=(6, 3), textcoords="offset points", fontsize=7.5)
+
+
 def speed_vs_quality():
     fig, ax = plt.subplots(figsize=(10, 6.5))
-    placed = []                                   # label positions, to stagger labels of points that overlap
-    for r in sorted(best_servers(), key=lambda r: (r["short_gen_tps"], r["model"])):
+    pts = []
+    for r in sorted(best_servers(), key=lambda r: (-score(r["tools_score"]) - score(r["quiz_score"]), r["short_gen_tps"])):
         g = group(r)
         s = score(r["tools_score"]) + score(r["quiz_score"])
         x = r["short_gen_tps"]
         ax.scatter(x, s, s=60, color=DEV_COLOR.get(g, "grey"), edgecolor="black", linewidth=0.4, zorder=3)
-        dy = 4
-        while any(abs(px - x) < 3.2 and abs(py - (s + dy / 30)) < 0.3 for px, py in placed):
-            dy += 9
-        placed.append((x, s + dy / 30))
-        name = "qwen3-4b (Genie)" if g == "genie" else r["model"]
-        ax.annotate(name, (x, s), xytext=(5, dy), textcoords="offset points", fontsize=7.5,
-                    arrowprops=dict(arrowstyle="-", lw=0.4, color="grey") if dy > 4 else None)
+        pts.append((x, s, "qwen3-4b (Genie)" if g == "genie" else r["model"].replace("gemma-4-E4B_q4_0-it", "gemma-4-e4b")))
     for g, c in DEV_COLOR.items():
         ax.scatter([], [], color=c, label={"npu": "llama.cpp NPU", "cpu": "llama.cpp CPU", "genie": "Genie (QNN)",
                                            "applab": "Arduino App Lab"}[g])
     ax.set(xlabel="Generation speed, short reply (tokens/s)", ylabel="Tools + quiz score (max 19)",
            title="Speed vs accuracy, best run per model and engine")
+    ax.set_ylim(-1, 20.5)
     ax.legend(loc="lower right")
+    fig.tight_layout()
+    place_labels(ax, pts)
     save(fig, "speed-vs-quality.svg")
 
 
