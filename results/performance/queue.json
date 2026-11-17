@@ -2525,5 +2525,41 @@
    "--load-mode",
    "mmap+mlock"
   ]
+ },
+ {
+  "id": "qwen3-4b-thinking-2507.npu.bench.new.retry",
+  "engine": "llama",
+  "model": "qwen3-4b-thinking-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Thinking-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4
+ },
+ {
+  "id": "qwen3-4b-thinking-2507.npu.server.new.retry",
+  "engine": "llama",
+  "model": "qwen3-4b-thinking-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Thinking-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "kind": "server",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "sessions": 4
  }
 ]

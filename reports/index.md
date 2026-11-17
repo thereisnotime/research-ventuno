@@ -124,3 +124,6 @@
 | [qwen3.5-4b.npu.server.mbuf256](qwen3.5-4b.npu.server.mbuf256.md) | server | qwen3.5-4b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
 | [qwen3-vl-4b.npu.server.mbuf256](qwen3-vl-4b.npu.server.mbuf256.md) | server | qwen3-vl-4b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ✅ |
 | [ministral-3-8b.npu.server.mbuf256](ministral-3-8b.npu.server.mbuf256.md) | server | ministral-3-8b | llama | `7fe450e` | npu | [E3](environments.md#e3) | ❌ |
+| [qwen3-4b-thinking-2507.cpu.bench.new](qwen3-4b-thinking-2507.cpu.bench.new.md) | llamabench | qwen3-4b-thinking-2507 | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [qwen3-4b-thinking-2507.cpu.server.new](qwen3-4b-thinking-2507.cpu.server.new.md) | server | qwen3-4b-thinking-2507 | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [granite-4.2-3b.npu.bench.new](granite-4.2-3b.npu.bench.new.md) | llamabench | granite-4.2-3b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |

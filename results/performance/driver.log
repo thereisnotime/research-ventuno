@@ -479,3 +479,21 @@
 21:09:46 download mmproj-Qwen_Qwen3-VL-8B-Instruct-f16.gguf
 21:39:05 manual: qwen3-vl-8b stalled 27 min mid-generation, sysrq reset
 21:39:23 queue finished
+09:50:51 start qwen3-4b-thinking-2507.npu.bench.new (pinned 0 MB)
+09:50:51 download Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf
+10:06:23 soak watcher: no progress 15 min, sysrq reset
+10:05:47 start qwen3-4b-thinking-2507.npu.server.new (pinned 0 MB)
+10:05:47 download Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf
+10:21:19 soak watcher: no progress 15 min, sysrq reset
+10:21:21 start qwen3-4b-thinking-2507.cpu.bench.new (pinned 0 MB)
+10:21:21 download Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf
+11:34:48 end qwen3-4b-thinking-2507.cpu.bench.new ok=True 
+11:34:48 start qwen3-4b-thinking-2507.cpu.server.new (pinned 0 MB)
+11:49:25 end qwen3-4b-thinking-2507.cpu.server.new ok=True 
+11:49:25 delete Qwen_Qwen3-4B-Thinking-2507-Q4_0.gguf
+11:49:25 start granite-4.2-3b.npu.bench.new (pinned 0 MB)
+11:49:25 download granite-4.2-3b-Q4_0.gguf
+11:54:08 end granite-4.2-3b.npu.bench.new ok=True 
+11:54:08 start granite-4.2-3b.npu.server.new (pinned 32 MB)
+12:09:47 soak watcher: no progress 15 min, sysrq reset
+12:09:02 start granite-4.2-3b.cpu.bench.new (pinned 0 MB)
