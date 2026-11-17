@@ -210,7 +210,7 @@ def coding():
         rows.append((f[:-6], sum(r["hidden"] for r in c if r["variant"] == "hidden"),
                      sum(bool(r.get("asserts_correct")) for r in s), len(s)))
     rows.sort(key=lambda r: -r[1])
-    fig, ax = plt.subplots(figsize=(9, 4.2))
+    fig, ax = plt.subplots(figsize=(9, 1.2 + 0.36 * len(rows)))
     y = range(len(rows))
     ax.barh([i - 0.2 for i in y], [r[1] for r in rows], height=0.4, color=DEV_COLOR["npu"], label="code passes hidden tests")
     ax.barh([i + 0.2 for i in y], [r[2] for r in rows], height=0.4, color="#adb5bd", label="its own asserts all correct")
@@ -219,7 +219,7 @@ def coding():
         ax.text(r[2] + 0.4, i + 0.2, str(r[2]), va="center", fontsize=8)
     ax.set_yticks(list(y), [r[0] for r in rows])
     ax.invert_yaxis()
-    ax.set(xlabel=f"Tasks (of {rows[0][3]})", xlim=(0, 44), title="Coding: writing correct code vs writing correct tests")
+    ax.set(xlabel=f"Tasks (of {max(r[3] for r in rows)})", xlim=(0, 44), title="Coding: writing correct code vs writing correct tests")
     ax.legend(loc="lower right", fontsize=8)
     save(fig, "coding.svg")
 

@@ -161,7 +161,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 👁️ Vision, speed | Qwen3.5-4B, NPU + CPU image encoder | 3/4 images, 3.9 s/image, 7/7 tools |
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
 | 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
-| 💻 Coding | gpt-oss-20b (MXFP4), llama.cpp, CPU | 39/41 HumanEval subset (95%), 91 s/task, needs 12 GB; close second: Qwen3-30B-A3B CPU 37/41 at 36 s/task; fastest good: Qwen3-4B-2507 NPU 35/41 at 27 s/task; §4.12 |
+| 💻 Coding | gpt-oss-20b (MXFP4), llama.cpp, CPU | 39/41 HumanEval subset (95%), 91 s/task, needs 12 GB; close second: Qwen3-30B-A3B CPU 37/41 at 36 s/task; best on the NPU: Gemma 4 E4B via App Lab 36/41 at 48 s/task; fastest good: Qwen3-4B-2507 NPU 35/41 at 27 s/task; §4.12 |
 | 🧠 Best answers, no NPU | Qwen3-30B-A3B-Instruct-2507 (Q2_K), llama.cpp, CPU | 7/7 tools, 12/12 quiz, 10 t/s, but 13 t/s prefill (a 1.7k-token prompt takes 2 min) and 12 GB |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
 
@@ -673,6 +673,7 @@ Table 9. Coding results, 41 tasks per variant.
 | gpt-oss-20b (MXFP4) | llama.cpp CPU | **39 (95%)** | 35 of 39 ¹ | 31 | 26 | 0 | 6.9 | 0 | 91 |
 | Qwen3-30B-A3B-Instruct-2507 (MoE, Q2_K) | llama.cpp CPU | 37 (90%) | **39** | 28 | 25 | 1 | 6.1 | 0 ⁴ | 36 |
 | Qwen3-4B-Thinking-2507, 8k | llama.cpp CPU | 36 (88%) | **37** | **36** | **34** | 0 | 4.4 | 0 | 1062 |
+| Gemma 4 E4B | App Lab (NPU) | 36 (88%) | **37** | 27 | 24 | 0 | 6.2 | 0 ⁵ | 48 |
 | Qwen3-4B-2507 | llama.cpp NPU | 35 (85%) | 35 | 18 | 17 | 0 | 6.8 | 1 | 27 |
 | Granite 4.2 3B, 8k | llama.cpp CPU | 34 (83%) | 34 | 29 | 30 | 1 | 6.3 | 0 | 203 |
 | DeepSeek-Coder-V2-Lite (MoE) | llama.cpp CPU | 34 (83%) | 32 of 39 ² | 11 | 13 | 0 | 4.6 | 2 | 43 |
@@ -690,7 +691,8 @@ variants. Resets on the NPU are driver freezes; on the CPU they are the watchdog
 long, not freezes. ¹ The last 2 self-test tasks are still to run (the phase hit its time limit after the board
 froze, §5). ² Two self-test tasks hit the 420 s watchdog. ³ Early runs with a 15 min watchdog; the replies were
 just slow. ⁴ Killed once for running over the 13 GB memory cap (llama.cpp's prompt RAM cache, now off); not
-a freeze.
+a freeze. ⁵ Its first attempts on Nov 15 failed to load (App Lab misconfiguration, below); the run on
+Nov 17 had no resets.
 
 - **gpt-oss-20b is the best coder on the board**, 39 of 41, on the CPU at about 8.5 t/s. It is a 21B MoE with
   3.6B active parameters, so it is fast for its size, but its 12 GB of weights leave little of the 15 GB RAM.
@@ -710,10 +712,11 @@ a freeze.
 - **Own tests are a weak signal, but rarely a false one.** "Confident and wrong" happened at most 3 times per
   model (FrogNano-4B): when a model's own tests pass, its code is almost always right. When they fail, the test
   is as likely to be wrong as the code.
-- Gemma 4 E4B through App Lab failed to load from Nov 15 on (`rpcmem_alloc failed`). The cause was a second
-  model in App Lab's models folder: the runner sizes its NPU sessions for every installed model, and Gemma
-  doesn't fit when sized for Qwen3-4B. With that copy moved out it loads again, and its coding runs are queued
-  (details in [board notes](docs/board-notes.md)).
+- **Gemma 4 E4B through App Lab is the best NPU coder**: 36 of 41, ahead of Qwen3-4B-2507 on llama.cpp (35), in a
+  median 48 s per task, with no resets and never confident and wrong. 3 of its 5 misses ran into the 768-token
+  reply limit mid-function. It failed to load from Nov 15 on (`rpcmem_alloc failed`) until a second model was
+  moved out of App Lab's models folder: the runner sizes its NPU sessions for every installed model, and Gemma
+  doesn't fit when sized for Qwen3-4B (details in [board notes](docs/board-notes.md)).
 - The first grading pass missed asserts that models put in the same code block as the function; the results
   were regraded from the stored replies with the fixed grader (`code_bench.py --regrade`).
 
