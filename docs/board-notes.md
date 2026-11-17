@@ -267,6 +267,16 @@ radio off and on fixed it at once. Fixes:
   suite shows no progress for 15 min, now counts a growing model directory as progress. Before this, a
   download stuck by a Wi-Fi stall led to a needless board reset.
 
+The reset that followed (sysrq `s`,`u`,`b` at 10:21) did hang: the journal ends at 10:21:15 and the
+next boot is at 11:26, after a power cycle. That makes two warm-reboot hangs on 2026-11-17 (09:52 and
+10:21), out of about ten reboots. The hardware watchdog is armed with `stop_on_reboot=0` and still
+never fires, so the hang is most likely in the firmware or bootloader, which disarms or never reaches
+the watchdog. Linux can't fix that, so the runner now reboots less: `soak.py` only reboots between
+phases when the last phase used the NPU (Genie, App Lab or llama.cpp on HTP) or left more than 100 MB
+of DMA-buf pinned. After a CPU-only phase it stops the old llama-server with SIGTERM and starts the
+next phase in place. That removes about half of the reboots left in the plan. A real cure needs power
+control from outside the board (a smart plug with a ping check).
+
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)
 and a server pass through the OpenAI API. Server pass: load time, generation speed, prefill on a 1.7k-token prompt with a

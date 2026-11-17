@@ -62,6 +62,27 @@ def reboot():
         open("/proc/sysrq-trigger", "w").write(c); time.sleep(2)
 
 
+def used_npu(p):
+    return p.get("engine", "llama") != "llama" or p.get("dev", "npu") == "npu"
+
+
+def next_phase(prev):
+    """Start the next phase. Reboot only when the last one touched the NPU or left buffers pinned: warm
+    reboots sometimes hang this board in firmware where no watchdog reaches, so CPU-only phases skip them."""
+    if used_npu(prev) or pinned_mb() > 100:
+        reboot()
+    # The last phase's CPU-only llama-server outlives execv: stop it (SIGTERM, it holds no NPU session)
+    subprocess.run(["pkill", "-TERM", "-x", "llama-server"])
+    for _ in range(60):
+        if subprocess.run(["pgrep", "-x", "llama-server"], capture_output=True).returncode:
+            break
+        time.sleep(1)
+    else:
+        reboot()
+    log({"event": "next phase without reboot", "pinned_mb": pinned_mb()})
+    os.execv("/usr/bin/python3", ["python3", __file__])
+
+
 def reset(reason):
     log({"event": "wedge", "reason": reason, **temps(), "pinned_mb": pinned_mb()})
     reboot()
@@ -85,7 +106,7 @@ if time.time() > state["deadline"]:
     if state["phase"] >= len(PLAN):
         subprocess.run(["systemctl", "disable", "veni-soak"])
         raise SystemExit(0)
-    reboot()
+    next_phase(P)
 
 if P.get("kind") == "suite":
     # Hand the board to the main suite (veni-bench) and watch it: if neither its log nor its newest transcript
@@ -96,7 +117,10 @@ if P.get("kind") == "suite":
         state["handed"] = True; save_state()
         subprocess.run(["systemctl", "enable", "veni-bench"])
         log({"event": "handed to suite"})
-        reboot()
+        prev = PLAN[state["phase"] - 1] if state["phase"] else {}
+        if used_npu(prev) or pinned_mb() > 100:
+            reboot()
+        subprocess.run(["systemctl", "start", "--no-block", "veni-bench"])
     last, still = None, 0
     while True:
         time.sleep(30)
