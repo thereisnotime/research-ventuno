@@ -229,11 +229,31 @@ the network (no ping, no ARP on Wi-Fi) until a power cycle 9.5 h later. Nothing 
 most likely livelocked in memory reclaim rather than frozen, so PID 1 still fed the watchdog, no task
 sat in D state long enough for `hung_task_panic`, and the OOM killer never ran because the pages were
 file-backed. Fixes:
-- `--mlock` for the gpt-oss-20b and Qwen3-30B-A3B phases in `plan.json`, so the weights can't be evicted.
+- `--load-mode mmap+mlock` for the gpt-oss-20b and Qwen3-30B-A3B runs (`plan.json` and the suite's
+  server items), so the weights can't be evicted. This llama.cpp build no longer has `--mlock`; my
+  first try with it made llama-server exit at load twice, and the runner skipped Qwen3-30B. Both
+  models are queued again with the right flag, next to their multi-language runs so the file is reused.
 - `MemoryMax=13G` on `veni-soak` and `veni-bench`. A model plus KV cache that doesn't fit now gets
   OOM-killed inside the service and the phase fails cleanly, with ~2 GB always left for the OS.
 - Masked the pipewire, pipewire-pulse, wireplumber and filter-chain user units (`systemctl --global
   mask`); the board is headless and each ssh login was starting them.
+
+Wi-Fi drops (2026-11-17): the board is on Wi-Fi only (`end0` has no cable), and it preferred a 5 GHz
+network on channel 100 (5500 MHz). That is a DFS channel, which the access point must leave whenever it
+detects radar. On one boot the AP vanished at 99 s (beacon loss, `ssid-not-found`) and the board was off
+the network for about 150 s until NetworkManager fell back to 2.4 GHz. A drop like that looks the same
+as a freeze from outside (no ping, no ARP), so some of the "freezes" may have been the network while the
+benchmarks kept running, and a drop in the middle of a model download made curl give up and the phase
+get skipped. Fixes:
+- The 2.4 GHz connection now has the higher autoconnect priority.
+- `tools/board/net-watchdog.{sh,service,timer}` (in `/usr/local/sbin` and `/etc/systemd/system`):
+  pings the gateway every minute; after 3 failures it brings up the connection named in
+  `/etc/default/net-watchdog`, after 6 it restarts NetworkManager, then toggles the radio. It never
+  reboots. Its journal lines also show afterwards whether the board was alive during an outage.
+- Downloads in `soak.py` and `suite.py` retry 20 times, 30 s apart, on any error and resume the
+  partial file (`curl --retry-all-errors -C -`).
+- Still worth doing: an Ethernet cable on `end0`, or moving the AP's 5 GHz radio to a non-DFS channel
+  (36 to 48).
 
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)

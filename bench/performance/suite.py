@@ -89,7 +89,7 @@ def ensure(files):
             continue
         log(f"download {name}")
         open(p + ".part", "w").close()
-        r = subprocess.run(["curl", "-sfL", "--retry", "5", "-C", "-", "-o", p, url])
+        r = subprocess.run(["curl", "-sfL", "--retry", "20", "--retry-all-errors", "--retry-delay", "30", "-C", "-", "-o", p, url])
         if r.returncode:
             raise RuntimeError(f"download failed {name} rc={r.returncode}")
         os.remove(p + ".part")

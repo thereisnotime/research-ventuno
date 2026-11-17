@@ -205,7 +205,8 @@
   "server_args": [
    "-np",
    "1",
-   "--mlock"
+   "--load-mode",
+   "mmap+mlock"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -222,7 +223,8 @@
   "server_args": [
    "-np",
    "1",
-   "--mlock"
+   "--load-mode",
+   "mmap+mlock"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -235,6 +237,41 @@
   "name": "suite.new-models",
   "kind": "suite",
   "hours": 48
+ },
+ {
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1",
+   "--load-mode",
+   "mmap+mlock"
+  ],
+  "dev": "cpu",
+  "kind": "code",
+  "hours": 24,
+  "name": "code.qwen3-30b-a3b-2507.cpu",
+  "file": "Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-30B-A3B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf"
+ },
+ {
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1",
+   "--load-mode",
+   "mmap+mlock"
+  ],
+  "dev": "cpu",
+  "kind": "code",
+  "hours": 72,
+  "name": "code.multi.qwen3-30b-a3b-2507.cpu",
+  "file": "Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
+  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-30B-A3B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
+  "langs": [
+   "go",
+   "rs",
+   "ts"
+  ]
  },
  {
   "name": "code.multi.qwen3-4b.npu",
@@ -474,7 +511,26 @@
   "server_args": [
    "-np",
    "1",
-   "--mlock"
+   "--load-mode",
+   "mmap+mlock"
+  ],
+  "dev": "cpu",
+  "kind": "code",
+  "hours": 24,
+  "name": "code.gpt-oss-20b.cpu",
+  "file": "gpt-oss-20b-MXFP4.gguf",
+  "url": "https://huggingface.co/ggml-org/gpt-oss-20b-GGUF/resolve/main/gpt-oss-20b-MXFP4.gguf",
+  "thinking": true,
+  "ctx": 8192,
+  "watchdog": 1800
+ },
+ {
+  "llama": "/home/arduino/llama-npu-b12244",
+  "server_args": [
+   "-np",
+   "1",
+   "--load-mode",
+   "mmap+mlock"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -485,25 +541,6 @@
   "thinking": true,
   "ctx": 8192,
   "watchdog": 1800,
-  "langs": [
-   "go",
-   "rs",
-   "ts"
-  ]
- },
- {
-  "llama": "/home/arduino/llama-npu-b12244",
-  "server_args": [
-   "-np",
-   "1",
-   "--mlock"
-  ],
-  "dev": "cpu",
-  "kind": "code",
-  "hours": 72,
-  "name": "code.multi.qwen3-30b-a3b-2507.cpu",
-  "file": "Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
-  "url": "https://huggingface.co/bartowski/Qwen_Qwen3-30B-A3B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
   "langs": [
    "go",
    "rs",

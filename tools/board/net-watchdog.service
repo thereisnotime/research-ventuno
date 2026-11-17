@@ -1,0 +1,6 @@
+[Unit]
+Description=Recover the Wi-Fi link when the gateway stops answering
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/net-watchdog.sh

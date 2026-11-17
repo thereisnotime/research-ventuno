@@ -135,7 +135,7 @@ if engine == "llama":
         for f in os.listdir(MODELS):
             if (f.endswith(".gguf") and f != nxt) or f.endswith(".part"):
                 os.remove(f"{MODELS}/{f}")
-        if subprocess.run(["curl", "-sSfL", "--retry", "3", "-o", model + ".part", P["url"]]).returncode != 0:
+        if subprocess.run(["curl", "-sSfL", "--retry", "20", "--retry-all-errors", "--retry-delay", "30", "-C", "-", "-o", model + ".part", P["url"]]).returncode != 0:
             if os.path.exists(model + ".part"):
                 os.remove(model + ".part")
             log({"event": "skipped", "reason": "download failed"})
