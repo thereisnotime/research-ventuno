@@ -105,7 +105,9 @@ if P.get("kind") == "suite":
             state = {"phase": state["phase"] + 1}; save_state()
             reboot()
         tr = sorted(glob.glob(f"{SUITE}/logs/*.transcript.jsonl"), key=os.path.getmtime)
-        sig = (os.path.getsize(f"{SUITE}/driver.log"), tr and (tr[-1], os.path.getsize(tr[-1])))
+        # A download in progress counts as progress: the model directory keeps growing
+        models = sum(e.stat().st_size for e in os.scandir(MODELS) if e.is_file())
+        sig = (os.path.getsize(f"{SUITE}/driver.log"), tr and (tr[-1], os.path.getsize(tr[-1])), models)
         still = still + 1 if sig == last else 0
         last = sig
         if still >= 30:
@@ -135,7 +137,7 @@ if engine == "llama":
         for f in os.listdir(MODELS):
             if (f.endswith(".gguf") and f != nxt) or f.endswith(".part"):
                 os.remove(f"{MODELS}/{f}")
-        if subprocess.run(["curl", "-sSfL", "--retry", "20", "--retry-all-errors", "--retry-delay", "30", "-C", "-", "-o", model + ".part", P["url"]]).returncode != 0:
+        if subprocess.run(["curl", "-sSfL", "--retry", "20", "--retry-all-errors", "--retry-delay", "30", "--speed-limit", "4096", "--speed-time", "120", "-C", "-", "-o", model + ".part", P["url"]]).returncode != 0:
             if os.path.exists(model + ".part"):
                 os.remove(model + ".part")
             log({"event": "skipped", "reason": "download failed"})

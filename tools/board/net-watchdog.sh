@@ -1,5 +1,5 @@
 #!/bin/sh
-# Keeps the board reachable when its Wi-Fi drops (5 GHz DFS channel changes, ath11k firmware stalls).
+# Keeps the board reachable when its Wi-Fi drops (5 GHz DFS channel changes, ath11k data-path stalls).
 # Runs once a minute from net-watchdog.timer. It never reboots: the benchmarks run fine offline, and
 # reboots are what hang this board. Each step logs to the journal, which also tells a dead network
 # apart from a frozen board after the fact.
@@ -16,8 +16,9 @@ fi
 n=$((n + 1)); echo "$n" > "$STATE"
 echo "gateway ${gw:-none} unreachable (check $n)"
 case $n in
-    3) [ -n "$FALLBACK_CON" ] && { echo "bringing up $FALLBACK_CON"; nmcli connection up "$FALLBACK_CON"; } ;;
+    # A silent ath11k data-path stall (link up, nothing gets through) only clears with a radio toggle
+    2|8|20|40) echo "toggling the Wi-Fi radio"; nmcli radio wifi off; sleep 5; nmcli radio wifi on ;;
+    4) [ -n "$FALLBACK_CON" ] && { echo "bringing up $FALLBACK_CON"; nmcli connection up "$FALLBACK_CON"; } ;;
     6) echo "restarting NetworkManager"; systemctl restart NetworkManager ;;
-    10|20|40) echo "toggling the Wi-Fi radio"; nmcli radio wifi off; sleep 5; nmcli radio wifi on ;;
 esac
 exit 0

@@ -255,6 +255,18 @@ get skipped. Fixes:
 - Still worth doing: an Ethernet cable on `end0`, or moving the AP's 5 GHz radio to a non-DFS channel
   (36 to 48).
 
+Later the same morning the board looked frozen again for 13 min, but the watchdog's journal shows it
+was up the whole time. The link never reported a disconnect, yet nothing got through (silent ath11k
+data-path stall). Restarting NetworkManager reassociated but DHCP still got no answer; switching the
+radio off and on fixed it at once. Fixes:
+- Wi-Fi power save off (`tools/board/wifi-powersave-off.conf` in `/etc/NetworkManager/conf.d/`, and
+  `802-11-wireless.powersave 2` on both connections), the usual trigger for these ath11k stalls.
+- The network watchdog now toggles the radio after 2 failed minutes instead of 10.
+- curl gives up on a transfer that moves under 4 KB/s for 2 min and resumes it (`--speed-limit`),
+  instead of hanging forever on a dead connection. The soak runner, which resets the board when the
+  suite shows no progress for 15 min, now counts a growing model directory as progress. Before this, a
+  download stuck by a Wi-Fi stall led to a needless board reset.
+
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)
 and a server pass through the OpenAI API. Server pass: load time, generation speed, prefill on a 1.7k-token prompt with a
