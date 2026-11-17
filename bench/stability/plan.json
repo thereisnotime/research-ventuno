@@ -204,7 +204,8 @@
   "llama": "/home/arduino/llama-npu-b12244",
   "server_args": [
    "-np",
-   "1"
+   "1",
+   "--mlock"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -220,7 +221,8 @@
   "llama": "/home/arduino/llama-npu-b12244",
   "server_args": [
    "-np",
-   "1"
+   "1",
+   "--mlock"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -471,7 +473,8 @@
   "llama": "/home/arduino/llama-npu-b12244",
   "server_args": [
    "-np",
-   "1"
+   "1",
+   "--mlock"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -492,7 +495,8 @@
   "llama": "/home/arduino/llama-npu-b12244",
   "server_args": [
    "-np",
-   "1"
+   "1",
+   "--mlock"
   ],
   "dev": "cpu",
   "kind": "code",

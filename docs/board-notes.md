@@ -220,6 +220,21 @@ Incidents on 2026-11-09 (all NPU, kernel 6.8.0-1089-qcom):
 - The suite (`veni-bench.service`) is disabled. `suite.py` now stops itself instead of killing a
   llama-bench that runs past 15 min.
 
+Freeze on 2026-11-16 (CPU only, no NPU involved): gpt-oss-20b (MXFP4, 12.1 GB file, mmap'd) had run
+the coding test for 3 h at a steady 8.5 t/s on a 15 GB board with no swap. At about 23:33 UTC it
+dropped to 0.9 t/s from the first token of a new reply, which looks like the kernel evicting model
+pages and reading them back from eMMC on every token. At 23:57 an ssh login started the desktop user
+session (pipewire, wireplumber, snap helpers), the journal stops 30 s later, and the board was off
+the network (no ping, no ARP on Wi-Fi) until a power cycle 9.5 h later. Nothing reset it: the box was
+most likely livelocked in memory reclaim rather than frozen, so PID 1 still fed the watchdog, no task
+sat in D state long enough for `hung_task_panic`, and the OOM killer never ran because the pages were
+file-backed. Fixes:
+- `--mlock` for the gpt-oss-20b and Qwen3-30B-A3B phases in `plan.json`, so the weights can't be evicted.
+- `MemoryMax=13G` on `veni-soak` and `veni-bench`. A model plus KV cache that doesn't fit now gets
+  OOM-killed inside the service and the phase fails cleanly, with ~2 GB always left for the OS.
+- Masked the pipewire, pipewire-pulse, wireplumber and filter-chain user units (`systemctl --global
+  mask`); the board is headless and each ssh login was starting them.
+
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)
 and a server pass through the OpenAI API. Server pass: load time, generation speed, prefill on a 1.7k-token prompt with a

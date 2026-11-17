@@ -4,6 +4,8 @@ After=network-online.target docker.service
 Wants=network-online.target
 
 [Service]
+# Leave ~2 GB for the OS: a model that does not fit gets OOM-killed instead of thrashing the board
+MemoryMax=13G
 Type=simple
 ExecStart=/usr/bin/python3 /home/arduino/llm-bench/suite/suite.py
 Restart=no

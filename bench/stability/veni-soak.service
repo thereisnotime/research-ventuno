@@ -4,6 +4,8 @@ After=network-online.target veni-bench.service
 Wants=network-online.target
 
 [Service]
+# Leave ~2 GB for the OS: a model that does not fit gets OOM-killed instead of thrashing the board
+MemoryMax=13G
 Type=simple
 ExecStartPre=/bin/sh -c 'while systemctl is-enabled -q veni-bench; do sleep 60; done'
 ExecStart=/usr/bin/python3 /home/arduino/llm-bench/soak/soak.py
