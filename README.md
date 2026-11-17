@@ -151,7 +151,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 👁️ Vision, speed | Qwen3.5-4B, NPU + CPU image encoder | 3/4 images, 3.9 s/image, 7/7 tools |
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
 | 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
-| 💻 Coding | Qwen3-4B-Instruct-2507, llama.cpp, NPU | 35/41 HumanEval subset (85%); Genie 33/41; §4.12 |
+| 💻 Coding | gpt-oss-20b (MXFP4), llama.cpp, CPU | 39/41 HumanEval subset (95%), 91 s/task, needs 12 GB; fastest good: Qwen3-4B-2507 NPU 35/41 at 27 s/task; §4.12 |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
 
 **Setting for any llama.cpp deployment here:** `GGML_HEXAGON_MBUF=256,256` (no speed cost, removes random
@@ -603,8 +603,10 @@ Two variants on the same 41 HumanEval tasks (every 4th of the 164), temperature 
   code (does it think its code works?) and against HumanEval's reference solution (are its expected values right?),
   and the code is also checked with the hidden tests.
 
-Every llama.cpp run used `-np 1` and MBUF 256, each model from a fresh boot. A task that froze the board counts as
-a fail and was skipped after the reset.
+Every llama.cpp run used `-np 1` and MBUF 256. A task that froze the board counts as a fail and was skipped after
+the reset. Reply limits are 768 tokens (hidden) and 1280 (self-test); 3072 / 4096 for the thinking models, and 8192
+for both variants in the "8k" runs. Each request has a watchdog (420 s, 30 to 60 min for thinking models) that
+resets the board if no reply comes back.
 
 ![Coding](docs/figures/coding.svg)
 
@@ -612,27 +614,46 @@ a fail and was skipped after the reset.
 
 Table 9. Coding results, 41 tasks per variant.
 
-| Model | Engine | Hidden tests pass | Self-test: code passes hidden | Own asserts all pass on own code | Asserts all correct on reference | Confident and wrong | Avg asserts | Freezes | Median s/task |
+| Model | Engine | Hidden tests pass | Self-test: code passes hidden | Own asserts all pass on own code | Asserts all correct on reference | Confident and wrong | Avg asserts | Resets | Median s/task |
 |---|---|---|---|---|---|---|---|---|---|
-| Qwen3-4B-2507 | llama.cpp NPU | **35 (85%)** | **35** | 18 | 17 | 0 | 6.8 | 1 | 27 |
-| Qwen3-4B-2507 | Genie | 33 (80%) | 31 | **21** | **18** | 1 | 5.9 | 0 | 18 |
+| gpt-oss-20b (MXFP4) | llama.cpp CPU | **39 (95%)** | 35 of 39 ¹ | 31 | 26 | 0 | 6.9 | 0 | 91 |
+| Qwen3-4B-Thinking-2507, 8k | llama.cpp CPU | 36 (88%) | **37** | **36** | **34** | 0 | 4.4 | 0 | 1062 |
+| Qwen3-4B-2507 | llama.cpp NPU | 35 (85%) | 35 | 18 | 17 | 0 | 6.8 | 1 | 27 |
+| Granite 4.2 3B, 8k | llama.cpp CPU | 34 (83%) | 34 | 29 | 30 | 1 | 6.3 | 0 | 203 |
+| DeepSeek-Coder-V2-Lite (MoE) | llama.cpp CPU | 34 (83%) | 32 of 39 ² | 11 | 13 | 0 | 4.6 | 2 | 43 |
+| Qwen2.5-Coder-7B | llama.cpp NPU | 34 (83%) | 32 | 22 | 21 | 0 | 5.8 | **11** | 31 |
+| Granite 4.2 3B | llama.cpp CPU | 33 (80%) | 29 | 26 | 27 | 1 | 5.5 | 0 | 203 |
+| FrogNano-4B | llama.cpp NPU | 33 (80%) | 33 | 27 | 25 | 3 | 6.0 | 0 | 36 |
+| Qwen3-4B-2507 | Genie | 33 (80%) | 31 | 21 | 18 | 1 | 5.9 | 0 | 18 |
 | Qwen2.5-Coder-3B | llama.cpp NPU | 30 (73%) | 33 | 15 | 13 | 0 | 6.6 | **10** | 18 |
-| LFM2-8B-A1B | llama.cpp CPU | 29 (71%) | 31 | 17 | 15 | 1 | 4.7 | 0 | 13 |
+| LFM2-8B-A1B (MoE) | llama.cpp CPU | 29 (71%) | 31 | 17 | 15 | 1 | 4.7 | 0 | 13 |
 | LFM2.5-1.2B | llama.cpp NPU | 17 (41%) | 19 | 10 | 15 | 0 | 5.4 | 0 | 11 |
+| Qwen3-4B-Thinking-2507 | llama.cpp CPU | 15 (37%) | 15 | 13 | 12 | 0 | 1.6 | 7 ³ | 586 |
 
 "Confident and wrong" = its own asserts all pass but the hidden tests fail. Median time per task covers both
-variants (up to 768 / 1280 tokens).
+variants. Resets on the NPU are driver freezes; on the CPU they are the watchdog firing on a reply that took too
+long, not freezes. ¹ The last 2 self-test tasks are still to run (the phase hit its time limit after the board
+froze, §5). ² Two self-test tasks hit the 420 s watchdog. ³ Early runs with a 15 min watchdog; the replies were
+just slow.
 
-- **Qwen3-4B is the best coder here**, ahead of the coding-specific Qwen2.5-Coder-3B, and the same model on Genie
-  is close behind (Genie's quantisation costs 2 tasks).
+- **gpt-oss-20b is the best coder on the board**, 39 of 41, on the CPU at about 8.5 t/s. It is a 21B MoE with
+  3.6B active parameters, so it is fast for its size, but its 12 GB of weights leave little of the 15 GB RAM.
+  It froze the board once by running it out of memory (§5); it now runs with the weights locked in RAM.
+- **Thinking models need room to think.** Qwen3-4B-Thinking with the normal limits passed only 15: 49 of its 82
+  replies ran out of tokens before writing any code. With 8192 tokens it passes 36, writes the best tests of any
+  model (34 fully correct sets of asserts) and is never confident and wrong, but it takes 18 min per task.
+  Granite 4.2 3B gains less (33 to 34).
+- **Coding-specific models don't win.** Qwen2.5-Coder-7B and DeepSeek-Coder-V2-Lite both reach 34, behind the
+  general gpt-oss-20b and level with Granite 3B. Qwen2.5-Coder-7B froze the NPU 11 times, like its 3B sibling.
 - **Every model writes code better than it writes tests.** Even Qwen3-4B, whose code passed 35 of 41, wrote a
   fully correct set of asserts for only 17: it gets expected values wrong when it has to work them out by hand.
   Some replies argue with themselves inside the test block ("wait, need to recheck") and break the syntax.
-- **Own tests are a weak signal, but rarely a false one.** "Confident and wrong" happened at most once per model:
-  when a model's own tests pass, its code is almost always right. When they fail, the test is as likely to be
-  wrong as the code.
-- **Qwen2.5-Coder-3B froze the NPU 10 times** in about 2 hours, every 8-10 minutes after each reboot, far more
-  often than any other model on the same settings.
+- **Own tests are a weak signal, but rarely a false one.** "Confident and wrong" happened at most 3 times per
+  model (FrogNano-4B): when a model's own tests pass, its code is almost always right. When they fail, the test
+  is as likely to be wrong as the code.
+- Gemma 4 E4B through App Lab could not be tested: it no longer loads (`rpcmem_alloc failed`, HTTP 500 on the
+  first request), twice from a fresh boot, so the phase was skipped. Qwen3-30B-A3B (MoE, Q2_K) is queued again
+  after a wrong flag made its first attempt fail to start.
 - The first grading pass missed asserts that models put in the same code block as the function; the results
   were regraded from the stored replies with the fixed grader (`code_bench.py --regrade`).
 
