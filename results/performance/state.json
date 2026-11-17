@@ -144,7 +144,14 @@
   "qwen3-4b-thinking-2507.cpu.server.new": "ok",
   "granite-4.2-3b.npu.bench.new": "ok",
   "granite-4.2-3b.npu.server.new": "started",
-  "granite-4.2-3b.cpu.bench.new": "started"
+  "granite-4.2-3b.cpu.bench.new": "ok",
+  "granite-4.2-3b.cpu.server.new": "ok",
+  "frognano-4b.npu.bench.new": "ok",
+  "frognano-4b.npu.server.new": "ok",
+  "frognano-4b.cpu.bench.new": "ok",
+  "frognano-4b.cpu.server.new": "ok",
+  "qwen2.5-coder-7b.npu.bench.new": "ok",
+  "qwen2.5-coder-7b.npu.server.new": "ok"
  },
  "reboots": 0
 }

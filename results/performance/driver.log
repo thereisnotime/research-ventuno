@@ -497,3 +497,24 @@
 11:54:08 start granite-4.2-3b.npu.server.new (pinned 32 MB)
 12:09:47 soak watcher: no progress 15 min, sysrq reset
 12:09:02 start granite-4.2-3b.cpu.bench.new (pinned 0 MB)
+12:15:49 end granite-4.2-3b.cpu.bench.new ok=True 
+12:15:49 start granite-4.2-3b.cpu.server.new (pinned 0 MB)
+12:20:34 end granite-4.2-3b.cpu.server.new ok=True 
+12:20:34 delete granite-4.2-3b-Q4_0.gguf
+12:20:35 start frognano-4b.npu.bench.new (pinned 0 MB)
+12:20:35 download FrogNano-4B-2609-Q4_0.gguf
+12:26:01 end frognano-4b.npu.bench.new ok=True 
+12:26:01 start frognano-4b.npu.server.new (pinned 32 MB)
+12:28:59 end frognano-4b.npu.server.new ok=True 
+12:28:59 start frognano-4b.cpu.bench.new (pinned 64 MB)
+12:34:16 end frognano-4b.cpu.bench.new ok=True 
+12:34:16 start frognano-4b.cpu.server.new (pinned 64 MB)
+12:41:21 end frognano-4b.cpu.server.new ok=True 
+12:41:21 delete FrogNano-4B-2609-Q4_0.gguf
+12:41:21 start qwen2.5-coder-7b.npu.bench.new (pinned 64 MB)
+12:41:21 download Qwen2.5-Coder-7B-Instruct-Q4_0.gguf
+12:49:37 end qwen2.5-coder-7b.npu.bench.new ok=True 
+12:49:37 start qwen2.5-coder-7b.npu.server.new (pinned 96 MB)
+12:52:59 end qwen2.5-coder-7b.npu.server.new ok=True 
+12:52:59 start qwen2.5-coder-7b.cpu.bench.new (pinned 128 MB)
+13:07:59 qwen2.5-coder-7b.cpu.bench.new over 15 min, NPU likely wedged; not killing, stopping suite

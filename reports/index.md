@@ -127,3 +127,11 @@
 | [qwen3-4b-thinking-2507.cpu.bench.new](qwen3-4b-thinking-2507.cpu.bench.new.md) | llamabench | qwen3-4b-thinking-2507 | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
 | [qwen3-4b-thinking-2507.cpu.server.new](qwen3-4b-thinking-2507.cpu.server.new.md) | server | qwen3-4b-thinking-2507 | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
 | [granite-4.2-3b.npu.bench.new](granite-4.2-3b.npu.bench.new.md) | llamabench | granite-4.2-3b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [granite-4.2-3b.cpu.bench.new](granite-4.2-3b.cpu.bench.new.md) | llamabench | granite-4.2-3b | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [granite-4.2-3b.cpu.server.new](granite-4.2-3b.cpu.server.new.md) | server | granite-4.2-3b | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [frognano-4b.npu.bench.new](frognano-4b.npu.bench.new.md) | llamabench | frognano-4b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [frognano-4b.npu.server.new](frognano-4b.npu.server.new.md) | server | frognano-4b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [frognano-4b.cpu.bench.new](frognano-4b.cpu.bench.new.md) | llamabench | frognano-4b | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [frognano-4b.cpu.server.new](frognano-4b.cpu.server.new.md) | server | frognano-4b | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [qwen2.5-coder-7b.npu.bench.new](qwen2.5-coder-7b.npu.bench.new.md) | llamabench | qwen2.5-coder-7b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [qwen2.5-coder-7b.npu.server.new](qwen2.5-coder-7b.npu.server.new.md) | server | qwen2.5-coder-7b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |

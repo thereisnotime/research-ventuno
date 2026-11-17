@@ -62,6 +62,20 @@ def reboot():
         open("/proc/sysrq-trigger", "w").write(c); time.sleep(2)
 
 
+def cpu_bench_ticks():
+    """CPU time used so far by llama-bench processes that run without the NPU (-dev none)"""
+    t = 0
+    for d in glob.glob("/proc/[0-9]*"):
+        try:
+            if os.path.basename(open(f"{d}/cmdline", "rb").read().split(b"\0")[0]) == b"llama-bench" and \
+                    b"\0-dev\0none\0" in open(f"{d}/cmdline", "rb").read():
+                f = open(f"{d}/stat").read().rsplit(")", 1)[1].split()
+                t += int(f[11]) + int(f[12])
+        except (OSError, IndexError, ValueError):
+            pass
+    return t
+
+
 def used_npu(p):
     return p.get("engine", "llama") != "llama" or p.get("dev", "npu") == "npu"
 
@@ -131,7 +145,8 @@ if P.get("kind") == "suite":
         tr = sorted(glob.glob(f"{SUITE}/logs/*.transcript.jsonl"), key=os.path.getmtime)
         # A download in progress counts as progress: the model directory keeps growing
         models = sum(e.stat().st_size for e in os.scandir(MODELS) if e.is_file())
-        sig = (os.path.getsize(f"{SUITE}/driver.log"), tr and (tr[-1], os.path.getsize(tr[-1])), models)
+        # So does a CPU-only llama-bench burning CPU: it prints nothing until it ends, and a 20B run takes an hour
+        sig = (os.path.getsize(f"{SUITE}/driver.log"), tr and (tr[-1], os.path.getsize(tr[-1])), models, cpu_bench_ticks())
         still = still + 1 if sig == last else 0
         last = sig
         if still >= 30:

@@ -477,8 +477,13 @@ def run_llamabench(item, logf):
            "-r", str(item.get("reps", 3)), *item.get("bench_args", []), "-o", "json"]
     p = subprocess.Popen(cmd, env=htp(item)[1], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     try:
-        so, se = p.communicate(timeout=900)
+        # CPU runs of the bigger models are slow, not stuck (a 7B at depth 2048 needs well over 15 min)
+        so, se = p.communicate(timeout=900 if item["dev"] == "npu" else 3 * 3600)
     except subprocess.TimeoutExpired:
+        if item["dev"] != "npu":
+            p.terminate()
+            p.wait(60)
+            raise RuntimeError("llama-bench on CPU ran over 3 h")
         # Killing a process stuck on the NPU risks freezing the board: leave it, stop the suite
         log(f"{item['id']} over 15 min, NPU likely wedged; not killing, stopping suite")
         subprocess.run(["systemctl", "disable", "veni-bench"])
