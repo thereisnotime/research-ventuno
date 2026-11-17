@@ -156,7 +156,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | 👁️ Vision, speed | Qwen3.5-4B, NPU + CPU image encoder | 3/4 images, 3.9 s/image, 7/7 tools |
 | 👁️ Vision, quality | Ministral 3 8B, NPU + CPU image encoder | 3/4 images, 14.3 s/image, 7/7 tools, 11/12 quiz |
 | 🏅 Vendor-supported path | Gemma 4 E4B via Arduino App Lab | 7/7 tools, 11/12 quiz, 9.8 t/s, 359 t/s prefill; fails on plain llama.cpp |
-| 💻 Coding | gpt-oss-20b (MXFP4), llama.cpp, CPU | 39/41 HumanEval subset (95%), 91 s/task, needs 12 GB; fastest good: Qwen3-4B-2507 NPU 35/41 at 27 s/task; §4.12 |
+| 💻 Coding | gpt-oss-20b (MXFP4), llama.cpp, CPU | 39/41 HumanEval subset (95%), 91 s/task, needs 12 GB; close second: Qwen3-30B-A3B CPU 37/41 at 36 s/task; fastest good: Qwen3-4B-2507 NPU 35/41 at 27 s/task; §4.12 |
 | 🎯 Vision, accuracy | Gemma 3 4B | 4/4 images, but 27.7 s/image and 1/7 tools |
 
 **Setting for any llama.cpp deployment here:** `GGML_HEXAGON_MBUF=256,256` (no speed cost, removes random
@@ -633,6 +633,7 @@ Table 9. Coding results, 41 tasks per variant.
 | Model | Engine | Hidden tests pass | Self-test: code passes hidden | Own asserts all pass on own code | Asserts all correct on reference | Confident and wrong | Avg asserts | Resets | Median s/task |
 |---|---|---|---|---|---|---|---|---|---|
 | gpt-oss-20b (MXFP4) | llama.cpp CPU | **39 (95%)** | 35 of 39 ¹ | 31 | 26 | 0 | 6.9 | 0 | 91 |
+| Qwen3-30B-A3B-Instruct-2507 (MoE, Q2_K) | llama.cpp CPU | 37 (90%) | **39** | 28 | 25 | 1 | 6.1 | 0 ⁴ | 36 |
 | Qwen3-4B-Thinking-2507, 8k | llama.cpp CPU | 36 (88%) | **37** | **36** | **34** | 0 | 4.4 | 0 | 1062 |
 | Qwen3-4B-2507 | llama.cpp NPU | 35 (85%) | 35 | 18 | 17 | 0 | 6.8 | 1 | 27 |
 | Granite 4.2 3B, 8k | llama.cpp CPU | 34 (83%) | 34 | 29 | 30 | 1 | 6.3 | 0 | 203 |
@@ -650,11 +651,15 @@ Table 9. Coding results, 41 tasks per variant.
 variants. Resets on the NPU are driver freezes; on the CPU they are the watchdog firing on a reply that took too
 long, not freezes. ¹ The last 2 self-test tasks are still to run (the phase hit its time limit after the board
 froze, §5). ² Two self-test tasks hit the 420 s watchdog. ³ Early runs with a 15 min watchdog; the replies were
-just slow.
+just slow. ⁴ Killed once for running over the 13 GB memory cap (llama.cpp's prompt RAM cache, now off); not
+a freeze.
 
 - **gpt-oss-20b is the best coder on the board**, 39 of 41, on the CPU at about 8.5 t/s. It is a 21B MoE with
   3.6B active parameters, so it is fast for its size, but its 12 GB of weights leave little of the 15 GB RAM.
   It froze the board once by running it out of memory (§5); it now runs with the weights locked in RAM.
+- **Qwen3-30B-A3B is the fast big model**: 37 of 41 in a median 36 s per task, 2.5 times faster than gpt-oss
+  because only 3B of its 30B parameters are active per token. Its code passed the hidden tests on 39 of the
+  self-test tasks, the best of any model, but it needs the 2-bit Q2_K quant to fit (10.4 GB).
 - **Thinking models need room to think.** Qwen3-4B-Thinking with the normal limits passed only 15: 49 of its 82
   replies ran out of tokens before writing any code. With 8192 tokens it passes 36, writes the best tests of any
   model (34 fully correct sets of asserts) and is never confident and wrong, but it takes 18 min per task.
