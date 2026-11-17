@@ -206,7 +206,9 @@
    "-np",
    "1",
    "--load-mode",
-   "mmap+mlock"
+   "mmap+mlock",
+   "--cache-ram",
+   "0"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -224,7 +226,9 @@
    "-np",
    "1",
    "--load-mode",
-   "mmap+mlock"
+   "mmap+mlock",
+   "--cache-ram",
+   "0"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -244,7 +248,9 @@
    "-np",
    "1",
    "--load-mode",
-   "mmap+mlock"
+   "mmap+mlock",
+   "--cache-ram",
+   "0"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -264,7 +270,9 @@
    "-np",
    "1",
    "--load-mode",
-   "mmap+mlock"
+   "mmap+mlock",
+   "--cache-ram",
+   "0"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -517,7 +525,9 @@
    "-np",
    "1",
    "--load-mode",
-   "mmap+mlock"
+   "mmap+mlock",
+   "--cache-ram",
+   "0"
   ],
   "dev": "cpu",
   "kind": "code",
@@ -535,7 +545,9 @@
    "-np",
    "1",
    "--load-mode",
-   "mmap+mlock"
+   "mmap+mlock",
+   "--cache-ram",
+   "0"
   ],
   "dev": "cpu",
   "kind": "code",
