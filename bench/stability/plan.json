@@ -265,6 +265,25 @@
   "hours": 48
  },
  {
+  "name": "code.applab.gemma-4-e4b",
+  "kind": "code",
+  "hours": 24,
+  "engine": "applab",
+  "model": "gemma-4-E4B_q4_0-it"
+ },
+ {
+  "name": "code.multi.applab.gemma-4-e4b",
+  "kind": "code",
+  "hours": 72,
+  "engine": "applab",
+  "model": "gemma-4-E4B_q4_0-it",
+  "langs": [
+   "go",
+   "rs",
+   "ts"
+  ]
+ },
+ {
   "llama": "/home/arduino/llama-npu-b12244",
   "server_args": [
    "-np",
@@ -501,18 +520,6 @@
    "1"
   ],
   "dev": "cpu",
-  "langs": [
-   "go",
-   "rs",
-   "ts"
-  ]
- },
- {
-  "name": "code.multi.applab.gemma-4-e4b",
-  "kind": "code",
-  "hours": 72,
-  "engine": "applab",
-  "model": "gemma-4-E4B_q4_0-it",
   "langs": [
    "go",
    "rs",

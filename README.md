@@ -672,9 +672,10 @@ a freeze.
 - **Own tests are a weak signal, but rarely a false one.** "Confident and wrong" happened at most 3 times per
   model (FrogNano-4B): when a model's own tests pass, its code is almost always right. When they fail, the test
   is as likely to be wrong as the code.
-- Gemma 4 E4B through App Lab could not be tested: it no longer loads (`rpcmem_alloc failed`, HTTP 500 on the
-  first request), twice from a fresh boot, so the phase was skipped. Qwen3-30B-A3B (MoE, Q2_K) is queued again
-  after a wrong flag made its first attempt fail to start.
+- Gemma 4 E4B through App Lab failed to load from Nov 15 on (`rpcmem_alloc failed`). The cause was a second
+  model in App Lab's models folder: the runner sizes its NPU sessions for every installed model, and Gemma
+  doesn't fit when sized for Qwen3-4B. With that copy moved out it loads again, and its coding runs are queued
+  (details in [board notes](docs/board-notes.md)).
 - The first grading pass missed asserts that models put in the same code block as the function; the results
   were regraded from the stored replies with the fixed grader (`code_bench.py --regrade`).
 

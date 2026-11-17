@@ -130,6 +130,10 @@ if P.get("kind") == "suite":
     if not state.get("handed"):
         state["handed"] = True; save_state()
         subprocess.run(["systemctl", "enable", "veni-bench"])
+        # The suite downloads its own models: a big GGUF left from the previous phase can fill the disk under it
+        for f in os.listdir(MODELS):
+            if f.endswith((".gguf", ".part")):
+                os.remove(f"{MODELS}/{f}")
         log({"event": "handed to suite"})
         prev = PLAN[state["phase"] - 1] if state["phase"] else {}
         if used_npu(prev) or pinned_mb() > 100:

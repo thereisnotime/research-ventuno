@@ -5,7 +5,9 @@ services:
     image: artifacts.codelinaro.org/iot-solutions-microservices/genai-llm-vlm-service:1.5.0
     container_name: genie
     user: 0:0
-    restart: on-failure:2
+    # Never come back by itself: after a hard reset Docker would restart it and it would hold NPU memory
+    # during the next phase. The soak starts it when a Genie phase runs.
+    restart: "no"
     logging:
       driver: json-file
       options: { max-size: "5m", max-file: "2" }

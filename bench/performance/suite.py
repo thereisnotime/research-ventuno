@@ -5,7 +5,7 @@ State lives in /home/arduino/llm-bench/suite/: queue.json (items), state.json (d
 results.jsonl (one line per finished item), logs/<id>.log (server/bench output).
 Reboots when leaked DMA-buf passes REBOOT_MB and resumes after boot; capped at MAX_REBOOTS.
 """
-import base64, io, json, os, re, statistics, subprocess, sys, threading, time, urllib.request
+import base64, io, json, os, re, shutil, statistics, subprocess, sys, threading, time, urllib.request
 
 ROOT = os.environ.get("SUITE_ROOT", "/home/arduino/llm-bench/suite")
 MODELS = "/home/arduino/llm-models"
@@ -82,11 +82,23 @@ class Sampler(threading.Thread):
 
 # ---------------------------------------------------------------- downloads
 
+def remote_size(url):
+    """Content-Length of the final redirect target, 0 if unknown"""
+    h = subprocess.run(["curl", "-sfIL", "--max-time", "60", url], capture_output=True, text=True).stdout.lower()
+    m = re.findall(r"^content-length:\s*(\d+)", h, re.M)
+    return int(m[-1]) if m else 0
+
+
 def ensure(files):
     for name, url in files:
         p = f"{MODELS}/{name}"
         if os.path.exists(p) and not os.path.exists(p + ".part"):
             continue
+        have = os.path.getsize(p) if os.path.exists(p) else 0  # a resumed download only needs the rest
+        need, free = remote_size(url) - have, shutil.disk_usage(MODELS).free
+        if need > free - (1 << 30):
+            # Fail the item instead of filling the disk: a full disk stalls curl and the watcher resets the board
+            raise RuntimeError(f"not enough disk for {name}: needs {need >> 20} MB, {free >> 20} MB free")
         log(f"download {name}")
         open(p + ".part", "w").close()
         r = subprocess.run(["curl", "-sfL", "--retry", "20", "--retry-all-errors", "--retry-delay", "30", "--speed-limit", "4096", "--speed-time", "120", "-C", "-", "-o", p, url])
@@ -535,7 +547,12 @@ def run_item(item):
     LLAMA = item.get("llama", "/home/arduino/llama-npu")
     LENV = dict(LENV, LD_LIBRARY_PATH=f"{LLAMA}/lib", ADSP_LIBRARY_PATH=f"{LLAMA}/lib")
     os.makedirs(f"{ROOT}/logs", exist_ok=True)
-    ensure(item.get("files", []))
+    try:
+        ensure(item.get("files", []))
+    except Exception as e:
+        log(f"{item['id']}: {e}")
+        return {"id": item["id"], "engine": item["engine"], "model": item["model"], "dev": item.get("dev"),
+                "kind": item["kind"], "ok": False, "error": str(e)[:300], "finished": time.strftime("%F %T")}
     res = {"id": item["id"], "engine": item["engine"], "model": item["model"], "dev": item.get("dev"),
            "kind": item["kind"], "htp_sessions": htp(item)[0] if item.get("dev") == "npu" else 0, "started": time.strftime("%F %T"), "pinned_before_mb": pinned_mb(), "extra_env": item.get("env", {}), "llama_build": os.path.basename(LLAMA), "env": env_snapshot(item)}
     s = Sampler()

@@ -277,6 +277,28 @@ of DMA-buf pinned. After a CPU-only phase it stops the old llama-server with SIG
 next phase in place. That removes about half of the reboots left in the plan. A real cure needs power
 control from outside the board (a smart plug with a ping check).
 
+Same day, afternoon: the suite stopped itself on Qwen2.5-Coder-7B's CPU llama-bench, because its 15 min
+"NPU wedged" timeout applied to CPU runs too. CPU runs now get 3 h and are killed normally if they overrun,
+and the soak watcher counts a CPU-only llama-bench burning CPU as progress. Then Qwen3-30B was OOM-killed by
+the 13G cap 26 min into its coding run: llama.cpp's host prompt cache (`--cache-ram`, 8 GB by default) grew
+on top of the 10.4 GB of locked weights. The big CPU models now run with `--cache-ram 0` and stay flat at
+about 11.5 GB.
+
+Disk full (2026-11-17, evening): the Qwen3-30B GGUF (10.9 GB) was left in place for a later phase while the
+suite downloaded DeepSeek and gpt-oss next to it. The disk filled, the download stalled, the soak watcher
+reset the board, and Docker could not start on the next boot (`mkdir /var/lib/docker/tmp: no space left`).
+The soak now clears the model directory when it hands the board to the suite, and `suite.py` checks the
+download size against free space (keeping 1 GB spare) and fails the item instead of filling the disk.
+
+Gemma 4 E4B in App Lab "failed to load" from 2026-11-15 on (`rpcmem_alloc failed` for a 343 MB HTP0
+compute buffer). Not the NPU and not the model file (its sha256 matches Hugging Face). App Lab's runner sizes
+its Hexagon sessions from every model in its models folder: an App Lab copy of Qwen3-4B, which needs 3
+sessions at App Lab's 16k context, made it configure 3 sessions, and Gemma does not fit its buffers that
+way (it needs 2). Moving the Qwen3-4B copy out of `/var/lib/arduino-app-cli/models/llamacpp/` (parked in
+`llamacpp-parked/`, with the old `models.ini`) brought Gemma back. Also: the Genie container had
+`restart: on-failure`, so after a hard reset Docker brought it back and it could hold NPU memory during
+another phase. It is `restart: "no"` now; the soak starts it for Genie phases.
+
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)
 and a server pass through the OpenAI API. Server pass: load time, generation speed, prefill on a 1.7k-token prompt with a
