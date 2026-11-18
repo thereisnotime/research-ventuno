@@ -28,6 +28,11 @@ def htp(item):
 CPU = ["-dev", "none", "-ngl", "0"]
 
 
+def gpu(item):
+    """GPU through llama.cpp's Vulkan backend (Mesa Turnip on the Adreno): all layers on Vulkan0 unless "ngl" says less."""
+    return ["-dev", item.get("gpu", "Vulkan0"), "-ngl", str(item.get("ngl", 99))]
+
+
 def log(msg):
     line = time.strftime("%H:%M:%S ") + msg
     print(line, flush=True)
@@ -148,7 +153,7 @@ def start_server(item, logf):
         return None, wait_health("http://127.0.0.1:9001/v1/models", None, 120)
     m = item["files"][0][0]
     cmd = ["taskset", "-c", "0-3", f"{LLAMA}/bin/llama-server", "-m", f"{MODELS}/{m}",
-           "--alias", item["model"], *(htp(item)[2] if item["dev"] == "npu" else CPU),
+           "--alias", item["model"], *(htp(item)[2] if item["dev"] == "npu" else gpu(item) if item["dev"] == "gpu" else CPU),
            "-fa", "on", "-t", "4", "-c", str(item.get("ctx", 4096)), "--jinja",
            "--host", "0.0.0.0", "--port", "8080", "--no-webui"]
     if item.get("mmproj"):
@@ -483,7 +488,7 @@ def test_vision(item):
 
 def run_llamabench(item, logf):
     m = item["files"][0][0]
-    dev = ["-dev", "/".join(f"HTP{i}" for i in range(htp(item)[0])), "-ngl", str(item.get("ngl", 99))] if item["dev"] == "npu" else ["-dev", "none", "-ngl", "0"]
+    dev = ["-dev", "/".join(f"HTP{i}" for i in range(htp(item)[0])), "-ngl", str(item.get("ngl", 99))] if item["dev"] == "npu" else gpu(item) if item["dev"] == "gpu" else ["-dev", "none", "-ngl", "0"]
     cmd = ["taskset", "-c", "0-3", f"{LLAMA}/bin/llama-bench", "-m", f"{MODELS}/{m}", *dev, "-fa", "1", "-t", "4",
            "-p", item.get("pp", "512"), "-n", item.get("tg", "128"), "-d", item.get("depths", "0,2048"),
            "-r", str(item.get("reps", 3)), *item.get("bench_args", []), "-o", "json"]

@@ -284,6 +284,11 @@
   ]
  },
  {
+  "name": "suite.gpu-npu",
+  "kind": "suite",
+  "hours": 12
+ },
+ {
   "llama": "/home/arduino/llama-npu-b12244",
   "server_args": [
    "-np",

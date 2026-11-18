@@ -2601,6 +2601,104 @@
   }
  },
  {
+  "id": "qwen3-30b-a3b-2507.npu6.llamabench",
+  "engine": "llama",
+  "model": "qwen3-30b-a3b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-30B-A3B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf"
+   ]
+  ],
+  "dev": "npu",
+  "sessions": 6,
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "depths": "0",
+  "reps": 2
+ },
+ {
+  "id": "lfm2.5-1.2b.gpu.llamabench",
+  "engine": "llama",
+  "model": "lfm2.5-1.2b",
+  "files": [
+   [
+    "LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2.5-1.2B-Instruct-GGUF/resolve/main/LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-vulkan-b12521"
+ },
+ {
+  "id": "qwen3-4b-2507.gpu.llamabench",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-vulkan-b12521"
+ },
+ {
+  "id": "qwen3-4b-2507.gpu.server",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "server",
+  "llama": "/home/arduino/llama-vulkan-b12521",
+  "server_args": [
+   "--cache-ram",
+   "0"
+  ]
+ },
+ {
+  "id": "qwen3-30b-a3b-2507.gpu.llamabench",
+  "engine": "llama",
+  "model": "qwen3-30b-a3b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-30B-A3B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-vulkan-b12521",
+  "depths": "0",
+  "reps": 2
+ },
+ {
+  "id": "gpt-oss-20b.gpu.llamabench",
+  "engine": "llama",
+  "model": "gpt-oss-20b",
+  "files": [
+   [
+    "gpt-oss-20b-MXFP4.gguf",
+    "https://huggingface.co/ggml-org/gpt-oss-20b-GGUF/resolve/main/gpt-oss-20b-MXFP4.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-vulkan-b12521",
+  "depths": "0",
+  "reps": 2
+ },
+ {
   "id": "gpt-oss-20b.cpu.llamabench.retry",
   "engine": "llama",
   "model": "gpt-oss-20b",

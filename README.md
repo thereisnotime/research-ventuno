@@ -720,6 +720,27 @@ Nov 17 had no resets.
 - The first grading pass missed asserts that models put in the same code block as the function; the results
   were regraded from the stored replies with the fixed grader (`code_bench.py --regrade`).
 
+**Go, Rust and TypeScript.** The same tasks in MultiPL-E's translations (38 in Go, 39 in Rust and TypeScript,
+where MultiPL-E has them), graded off the board by [`grade_multi.py`](bench/coding/grade_multi.py): every program
+is compiled and run in a throwaway container with no network. Go goes through `goimports` first; Rust and
+TypeScript are compiled as written. MultiPL-E has no reference solutions, so there is no "asserts correct" column.
+Reply limits are 1024 (hidden) and 1536 tokens (self-test). More models are queued (§6).
+
+Table 10. Go, Rust and TypeScript results.
+
+| Model | Engine | Language | Hidden tests pass | Self-test: code passes hidden | Own test program passes | Compiles (hidden) | Confident and wrong | No code in reply | Median s/task |
+|---|---|---|---|---|---|---|---|---|---|
+| Gemma 4 E4B | App Lab (NPU) | Python (Table 9) | 36 of 41 (88%) | 37 | 27 | | 0 | | 48 |
+| Gemma 4 E4B | App Lab (NPU) | TypeScript | 33 of 39 (85%) | 33 | 21 | 36 | 2 | 4 | 49 |
+| Gemma 4 E4B | App Lab (NPU) | Go | 29 of 38 (76%) | 26 | 15 | 34 | 2 | 3 | 70 |
+| Gemma 4 E4B | App Lab (NPU) | Rust | 27 of 39 (69%) | 29 | 21 | 32 | 2 | 4 | 61 |
+
+- **Gemma loses little in TypeScript and most in Rust**: 85% against 88% in Python, then 76% in Go and 69% in Rust,
+  where 7 of 39 replies did not compile. Own test programs pass less often than in Python, mostly because they
+  fail to compile, not because the asserts are wrong.
+- The run was interrupted by the board freeze of Nov 18 (§5) and resumed after the power cycle. The task in
+  flight at the time is left out of the median.
+
 ## 5. Stability findings
 
 All fixes and workarounds that kept the board running (firmware rollback, leak guards, watchdog, sysrq
@@ -762,6 +783,9 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 - Not measured: Qwen3-VL-8B vision (NPU wedged in every attempt). Gemma 4 E4B fails on plain llama.cpp but runs
   through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
+- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma only so far), the
+  Adreno 623 GPU through llama.cpp's Vulkan backend (never tested so far), and Qwen3-30B-A3B on the NPU with 6
+  sessions instead of 4, to see whether a 30B MoE fits in the NPU's per-session address space at all.
 
 ## 7. Reproducibility
 
