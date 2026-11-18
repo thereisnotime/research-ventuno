@@ -556,3 +556,40 @@
 22:08:46 end deepseek-coder-v2-lite.cpu.server.new.retry ok=True 
 22:08:46 delete DeepSeek-Coder-V2-Lite-Instruct-Q4_K_S.gguf
 22:08:47 queue finished
+17:38:02 start qwen3-30b-a3b-2507.npu6.llamabench (pinned 0 MB)
+17:38:03 download Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf
+17:53:08 end qwen3-30b-a3b-2507.npu6.llamabench ok=False llama-bench rc=1: ["llama_bench: error: failed to load model '/home/arduino/llm-models/Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf'"]
+17:53:08 start lfm2.5-1.2b.gpu.llamabench (pinned 32 MB)
+17:53:09 download LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+17:54:14 end lfm2.5-1.2b.gpu.llamabench ok=False llama-bench rc=127: ['taskset: failed to execute /home/arduino/llama-vulkan-b12521/bin/llama-bench: No such file or directory']
+17:54:14 start qwen3-4b-2507.gpu.llamabench (pinned 32 MB)
+17:54:15 download Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+17:57:23 end qwen3-4b-2507.gpu.llamabench ok=False llama-bench rc=127: ['taskset: failed to execute /home/arduino/llama-vulkan-b12521/bin/llama-bench: No such file or directory']
+17:57:23 start qwen3-4b-2507.gpu.server (pinned 32 MB)
+17:57:30 end qwen3-4b-2507.gpu.server ok=False server did not become healthy
+17:57:30 start qwen3-30b-a3b-2507.gpu.llamabench (pinned 32 MB)
+17:57:36 end qwen3-30b-a3b-2507.gpu.llamabench ok=False llama-bench rc=127: ['taskset: failed to execute /home/arduino/llama-vulkan-b12521/bin/llama-bench: No such file or directory']
+17:57:36 start gpt-oss-20b.gpu.llamabench (pinned 32 MB)
+17:57:41 gpt-oss-20b.gpu.llamabench: not enough disk for gpt-oss-20b-MXFP4.gguf: needs 11548 MB, 3752 MB free
+17:57:41 end gpt-oss-20b.gpu.llamabench ok=False not enough disk for gpt-oss-20b-MXFP4.gguf: needs 11548 MB, 3752 MB free
+17:57:41 start gpt-oss-20b.cpu.llamabench.retry (pinned 32 MB)
+17:57:42 gpt-oss-20b.cpu.llamabench.retry: not enough disk for gpt-oss-20b-MXFP4.gguf: needs 11548 MB, 3752 MB free
+17:57:42 end gpt-oss-20b.cpu.llamabench.retry ok=False not enough disk for gpt-oss-20b-MXFP4.gguf: needs 11548 MB, 3752 MB free
+17:57:42 start qwen3-30b-a3b-2507.cpu.llamabench.retry (pinned 32 MB)
+18:08:04 end qwen3-30b-a3b-2507.cpu.llamabench.retry ok=True 
+18:08:04 delete Qwen_Qwen3-30B-A3B-Instruct-2507-Q2_K.gguf
+18:08:05 start granite-4.2-3b.npu.server.new.retry (pinned 32 MB)
+18:08:06 download granite-4.2-3b-Q4_0.gguf
+18:13:38 end granite-4.2-3b.npu.server.new.retry ok=True 
+18:13:38 delete granite-4.2-3b-Q4_0.gguf
+18:13:38 start lfm2.5-1.2b.gpu.llamabench.d0 (pinned 64 MB)
+18:13:43 end lfm2.5-1.2b.gpu.llamabench.d0 ok=False llama-bench rc=127: ['taskset: failed to execute /home/arduino/llama-vulkan-b12521/bin/llama-bench: No such file or directory']
+18:13:43 delete LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf
+18:13:43 start qwen3-4b-2507.gpu.llamabench.d0 (pinned 64 MB)
+18:13:49 end qwen3-4b-2507.gpu.llamabench.d0 ok=False llama-bench rc=127: ['taskset: failed to execute /home/arduino/llama-vulkan-b12521/bin/llama-bench: No such file or directory']
+18:13:49 delete Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf
+18:13:49 start gpt-oss-20b.cpu.llamabench.retry.d0 (pinned 64 MB)
+18:13:49 download gpt-oss-20b-MXFP4.gguf
+18:34:17 end gpt-oss-20b.cpu.llamabench.retry.d0 ok=True 
+18:34:17 delete gpt-oss-20b-MXFP4.gguf
+18:34:18 queue finished

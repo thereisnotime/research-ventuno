@@ -163,7 +163,19 @@
   "qwen3-4b-thinking-2507.npu.bench.new.retry": "ok",
   "qwen3-4b-thinking-2507.npu.server.new.retry": "ok",
   "deepseek-coder-v2-lite.cpu.bench.new.retry": "ok",
-  "deepseek-coder-v2-lite.cpu.server.new.retry": "ok"
+  "deepseek-coder-v2-lite.cpu.server.new.retry": "ok",
+  "qwen3-30b-a3b-2507.npu6.llamabench": "failed",
+  "lfm2.5-1.2b.gpu.llamabench": "failed",
+  "qwen3-4b-2507.gpu.llamabench": "failed",
+  "qwen3-4b-2507.gpu.server": "failed",
+  "qwen3-30b-a3b-2507.gpu.llamabench": "failed",
+  "gpt-oss-20b.gpu.llamabench": "failed",
+  "gpt-oss-20b.cpu.llamabench.retry": "failed",
+  "qwen3-30b-a3b-2507.cpu.llamabench.retry": "ok",
+  "granite-4.2-3b.npu.server.new.retry": "ok",
+  "lfm2.5-1.2b.gpu.llamabench.d0": "failed",
+  "qwen3-4b-2507.gpu.llamabench.d0": "failed",
+  "gpt-oss-20b.cpu.llamabench.retry.d0": "ok"
  },
  "reboots": 0
 }

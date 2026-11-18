@@ -116,6 +116,7 @@ Table 1. Each model's run with the highest tools+quiz score (wedged or crashed r
 | [qwen3_4b_instruct_2507](reports/genie-qwen3-4b.server.fix5.md) | 🚀 fastest 4B | genie | `1.5.0` | npu (QNN) | [E4](reports/environments.md#e4) | 16.45 | — | [🥈 6/7](reports/genie-qwen3-4b.server.fix5.md#tools) | ❌ | [🥉 10/12](reports/genie-qwen3-4b.server.fix5.md#quiz) | ✅ | — | — | 7752 |
 | [deepseek-coder-v2-lite](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md) |  | llama | `d5bbcd1` | cpu | [E5](reports/environments.md#e5) | 14.35 | 25.03 | [1/7](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md#tools) | ✅ | [🥉 10/12](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md#quiz) | ✅ | — | — | 9051 |
 | [phi-4-mini](reports/phi-4-mini.npu.server.md) |  | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 14.04 | 456.92 | [2/7](reports/phi-4-mini.npu.server.md#tools) | ✅ | [9/12](reports/phi-4-mini.npu.server.md#quiz) | ✅ | — | — | 5429 |
+| [granite-4.2-3b](reports/granite-4.2-3b.npu.server.new.retry.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 14.04 | 412.86 | [🥈 6/7](reports/granite-4.2-3b.npu.server.new.retry.md#tools) | ✅ | [🥉 10/12](reports/granite-4.2-3b.npu.server.new.retry.md#quiz) | ✅ | — | — | 4043 |
 | [gemma-3-4b](reports/gemma-3-4b.npu.server.md) | 🎯 most accurate vision | llama | `7fe450e` | npu | [E1](reports/environments.md#e1) | 13.26 | 445.78 | [1/7](reports/gemma-3-4b.npu.server.md#tools) | ✅ | [🥇 12/12](reports/gemma-3-4b.npu.server.md#quiz) | ✅ | [🥇 4/4](reports/gemma-3-4b.npu.server.md#vision) | 27.7 | 7048 |
 | [qwen3-4b-2507](reports/qwen3-4b-2507.npu.server.mbuf256.md) | 🏆 best all-round | llama | `7fe450e` | npu | [E3](reports/environments.md#e3) | 12.91 | 394.34 | [🥇 7/7](reports/qwen3-4b-2507.npu.server.mbuf256.md#tools) | ✅ | [🥇 12/12](reports/qwen3-4b-2507.npu.server.mbuf256.md#quiz) | ✅ | — | — | 5566 |
 | [qwen3-4b-2507](reports/mbuf.m3.qwen3-4b.server.s4.md) |  | llama | `d5bbcd1` | npu | [E5](reports/environments.md#e5) | 12.84 | 400.96 | [🥇 7/7](reports/mbuf.m3.qwen3-4b.server.s4.md#tools) | ✅ | [🥇 12/12](reports/mbuf.m3.qwen3-4b.server.s4.md#quiz) | ✅ | — | — | 5171 |
@@ -179,9 +180,15 @@ H Tiny (froze the board), OLMoE-1B-7B and Phi-mini-MoE (fast but 1/7 tool calls)
 - **Qwen3-30B-A3B-Instruct-2507** at Q2_K is the only model that runs 7/7 and 12/12 on the CPU alone, at 10 t/s.
   Prompt reading is its weak spot: 13 t/s, so the 1.7k-token prompt took 132 s before the first token.
 - **gpt-oss-20b** on the CPU: 9.2 t/s, 6/7 tools, 12/12 quiz, but it missed the needle and read prompts at
-  13 t/s. It needs 12.5 GB at peak, so nothing else fits beside it.
+  13 t/s. It needs 12.5 GB at peak, so nothing else fits beside it. In llama-bench it does 8.2 t/s generation
+  and 18 t/s prompt reading at depth 0; Qwen3-30B-A3B does 10.5 and 15 t/s (6.1 and 11 t/s at depth 2048).
+- **No 30B on the NPU.** Qwen3-30B-A3B (10.9 GB at Q2_K) needs more than four 3.1-3.5 GB NPU sessions. Asked
+  for six, the DSP gave out three and refused the fourth (`HTP3 failed to reserve new session ... error 0x73`),
+  so the model never loaded. Four-session runs work, so the cap is on how many sessions one process can hold
+  at that size, not on board RAM. About 10-11 GB of weights stays the NPU ceiling.
 - **Granite-4.2-3B** behaves, unlike Granite 4 H Tiny: 15 t/s and 471 t/s prefill in llama-bench on the NPU,
-  6/7 tools and 9/12 quiz on the CPU. Its NPU server run stalled once and is queued again.
+  6/7 tools and 9/12 quiz on the CPU. Its NPU server retry ran clean: 6/7 tools, 10/12 quiz, 14 t/s and
+  413 t/s prefill in 4 GB.
 - **DeepSeek-Coder-V2-Lite** (CPU, 16B MoE) is the fastest of the big models at 14.4 t/s, but 1/7 tools.
   **Qwen2.5-Coder-7B** is also 1/7 on tools and 12/12 on the quiz, at 8.2 t/s on the NPU and 6 t/s on the CPU.
   Both coding models ignore the tool schema and answer in plain text.
@@ -288,6 +295,7 @@ Table 2. All llama-server and Genie runs. Gen = short-reply generation t/s; Pref
 | [qwen3-30b-a3b-2507.cpu.server.new](reports/qwen3-30b-a3b-2507.cpu.server.new.md) | [E5](reports/environments.md#e5) | 0 | 10.01 | 13.27 | 4.1 | ✅ | 7/7 | ✅ | 12/12 | — | — | 12129 |  |
 | [qwen3-4b-thinking-2507.npu.server.new.retry](reports/qwen3-4b-thinking-2507.npu.server.new.retry.md) | [E5](reports/environments.md#e5) | 4 | 12.42 | 401.01 | 4.0 | ❌ | 5/7 | ❌ | 2/12 | — | — | 5461 |  |
 | [deepseek-coder-v2-lite.cpu.server.new.retry](reports/deepseek-coder-v2-lite.cpu.server.new.retry.md) | [E5](reports/environments.md#e5) | 0 | 14.35 | 25.03 | 52.1 | ✅ | 1/7 | ✅ | 10/12 | — | — | 9051 |  |
+| [granite-4.2-3b.npu.server.new.retry](reports/granite-4.2-3b.npu.server.new.retry.md) | [E5](reports/environments.md#e5) | 4 | 14.04 | 412.86 | 4.0 | ✅ | 6/7 | ✅ | 10/12 | — | — | 4043 |  |
 
 ### 4.4 llama-bench
 
@@ -347,6 +355,10 @@ Table 3. `pp512` / `tg128` throughput in tokens/s at context depth 0 and 2048.
 | [qwen2.5-coder-7b.cpu.bench.new](reports/qwen2.5-coder-7b.cpu.bench.new.md) | [E5](reports/environments.md#e5) | 0 | 20.17 | 6.1 | 16.06 | 5.02 |  |
 | [qwen3-4b-thinking-2507.npu.bench.new.retry](reports/qwen3-4b-thinking-2507.npu.bench.new.retry.md) | [E5](reports/environments.md#e5) | 4 | 443.73 | 12.6 | 333.89 | 9.0 |  |
 | [deepseek-coder-v2-lite.cpu.bench.new.retry](reports/deepseek-coder-v2-lite.cpu.bench.new.retry.md) | [E5](reports/environments.md#e5) | 0 | 27.37 | 10.16 | 18.47 | 7.8 |  |
+| ❌ [qwen3-30b-a3b-2507.npu6.llamabench](reports/qwen3-30b-a3b-2507.npu6.llamabench.md) | [E5](reports/environments.md#e5) | 6 | — | — | — | — | llama-bench rc=1: ["llama_bench: error: failed to load model… |
+| ❌ [gpt-oss-20b.cpu.llamabench.retry](reports/gpt-oss-20b.cpu.llamabench.retry.md) | [E1](reports/environments.md#e1) | — | — | — | — | — | not enough disk for gpt-oss-20b-MXFP4.gguf: needs 11548 MB, … |
+| [qwen3-30b-a3b-2507.cpu.llamabench.retry](reports/qwen3-30b-a3b-2507.cpu.llamabench.retry.md) | [E5](reports/environments.md#e5) | 0 | 14.85 | 10.45 | 10.95 | 6.13 |  |
+| [gpt-oss-20b.cpu.llamabench.retry.d0](reports/gpt-oss-20b.cpu.llamabench.retry.d0.md) | [E5](reports/environments.md#e5) | 0 | 17.85 | 8.2 | — | — |  |
 
 ### 4.5 Runs without a result
 
@@ -404,6 +416,7 @@ Table 4. Same model and device on the original build (`7fe450e`, 2026-10-02) and
 | lfm2.5-1.2b | npu | Quiz | 10/12 | 10/12 | |
 | lfm2.5-1.2b | npu | Peak RAM MB | [2504](reports/lfm2.5-1.2b.npu.server.md) | [2382](reports/lfm2.5-1.2b.npu.server.b12244.md) | 🟢 -5% |
 | ministral-3-8b | npu | server | ok | ❌ [ministral-3-8b.npu.server.b12244](reports/ministral-3-8b.npu.server.b12244.md) | |
+| qwen3-30b-a3b-2507 | npu | llamabench | ❌ | ❌ [qwen3-30b-a3b-2507.npu6.llamabench](reports/qwen3-30b-a3b-2507.npu6.llamabench.md) | |
 | qwen3-4b-2507 | cpu | pp512_d0 | [33.59](reports/qwen3-4b-2507.cpu.bench.md) | [30.57](reports/qwen3-4b-2507.cpu.bench.b12244.md) | 🔴 -9% |
 | qwen3-4b-2507 | cpu | tg128_d0 | [10.2](reports/qwen3-4b-2507.cpu.bench.md) | [10.22](reports/qwen3-4b-2507.cpu.bench.b12244.md) | ⚪ +0% |
 | qwen3-4b-2507 | cpu | pp512_d2048 | [20.77](reports/qwen3-4b-2507.cpu.bench.md) | [20.48](reports/qwen3-4b-2507.cpu.bench.b12244.md) | ⚪ -1% |
@@ -783,9 +796,9 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 - Not measured: Qwen3-VL-8B vision (NPU wedged in every attempt). Gemma 4 E4B fails on plain llama.cpp but runs
   through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
-- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma only so far), the
-  Adreno 623 GPU through llama.cpp's Vulkan backend (never tested so far), and Qwen3-30B-A3B on the NPU with 6
-  sessions instead of 4, to see whether a 30B MoE fits in the NPU's per-session address space at all.
+- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma only so far).
+- The Adreno 623 GPU (Mesa Turnip Vulkan) is still untested: the GPU items ran before llama.cpp's Vulkan build
+  was installed on the board, so they failed without measuring anything and are left out of the tables.
 
 ## 7. Reproducibility
 

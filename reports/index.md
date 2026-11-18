@@ -145,3 +145,8 @@
 | [qwen3-4b-thinking-2507.npu.server.new.retry](qwen3-4b-thinking-2507.npu.server.new.retry.md) | server | qwen3-4b-thinking-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
 | [deepseek-coder-v2-lite.cpu.bench.new.retry](deepseek-coder-v2-lite.cpu.bench.new.retry.md) | llamabench | deepseek-coder-v2-lite | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
 | [deepseek-coder-v2-lite.cpu.server.new.retry](deepseek-coder-v2-lite.cpu.server.new.retry.md) | server | deepseek-coder-v2-lite | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [qwen3-30b-a3b-2507.npu6.llamabench](qwen3-30b-a3b-2507.npu6.llamabench.md) | llamabench | qwen3-30b-a3b-2507 | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ❌ |
+| [gpt-oss-20b.cpu.llamabench.retry](gpt-oss-20b.cpu.llamabench.retry.md) | llamabench | gpt-oss-20b | llama | `7fe450e` | cpu | [E1](environments.md#e1) | ❌ |
+| [qwen3-30b-a3b-2507.cpu.llamabench.retry](qwen3-30b-a3b-2507.cpu.llamabench.retry.md) | llamabench | qwen3-30b-a3b-2507 | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |
+| [granite-4.2-3b.npu.server.new.retry](granite-4.2-3b.npu.server.new.retry.md) | server | granite-4.2-3b | llama | `d5bbcd1` | npu | [E5](environments.md#e5) | ✅ |
+| [gpt-oss-20b.cpu.llamabench.retry.d0](gpt-oss-20b.cpu.llamabench.retry.d0.md) | llamabench | gpt-oss-20b | llama | `d5bbcd1` | cpu | [E5](environments.md#e5) | ✅ |

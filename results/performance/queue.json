@@ -2749,5 +2749,56 @@
    "GGML_HEXAGON_MBUF": "256,256"
   },
   "sessions": 4
+ },
+ {
+  "id": "lfm2.5-1.2b.gpu.llamabench.d0",
+  "engine": "llama",
+  "model": "lfm2.5-1.2b",
+  "files": [
+   [
+    "LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf",
+    "https://huggingface.co/bartowski/LiquidAI_LFM2.5-1.2B-Instruct-GGUF/resolve/main/LiquidAI_LFM2.5-1.2B-Instruct-Q4_0.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-vulkan-b12521",
+  "depths": "0",
+  "fresh": true
+ },
+ {
+  "id": "qwen3-4b-2507.gpu.llamabench.d0",
+  "engine": "llama",
+  "model": "qwen3-4b-2507",
+  "files": [
+   [
+    "Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf",
+    "https://huggingface.co/bartowski/Qwen_Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen_Qwen3-4B-Instruct-2507-Q4_0.gguf"
+   ]
+  ],
+  "dev": "gpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-vulkan-b12521",
+  "depths": "0",
+  "fresh": true
+ },
+ {
+  "id": "gpt-oss-20b.cpu.llamabench.retry.d0",
+  "engine": "llama",
+  "model": "gpt-oss-20b",
+  "files": [
+   [
+    "gpt-oss-20b-MXFP4.gguf",
+    "https://huggingface.co/ggml-org/gpt-oss-20b-GGUF/resolve/main/gpt-oss-20b-MXFP4.gguf"
+   ]
+  ],
+  "dev": "cpu",
+  "kind": "llamabench",
+  "llama": "/home/arduino/llama-npu-b12244",
+  "env": {
+   "GGML_HEXAGON_MBUF": "256,256"
+  },
+  "depths": "0",
+  "fresh": true
  }
 ]

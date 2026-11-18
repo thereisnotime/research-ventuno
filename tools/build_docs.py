@@ -69,6 +69,8 @@ ENV_FIELDS = [("kernel", "Kernel"), ("cmdline_extra", "Extra kernel args"), ("cd
 
 def load():
     rows = [json.loads(l) for l in open(RES)]
+    # GPU items from 2026-11-18 that never ran: the Vulkan build was not on the board yet (rc 127, or blocked on disk)
+    rows = [r for r in rows if not (r.get("dev") == "gpu" and not r.get("ok"))]
     return {r["id"]: r for r in rows}
 
 
