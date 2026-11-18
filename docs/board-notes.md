@@ -307,6 +307,20 @@ instead of `llamabench`, which `suite.py` runs as a server test, so both have se
 no llama-bench yet. Those, and Granite-4.2-3B's NPU server run, are queued for a `suite.retry` phase before the
 Genie and App Lab soaks.
 
+Freeze on 2026-11-18 (App Lab, Gemma 4 E4B, Go/Rust/TypeScript coding run): the board dropped off the network at
+03:02 UTC and stayed there for 13.5 h until a power cycle. This one was not a reboot hang: syslog runs normally up to
+03:01:54 and then stops, with no kernel message, no OOM kill and no reset. sysstat shows why. Used memory climbed
+by about 30 MB/min from the start of the phase (8.9 GB at 00:10, 11.9 GB at 01:30, 15.2 GB at 03:00) until only
+79 MB was available and the page cache was down to 92 MB. With no swap the box livelocked on re-reading the
+mmap'd model, PID 1 kept feeding the watchdog, and nothing reset it, the same signature as the gpt-oss freeze on
+11-16. The leak is App Lab's own llama-server: the runner leaves `--cache-ram` at its 8 GiB default (one prompt
+state kept per request) and its compose file allows 12 GB with `oom_score_adj: -500`, so the 2 GB reserve on our
+own units did not cover it. The Python run before it was short enough to finish first.
+Fix: `bench/stability/applab-override.yaml` is merged over Arduino's compose file by `soak.py`. It sets
+`LLAMA_ARG_CACHE_RAM=0`, a 7 GB memory limit and `oom_score_adj: 300`, so a leak gets killed inside the container
+instead of freezing the board. After the change the container stayed flat at 2.9 GB and available memory at
+8.07 GB, where before it fell about 45 MB/min. The run resumed where it stopped (rows already logged are skipped).
+
 `~/llm-bench/suite/suite.py` runs as `veni-bench.service`, one item at a time, and disables itself when
 the queue is done. Per model: `llama-bench` (pp512/tg128, empty and 2048-token context, 3 reps)
 and a server pass through the OpenAI API. Server pass: load time, generation speed, prefill on a 1.7k-token prompt with a

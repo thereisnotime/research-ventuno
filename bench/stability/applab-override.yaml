@@ -1,0 +1,10 @@
+# Overrides for Arduino's App Lab llama.cpp runner while benchmarking (merged over its service_compose.yaml).
+# The runner leaves llama-server's prompt cache at its 8 GiB default and the container may take 12 GB with a low
+# OOM score: a long coding run grew it ~40 MB/min until the board had no page cache left and livelocked (2026-11-18).
+services:
+  llamacpp-models-runner:
+    environment:
+      - LLAMA_ARG_CACHE_RAM=0
+    mem_limit: 7g
+    memswap_limit: 7g
+    oom_score_adj: 300

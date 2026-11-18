@@ -12,6 +12,7 @@ HOME = "/home/arduino/llm-bench/soak"
 MODELS = "/home/arduino/llm-models"
 PLAN, STATE = json.load(open(f"{HOME}/plan.json")), f"{HOME}/plan_state.json"
 APPLAB_COMPOSE = "/var/lib/arduino-app-cli/assets/0.13.2/services/arduino/llamacpp/service_compose.yaml"
+APPLAB_OVERRIDE = f"{os.path.dirname(os.path.abspath(__file__))}/applab-override.yaml"   # cache off, 7 GB cap
 PROMPTS = [
     "Explain in detail how a home router handles NAT, DHCP, DNS and its firewall.",
     "Write a Python function that parses an ISO 8601 date and returns the weekday. Include tests.",
@@ -170,7 +171,7 @@ log({"event": "boot", "phase": P, **temps(), "pinned_mb": pinned_mb()})
 if engine != "genie":
     subprocess.run(["docker", "compose", "-f", "/opt/genie/compose.yaml", "stop"], capture_output=True)
 if engine != "applab":
-    subprocess.run(["docker", "compose", "-p", "veni-applab", "-f", APPLAB_COMPOSE, "stop"], capture_output=True)
+    subprocess.run(["docker", "compose", "-p", "veni-applab", "-f", APPLAB_COMPOSE, "-f", APPLAB_OVERRIDE, "stop"], capture_output=True)
 srv = None
 if engine == "llama":
     model = f"{MODELS}/{P['file']}"
@@ -198,7 +199,7 @@ if engine == "llama":
 elif engine == "genie":
     subprocess.run(["docker", "compose", "-f", "/opt/genie/compose.yaml", "up", "-d"], capture_output=True)
 else:
-    subprocess.run(["docker", "compose", "-p", "veni-applab", "-f", APPLAB_COMPOSE, "up", "-d"], capture_output=True)
+    subprocess.run(["docker", "compose", "-p", "veni-applab", "-f", APPLAB_COMPOSE, "-f", APPLAB_OVERRIDE, "up", "-d"], capture_output=True)
 
 
 def load_failed(why):
