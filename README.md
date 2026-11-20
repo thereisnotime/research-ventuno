@@ -755,16 +755,33 @@ Table 10. Go, Rust and TypeScript results.
 | Qwen3-4B-2507 | llama.cpp NPU | TypeScript | 30 of 39 (77%) | 31 | 20 | 36 | 2 | 0 | 16 |
 | Qwen3-4B-2507 | llama.cpp NPU | Go | 30 of 38 (79%) | 30 | 20 | 38 | 1 | 1 | 43 |
 | Qwen3-4B-2507 | llama.cpp NPU | Rust | 27 of 39 (69%) | 27 | 10 | 34 | 1 | 0 | 32 |
+| Qwen3-4B-2507 | Genie | Python (Table 9) | 33 of 41 (80%) | 31 | 21 | | 1 | | 18 |
+| Qwen3-4B-2507 | Genie | TypeScript | 25 of 39 (64%) | 30 | 13 | 35 | 1 | 0 | 11 |
+| Qwen3-4B-2507 | Genie | Go | 20 of 38 (53%) | 20 | 14 | 33 | 2 | 4 | 32 |
+| Qwen3-4B-2507 | Genie | Rust | 17 of 39 (44%) | 18 | 3 | 26 | 0 | 0 | 15 |
+| LFM2-8B-A1B (MoE) | llama.cpp CPU | Python (Table 9) | 29 of 41 (71%) | 31 | 17 | | 1 | | 13 |
+| LFM2-8B-A1B (MoE) | llama.cpp CPU | TypeScript | 24 of 39 (62%) | 26 | 10 | 37 | 1 | 1 | 13 |
+| LFM2-8B-A1B (MoE) | llama.cpp CPU | Go | 19 of 38 (50%) | 16 | 10 | 30 | 1 | 0 | 17 |
+| LFM2-8B-A1B (MoE) | llama.cpp CPU | Rust | 18 of 39 (46%) | 14 | 4 | 29 | 1 | 3 | 16 |
+| LFM2.5-1.2B | llama.cpp NPU | Python (Table 9) | 17 of 41 (41%) | 19 | 10 | | 0 | | 11 |
+| LFM2.5-1.2B | llama.cpp NPU | TypeScript | 13 of 39 (33%) | 17 | 6 | 33 | 1 | 0 | 11 |
+| LFM2.5-1.2B | llama.cpp NPU | Go | 7 of 38 (18%) | 5 | 1 | 13 | 0 | 0 | 14 |
+| LFM2.5-1.2B | llama.cpp NPU | Rust | 5 of 39 (13%) | 5 | 2 | 11 | 1 | 0 | 9 |
 
 - **Gemma loses little in TypeScript and most in Rust**: 85% against 88% in Python, then 76% in Go and 69% in Rust,
   where 7 of 39 replies did not compile. Own test programs pass less often than in Python, mostly because they
   fail to compile, not because the asserts are wrong.
 - The run was interrupted by the board freeze of Nov 18 (§5) and resumed after the power cycle. The task in
   flight at the time is left out of the median.
-- **The 30B and Qwen3-4B land about where Gemma does.** All three lose 3 to 19 points against Python, and Rust is
-  the weakest language for each of them. The 30B is the only one that compiled every TypeScript reply.
+- **The 30B and Qwen3-4B land about where Gemma does.** All three lose 3 to 19 points against Python. Rust is
+  the weakest language for every model in the table. The 30B is the only one that compiled every TypeScript reply.
 - **Qwen3-4B on the NPU is the fastest** (16 to 43 s per task) and does better in Go (79%) than in TypeScript, but
   its own Rust test programs pass only 10 times out of 39, mostly because they don't compile.
+- **Genie's Qwen3-4B drops much more than llama.cpp's**: 64/53/44% against 77/79/69% for the same model on the
+  llama.cpp NPU build, while the two are only 5 points apart in Python. 22 of its 54 failed hidden-test replies
+  did not compile (8 of 29 for llama.cpp).
+- **The small models fall apart outside Python and TypeScript.** LFM2-8B-A1B stays around half in Go and Rust;
+  LFM2.5-1.2B gets 7 of 38 in Go and 5 of 39 in Rust, and most of its Go and Rust replies don't compile.
 - The Qwen3-4B run was interrupted by the board freeze of Nov 18-19 (§5) and two more power cycles, and resumed
   each time. One Go task shows a 74 min latency that is really the clock jumping when NTP synced after a boot
   (the board has no RTC); medians are not affected.
@@ -813,8 +830,8 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 - Not measured: Qwen3-VL-8B vision (NPU wedged in every attempt). Gemma 4 E4B fails on plain llama.cpp but runs
   through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
-- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma, Qwen3-30B-A3B and
-  Qwen3-4B so far).
+- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma, Qwen3-30B-A3B,
+  Qwen3-4B on llama.cpp and Genie, LFM2-8B-A1B and LFM2.5-1.2B so far).
 - The Adreno 623 GPU (Mesa Turnip Vulkan) is still untested: the GPU items ran before llama.cpp's Vulkan build
   was installed on the board, so they failed without measuring anything and are left out of the tables.
 
