@@ -747,12 +747,29 @@ Table 10. Go, Rust and TypeScript results.
 | Gemma 4 E4B | App Lab (NPU) | TypeScript | 33 of 39 (85%) | 33 | 21 | 36 | 2 | 4 | 49 |
 | Gemma 4 E4B | App Lab (NPU) | Go | 29 of 38 (76%) | 26 | 15 | 34 | 2 | 3 | 70 |
 | Gemma 4 E4B | App Lab (NPU) | Rust | 27 of 39 (69%) | 29 | 21 | 32 | 2 | 4 | 61 |
+| Qwen3-30B-A3B-Instruct-2507 (Q2_K) | llama.cpp CPU | Python (Table 9) | 37 of 41 (90%) | 39 | 28 | | 1 | | 36 |
+| Qwen3-30B-A3B-Instruct-2507 (Q2_K) | llama.cpp CPU | TypeScript | 34 of 39 (87%) | 32 | 26 | 39 | 3 | 0 | 29 |
+| Qwen3-30B-A3B-Instruct-2507 (Q2_K) | llama.cpp CPU | Go | 29 of 38 (76%) | 31 | 24 | 35 | 2 | 0 | 70 |
+| Qwen3-30B-A3B-Instruct-2507 (Q2_K) | llama.cpp CPU | Rust | 29 of 39 (74%) | 30 | 24 | 35 | 2 | 0 | 36 |
+| Qwen3-4B-2507 | llama.cpp NPU | Python (Table 9) | 35 of 41 (85%) | 35 | 18 | | 0 | | 27 |
+| Qwen3-4B-2507 | llama.cpp NPU | TypeScript | 30 of 39 (77%) | 31 | 20 | 36 | 2 | 0 | 16 |
+| Qwen3-4B-2507 | llama.cpp NPU | Go | 30 of 38 (79%) | 30 | 20 | 38 | 1 | 1 | 43 |
+| Qwen3-4B-2507 | llama.cpp NPU | Rust | 27 of 39 (69%) | 27 | 10 | 34 | 1 | 0 | 32 |
 
 - **Gemma loses little in TypeScript and most in Rust**: 85% against 88% in Python, then 76% in Go and 69% in Rust,
   where 7 of 39 replies did not compile. Own test programs pass less often than in Python, mostly because they
   fail to compile, not because the asserts are wrong.
 - The run was interrupted by the board freeze of Nov 18 (§5) and resumed after the power cycle. The task in
   flight at the time is left out of the median.
+- **The 30B and Qwen3-4B land about where Gemma does.** All three lose 3 to 19 points against Python, and Rust is
+  the weakest language for each of them. The 30B is the only one that compiled every TypeScript reply.
+- **Qwen3-4B on the NPU is the fastest** (16 to 43 s per task) and does better in Go (79%) than in TypeScript, but
+  its own Rust test programs pass only 10 times out of 39, mostly because they don't compile.
+- The Qwen3-4B run was interrupted by the board freeze of Nov 18-19 (§5) and two more power cycles, and resumed
+  each time. One Go task shows a 74 min latency that is really the clock jumping when NTP synced after a boot
+  (the board has no RTC); medians are not affected.
+- Qwen2.5-Coder-3B (NPU) is left out: its run locked up the NPU about every 8 minutes and kept resetting the board,
+  so it was skipped.
 
 ## 5. Stability findings
 
@@ -796,7 +813,8 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
 - Not measured: Qwen3-VL-8B vision (NPU wedged in every attempt). Gemma 4 E4B fails on plain llama.cpp but runs
   through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
-- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma only so far).
+- Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma, Qwen3-30B-A3B and
+  Qwen3-4B so far).
 - The Adreno 623 GPU (Mesa Turnip Vulkan) is still untested: the GPU items ran before llama.cpp's Vulkan build
   was installed on the board, so they failed without measuring anything and are left out of the tables.
 
