@@ -767,6 +767,8 @@ Table 10. Go, Rust and TypeScript results.
 | LFM2.5-1.2B | llama.cpp NPU | TypeScript | 13 of 39 (33%) | 17 | 6 | 33 | 1 | 0 | 11 |
 | LFM2.5-1.2B | llama.cpp NPU | Go | 7 of 38 (18%) | 5 | 1 | 13 | 0 | 0 | 14 |
 | LFM2.5-1.2B | llama.cpp NPU | Rust | 5 of 39 (13%) | 5 | 2 | 11 | 1 | 0 | 9 |
+| Qwen3-4B-Thinking-2507 (stopped early) | llama.cpp CPU | Go | 4 of 38 (11%) | 0 | 0 | | 0 | 71 | 572 |
+| Qwen3-4B-Thinking-2507 (stopped early) | llama.cpp CPU | Rust | 3 of 39 (8%) | 1 of 3 | 1 of 3 | | 0 | 34 | 567 |
 
 - **Gemma loses little in TypeScript and most in Rust**: 85% against 88% in Python, then 76% in Go and 69% in Rust,
   where 7 of 39 replies did not compile. Own test programs pass less often than in Python, mostly because they
@@ -782,6 +784,10 @@ Table 10. Go, Rust and TypeScript results.
   did not compile (8 of 29 for llama.cpp).
 - **The small models fall apart outside Python and TypeScript.** LFM2-8B-A1B stays around half in Go and Rust;
   LFM2.5-1.2B gets 7 of 38 in Go and 5 of 39 in Rust, and most of its Go and Rust replies don't compile.
+- **Qwen3-4B-Thinking with the shorter budget was stopped halfway.** It is the same setup that scored 15 of 41 in
+  Python (Table 9). After 118 of 232 tasks in 22 hours (about 10 min each), 104 replies were empty: the model
+  spent the whole budget thinking and never wrote code. Go and Rust are shown as they stood; TypeScript never
+  started. The run with the larger budget (36 of 41 in Python) goes next.
 - The Qwen3-4B run was interrupted by the board freeze of Nov 18-19 (§5) and two more power cycles, and resumed
   each time. One Go task shows a 74 min latency that is really the clock jumping when NTP synced after a boot
   (the board has no RTC); medians are not affected.
