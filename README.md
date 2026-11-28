@@ -769,10 +769,14 @@ Table 10. Go, Rust and TypeScript results.
 | LFM2.5-1.2B | llama.cpp NPU | Rust | 5 of 39 (13%) | 5 | 2 | 11 | 1 | 0 | 9 |
 | Qwen3-4B-Thinking-2507 (stopped early) | llama.cpp CPU | Go | 4 of 38 (11%) | 0 | 0 | | 0 | 71 | 572 |
 | Qwen3-4B-Thinking-2507 (stopped early) | llama.cpp CPU | Rust | 3 of 39 (8%) | 1 of 3 | 1 of 3 | | 0 | 34 | 567 |
-| Qwen3-4B-Thinking-2507, 12k (running) | llama.cpp CPU | Python (Table 9, 8k) | 36 of 41 (88%) | 37 | 36 | | 0 | | 1062 |
-| Qwen3-4B-Thinking-2507, 12k (running) | llama.cpp CPU | TypeScript | 31 of 39 (79%) | 5 of 5 | 5 of 5 | 31 | 0 | 7 | 816 |
-| Qwen3-4B-Thinking-2507, 12k (running) | llama.cpp CPU | Go | 28 of 38 (74%) | 17 | 12 | 29 | 0 | 25 | 2554 |
-| Qwen3-4B-Thinking-2507, 12k (running) | llama.cpp CPU | Rust | 16 of 39 (41%) | 18 | 19 | 18 | 1 | 18 | 1493 |
+| Qwen3-4B-Thinking-2507, 12k | llama.cpp CPU | Python (Table 9, 8k) | 36 of 41 (88%) | 37 | 36 | | 0 | | 1062 |
+| Qwen3-4B-Thinking-2507, 12k | llama.cpp CPU | TypeScript | 31 of 39 (79%) | 29 | 29 | 31 | 0 | 15 | 998 |
+| Qwen3-4B-Thinking-2507, 12k | llama.cpp CPU | Go | 28 of 38 (74%) | 17 | 12 | 29 | 0 | 25 | 2554 |
+| Qwen3-4B-Thinking-2507, 12k | llama.cpp CPU | Rust | 16 of 39 (41%) | 18 | 19 | 18 | 1 | 18 | 1493 |
+| Granite 4.2 3B | llama.cpp CPU | Python (Table 9) | 33 of 41 (80%) | 29 | 26 | | 1 | | 203 |
+| Granite 4.2 3B | llama.cpp CPU | TypeScript | 27 of 39 (69%) | 23 | 21 | 29 | 2 | 21 | 218 |
+| Granite 4.2 3B | llama.cpp CPU | Go | 17 of 38 (45%) | 13 | 2 | 20 | 0 | 36 | 398 |
+| Granite 4.2 3B | llama.cpp CPU | Rust | 7 of 39 (18%) | 7 | 6 | 7 | 1 | 40 | 386 |
 
 - **Gemma loses little in TypeScript and most in Rust**: 85% against 88% in Python, then 76% in Go and 69% in Rust,
   where 7 of 39 replies did not compile. Own test programs pass less often than in Python, mostly because they
@@ -792,11 +796,12 @@ Table 10. Go, Rust and TypeScript results.
   Python (Table 9). After 118 of 232 tasks in 22 hours (about 10 min each), 104 replies were empty: the model
   spent the whole budget thinking and never wrote code. Go and Rust are shown as they stood; TypeScript never
   started. The run with the larger budget (36 of 41 in Python) goes next.
-- **The larger-budget Thinking run is still going** (198 of 232 tasks as of Nov 25; TypeScript self-tests
-  remain). Almost every miss is a reply with no code at all, the model still thinking when the budget ran out:
-  50 of the 198, most of them in Go and Rust. When it does answer, it is rarely wrong: 28 of 29 compiled Go
-  replies pass the hidden tests, 16 of 18 in Rust. Tasks take a median 14 to 43 min. The rows will be updated
-  when the run finishes.
+- **Qwen3-4B-Thinking with the larger budget** finished all 232 tasks in 4.6 days. Almost every miss is a reply
+  with no code at all, the model still thinking when the budget ran out: 57 of 232, most of them in Go and Rust.
+  When it does answer it is rarely wrong: 28 of 29 compiled Go replies pass the hidden tests, 16 of 18 in Rust,
+  31 of 31 in TypeScript. Tasks take a median 17 to 43 min.
+- **Granite 4.2 3B** has the same problem, worse: 94 of 232 replies have no code, 77 of them in Go and Rust,
+  which leaves it at 45% in Go and 18% in Rust against 80% in Python. Its TypeScript holds up better (69%).
 - The Qwen3-4B run was interrupted by the board freeze of Nov 18-19 (§5) and two more power cycles, and resumed
   each time. One Go task shows a 74 min latency that is really the clock jumping when NTP synced after a boot
   (the board has no RTC); medians are not affected.
@@ -846,7 +851,7 @@ log, watchdog configuration and recovery procedure are in [docs/board-notes.md](
   through Arduino's App Lab container (§4.10); its vision path was not tested (the curated install has no mmproj).
 - The original early runs predate transcript capture; their pages show pass/fail only (see the `*.tr` reruns).
 - Queued, not yet run: Go/Rust/TypeScript coding for the other models (Table 10 has Gemma, Qwen3-30B-A3B,
-  Qwen3-4B on llama.cpp and Genie, LFM2-8B-A1B, LFM2.5-1.2B and Qwen3-4B-Thinking so far).
+  Qwen3-4B on llama.cpp and Genie, LFM2-8B-A1B, LFM2.5-1.2B, Qwen3-4B-Thinking and Granite 4.2 3B so far).
 - The Adreno 623 GPU (Mesa Turnip Vulkan) is still untested: the GPU items ran before llama.cpp's Vulkan build
   was installed on the board, so they failed without measuring anything and are left out of the tables.
 
