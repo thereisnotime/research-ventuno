@@ -800,7 +800,7 @@ Table 10. Go, Rust and TypeScript results.
   with no code at all, the model still thinking when the budget ran out: 57 of 232, most of them in Go and Rust.
   When it does answer it is rarely wrong: 28 of 29 compiled Go replies pass the hidden tests, 16 of 18 in Rust,
   31 of 31 in TypeScript. Tasks take a median 17 to 43 min.
-- **Granite 4.2 3B** has the same problem, worse: 94 of 232 replies have no code, 77 of them in Go and Rust,
+- **Granite 4.2 3B** has the same problem, worse: 97 of 232 replies have no code, 76 of them in Go and Rust,
   which leaves it at 45% in Go and 18% in Rust against 80% in Python. Its TypeScript holds up better (69%).
 - The Qwen3-4B run was interrupted by the board freeze of Nov 18-19 (§5) and two more power cycles, and resumed
   each time. One Go task shows a 74 min latency that is really the clock jumping when NTP synced after a boot
